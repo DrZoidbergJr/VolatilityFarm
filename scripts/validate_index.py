@@ -49,7 +49,10 @@ def check_report_sync(data):
     # with the same href shape but isn't in the reports() array (it's
     # deliberately excluded so it doesn't also show up in the Archive) --
     # pick those up too so it isn't flagged as "on disk but not linked".
-    latest_pattern = re.compile(r"this\.openReport\([^,]*,\s*'reports/([^']+\.htm)'\)")
+    # The title argument can itself contain a comma (e.g. "Workday, Inc."),
+    # so match on the href argument specifically rather than splitting on
+    # the first comma.
+    latest_pattern = re.compile(r"this\.openReport\('[^']*',\s*'reports/([^']+\.htm)'\)")
     linked_files |= set(latest_pattern.findall(data))
 
     missing_from_page = disk_files - linked_files
