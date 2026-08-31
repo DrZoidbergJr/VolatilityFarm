@@ -106,6 +106,19 @@ def main():
         return fail(f"could not find {marker!r} in {PATH}")
 
     start = idx + len(marker)
+
+    # A browser's HTML tokenizer ends a <script> element's raw text at the
+    # FIRST literal "</script" byte sequence, full stop -- it has no idea
+    # the content is JSON, so JSON-escaping a </script> inside a string
+    # (\"</script>\") does nothing to protect it. Any inner <script> tag
+    # embedded in this template (JSON-LD, the DC Component, etc.) MUST have
+    # its closing tag written as </script> instead of a literal
+    # </script>, or the outer template tag truncates there and
+    # JSON.parse throws "Unterminated string" in the actual browser --
+    # a failure raw_decode() below cannot see, because Python's JSON
+    # decoder has no concept of HTML tokenization and happily parses past
+    # it. Simulate the browser's behavior explicitly first.
+    browser_end = content.find("</script>", start)
     i = start
     while content[i] in "\n\r\t ":
         i += 1
@@ -120,6 +133,27 @@ def main():
         print(f"FAIL: __bundler/template is not valid JSON: {e}")
         print(f"  context: {ctx!r}")
         return False
+
+    # The real outer closing tag is right after the JSON string ends.
+    true_close = content.find("</script>", end - 1)
+    if browser_end != -1 and browser_end < (true_close if true_close != -1 else len(content)):
+        # There's a literal </script> INSIDE the JSON string content that
+        # a browser's tokenizer would hit first, truncating the template
+        # before its real end -- exactly the bug that broke this page.
+        browser_text_len = browser_end - start
+        ctx = content[max(0, browser_end - 100):browser_end + 20]
+        ok = fail(
+            f"a literal (unescaped) </script> appears inside the template content at "
+            f"offset {browser_end - start}, before the template's real end. A browser's "
+            f"HTML tokenizer would cut the <script type=\"__bundler/template\"> tag off "
+            f"there (JS would see only {browser_text_len} chars instead of {end - i}), "
+            f"causing 'Unterminated string' in JSON.parse. Escape it as <\\u002Fscript> "
+            f"instead of </script>."
+        )
+        print(f"  context: {ctx!r}")
+    else:
+        print("OK: no literal </script> inside the template content that would "
+              "truncate it early in a real browser")
 
     print(f"OK: __bundler/template parses as JSON ({len(data)} chars)")
 
