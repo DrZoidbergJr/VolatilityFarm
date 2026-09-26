@@ -7,10 +7,16 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://volatilityfarm.com/reports/worthington-enterprises-2026-09-25.htm</loc>
+    <loc>https://volatilityfarm.com/reports/cintas-corporation-2026-09-25.htm</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://volatilityfarm.com/reports/worthington-enterprises-2026-09-25.htm</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://volatilityfarm.com/reports/brookfield-corporation-2026-09-19.htm</loc>
