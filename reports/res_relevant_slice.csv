@@ -1,2 +1,4 @@
 ,leads_eps_pct,leads_rev_pct,inputs_eps_pct,inputs_rev_pct,outputs_eps_pct,outputs_rev_pct,ticker,date,impact_pre_lead,impact_pre_input,impact_pre_out,impact_post_lead,impact_post_input,impact_post_out
-57021,0.0,0.0,0.0,0.0,0.0,0.0,IVA,2026-09-25,,,,,,
+57023,-0.3865596397714856,0.10662118063127556,-0.0062370585452767215,0.000234579635552443,0.0,0.0,JEF,2026-09-28,,,,,,
+57024,-0.1869354058236676,0.011243330153601442,0.0,0.0,0.0,0.0,MTN,2026-09-28,,,,,,
+57022,0.0,0.0,0.0,0.0,0.0,0.0,IDT,2026-09-28,,,,,,
