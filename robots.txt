@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://volatilityfarm.com/sitemap.xml
+
+# LLM-readable site index (https://llmstxt.org)
+# llms.txt: https://volatilityfarm.com/llms.txt
