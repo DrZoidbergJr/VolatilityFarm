@@ -1028,6 +1028,7 @@ All reports
   }
 
   window.__vfCloseReport = closeReport;
+  window.__vfReadingOpen = function () { return readingView.style.display !== 'none'; };
 })();
 </script>
 <script>
@@ -1113,7 +1114,12 @@ All reports
     var path = reportPathFromHash();
     if (path) {
       tryOpenFromHash(20, false);
-    } else {
+    } else if (window.__vfReadingOpen && window.__vfReadingOpen()) {
+      // Only treat this as "user hit Back out of an open report" -- a
+      // plain in-page nav click (e.g. <a href="#regimes">) also fires
+      // popstate in real browsers, and would otherwise wrongly trigger
+      // closeReport()'s window.scrollTo(0, 0), stomping on the native
+      // scroll-to-anchor that was just about to happen.
       if (window.__vfCloseReport) window.__vfCloseReport();
     }
   });
