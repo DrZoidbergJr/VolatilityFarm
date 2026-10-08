@@ -1,0 +1,381 @@
+{
+  "site": {
+    "name": "Volatility Farm",
+    "tagline": "Independent short-term research on stocks in the days after they report earnings — what changed, what the market got right or wrong, and the risks over the next 10–30 days.",
+    "base_url": "https://volatilityfarm.com",
+    "og_image": "/og-image.png"
+  },
+  "hero": [
+    "pepsico-inc-2026-10-08"
+  ],
+  "reports": [
+    {
+      "slug": "pepsico-inc-2026-10-08",
+      "ticker": "PEP",
+      "company": "PepsiCo, Inc.",
+      "date": "2026-10-08",
+      "dek": "Q3 2026 beat on revenue and EPS, but full-year core EPS growth guidance was cut to +1–2% from at least +4%, and the stock closed at a 52-week low of $123.73 after nine target cuts in two weeks. The next 10–30 days hinge on whether a cheap valuation holds against a regime backdrop that has rarely favoured PEP, with Coca-Cola and the late-October snack prints as the deciding catalysts.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/pepsico-inc-2026-10-08.htm",
+      "more_reports": [
+        "neogen-corporation-2026-10-07",
+        "penguin-solutions-2026-10-07",
+        "nike-inc-2026-10-02"
+      ],
+      "headline": "PepsiCo's profit-guide cut was the reset the market had already priced, but at a 52-week low the month needs North American proof, not cheapness"
+    },
+    {
+      "slug": "neogen-corporation-2026-10-07",
+      "ticker": "NEOG",
+      "company": "Neogen Corporation",
+      "date": "2026-10-07",
+      "dek": "Neogen beat Q1 FY27 revenue by 9% and nudged FY27 guidance up, trading 11% higher after hours, but with 97% of daily variance company-specific and the stock at its lowest Persistency reading of the year, the next 10–30 days hinge on the Investor Day and the HYCOAT warning-letter response, not the market.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/neogen-corporation-2026-10-07.htm",
+      "more_reports": [
+        "penguin-solutions-2026-10-07",
+        "jabil-inc-2026-10-01",
+        "micron-technology-2026-10-01"
+      ],
+      "headline": "Neogen's beat-and-raise bought a gap, not a trend — the month turns on whether it holds above $12"
+    },
+    {
+      "slug": "penguin-solutions-2026-10-07",
+      "ticker": "PENG",
+      "company": "Penguin Solutions, Inc.",
+      "date": "2026-10-07",
+      "dek": "Penguin beat on Q4 sales and raised FY27 guidance 40%, but the stock had already risen 24% in 30 sessions with operating cash flow negative for the year, so the next 10–30 days test whether post-print target raises confirm demand before the July pattern of a sharp reversal repeats.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/penguin-solutions-2026-10-07.htm",
+      "more_reports": [
+        "neogen-corporation-2026-10-07",
+        "jabil-inc-2026-10-01",
+        "micron-technology-2026-10-01"
+      ],
+      "headline": "Penguin's raised guide is real, but a 24% run-up, three-times market beta and negative cash flow make the month a test of whether the gap holds"
+    },
+    {
+      "slug": "nike-inc-2026-10-02",
+      "ticker": "NKE",
+      "company": "NIKE, Inc.",
+      "date": "2026-10-02",
+      "dek": "After the 1 October close Nike beat on EPS ($0.48 vs $0.43) but missed on revenue ($11.21B, -4%), guiding FY27 adjusted EPS to $1.15-1.35, about 22% below the $1.61 consensus. Shares fell 6.2% after hours to $32.96, a 13-year low, and the next 10-30 days hinge on whether consensus can reset lower into a stock at about 26x guided earnings, in the weakest regime backdrop of any name in this series.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/nike-inc-2026-10-02.htm",
+      "more_reports": [
+        "accenture-plc-2026-10-02",
+        "jabil-inc-2026-10-01",
+        "micron-technology-2026-10-01"
+      ],
+      "headline": "Nike guided the year 22% below the Street and its dividend now exceeds its earnings; the month is about estimate cuts, not the bottom"
+    },
+    {
+      "slug": "accenture-plc-2026-10-02",
+      "ticker": "ACN",
+      "company": "Accenture plc",
+      "date": "2026-10-02",
+      "dek": "Accenture rose 15.8% on 1 October, its best day on record, after a Q4 beat and $100M+ bookings hit a quarterly record. But the FY27 guide implies only about 0.5-4% organic growth, and the next 10-30 days hold the gain only if analyst upgrades and the October IT-services prints show AI adding to demand rather than deflating it.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/accenture-plc-2026-10-02.htm",
+      "more_reports": [
+        "nike-inc-2026-10-02",
+        "jabil-inc-2026-10-01",
+        "micron-technology-2026-10-01"
+      ],
+      "headline": "Accenture's record rally repriced the AI fear, not the growth rate, so the month depends on whether peers confirm it"
+    },
+    {
+      "slug": "jabil-inc-2026-10-01",
+      "ticker": "JBL",
+      "company": "Jabil Inc.",
+      "date": "2026-10-01",
+      "dek": "Jabil beat on every line and guided FY27 above consensus, but the stock fell 10% on a lighter margin guide and crowded AI-linked positioning, with the next 10–30 days testing whether that drop was overdone.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/jabil-inc-2026-10-01.htm",
+      "more_reports": [
+        "nike-inc-2026-10-02",
+        "accenture-plc-2026-10-02",
+        "micron-technology-2026-10-01"
+      ],
+      "headline": "Jabil raised its outlook and lost a tenth of its value; the month tests whether that was positioning or a margin warning"
+    },
+    {
+      "slug": "micron-technology-2026-10-01",
+      "ticker": "MU",
+      "company": "Micron Technology, Inc.",
+      "date": "2026-10-01",
+      "dek": "Micron cleared every bar at seven times run-rate earnings, but the risk for the month is the cycle debate, not the numbers, with the stock trading at about 7× annualised guidance.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/micron-technology-2026-10-01.htm",
+      "more_reports": [
+        "nike-inc-2026-10-02",
+        "accenture-plc-2026-10-02",
+        "jabil-inc-2026-10-01"
+      ],
+      "headline": "Micron cleared every bar at seven times run-rate earnings. The risk for the month is the cycle debate, not the numbers"
+    },
+    {
+      "slug": "carnival-corporation-2026-09-30",
+      "ticker": "CCL",
+      "company": "Carnival Corporation Ltd.",
+      "date": "2026-09-30",
+      "dek": "A beat-and-raise lifted shares 13.4% on record yields and deposits, but with fuel unhedged and a soft Q4 guide, the next 10–30 days hinge on whether crude falls back below $100.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/carnival-corporation-2026-09-30.htm",
+      "more_reports": [
+        "nike-inc-2026-10-02",
+        "accenture-plc-2026-10-02",
+        "jabil-inc-2026-10-01"
+      ],
+      "headline": "Carnival’s record quarter bought a floor, but oil decides whether the gap holds"
+    },
+    {
+      "slug": "cintas-corporation-2026-09-25",
+      "ticker": "CTAS",
+      "company": "Cintas Corporation",
+      "date": "2026-09-25",
+      "dek": "A sixth straight beat-and-raise met an FTC antitrust review of the UniFirst deal, with no fixed timeline and the review itself the single event most likely to reprice the stock.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/cintas-corporation-2026-09-25.htm",
+      "more_reports": [
+        "nike-inc-2026-10-02",
+        "accenture-plc-2026-10-02",
+        "jabil-inc-2026-10-01"
+      ],
+      "headline": "Cintas keeps beating and raising — the next 10–30 days hinge on an FTC clock, not the ledger"
+    },
+    {
+      "slug": "worthington-enterprises-2026-09-25",
+      "ticker": "WOR",
+      "company": "Worthington Enterprises, Inc.",
+      "date": "2026-09-25",
+      "dek": "A beat on every line met a spike that gave back most of its gain, with the stock in a $56–$62.5 range ahead of the 10 November Investor Day.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/worthington-enterprises-2026-09-25.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Worthington beat the quarter and the market sold the spike &mdash; the next month is a range trade into Investor Day"
+    },
+    {
+      "slug": "brookfield-corporation-2026-09-19",
+      "ticker": "BN",
+      "company": "Brookfield Corporation",
+      "date": "2026-09-19",
+      "dek": "A 15% earnings beat met an 11% pullback tied to sector, not the company, with the next 10–30 days trading on the alternative-manager complex and a ten-year yield near 5%.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/brookfield-corporation-2026-09-19.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Brookfield’s earnings keep compounding, but the next month belongs to its sector and the ten-year yield"
+    },
+    {
+      "slug": "tripcom-group-2026-09-16",
+      "ticker": "TCOM",
+      "company": "Trip.com Group Limited",
+      "date": "2026-09-16",
+      "dek": "A 50%-off-highs stock met a $763 million antitrust fine, with 94% of variance idiosyncratic and the next 10–30 days hinging on whether the regulatory chapter is closed.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/tripcom-group-2026-09-16.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Trip.com&rsquo;s growth is intact. Its regulatory ceiling is not."
+    },
+    {
+      "slug": "nio-inc-2026-09-02",
+      "ticker": "NIO",
+      "company": "NIO Inc",
+      "date": "2026-09-02",
+      "dek": "A margin turnaround with 69% revenue growth met missed delivery guidance and a fresh 52-week low, with the September delivery report due around 1 October deciding the next move.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/nio-inc-2026-09-02.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "NIO's turnaround is real; the delivery momentum that moves the next month has stalled"
+    },
+    {
+      "slug": "saic-2026-09-01",
+      "ticker": "SAIC",
+      "company": "Science Applications International Corp",
+      "date": "2026-09-01",
+      "dek": "A beat and raised guide printed an all-time high before reversing to close up just 1.8%, with book-to-bill at 0.8 and no company catalyst until December.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/saic-2026-09-01.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "SAIC beat, raised the guide, and spent the pop before lunch"
+    },
+    {
+      "slug": "frontline-plc-2026-08-28",
+      "ticker": "FRO",
+      "company": "Frontline plc",
+      "date": "2026-08-28",
+      "dek": "A record quarter and the largest payout in years lands the shares at a 52-week high, with the next 10–30 days hinging on spot tanker rates against a scheduled dividend drop.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/frontline-plc-2026-08-28.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Frontline is minting cash at the top of the cycle — and the share price has already arrived."
+    },
+    {
+      "slug": "jm-smucker-2026-08-26",
+      "ticker": "SJM",
+      "company": "J.M. Smucker Company",
+      "date": "2026-08-26",
+      "dek": "A blowout beat on coffee pricing and tariff refunds pushed shares to a 52-week high and past the average analyst target, leaving a 99.9% idiosyncratic digestion trade.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/jm-smucker-2026-08-26.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Smucker's beat-and-raise is real — but the stock has already run past where Wall Street will follow."
+    },
+    {
+      "slug": "tuya-inc-2026-08-25",
+      "ticker": "TUYA",
+      "company": "Tuya Inc",
+      "date": "2026-08-25",
+      "dek": "Record premium customers and 16% revenue growth against a near-nil enterprise value, with the earnings catalyst spent and direction now hostage to China-internet sentiment.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/tuya-inc-2026-08-25.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Tuya trades for almost no enterprise value — but the next month rides China's tape, not the beat"
+    },
+    {
+      "slug": "walmart-inc-2026-08-24",
+      "ticker": "WMT",
+      "company": "Walmart Inc",
+      "date": "2026-08-24",
+      "dek": "A beat-and-raise quarter met with a 9.2% single-session drop on decelerating comps, leaving a 99.8% idiosyncratic name with no catalyst until November.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/walmart-inc-2026-08-24.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Walmart beat and raised — and the market sold the one line that missed"
+    },
+    {
+      "slug": "alibaba-group-holding-2026-08-24",
+      "ticker": "BABA",
+      "company": "Alibaba Group Holding Ltd",
+      "date": "2026-08-24",
+      "dek": "Cloud revenue accelerating 45% against a 75% profit drop, with a discounted $10.2bn Hong Kong share placement now the swing factor for the next month.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/alibaba-group-holding-2026-08-24.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Cloud is compounding at 45%, but a $10bn discounted share sale owns the next month"
+    },
+    {
+      "slug": "lowes-companies-inc-2026-08-20",
+      "ticker": "LOW",
+      "company": "Lowe’s Companies Inc",
+      "date": "2026-08-20",
+      "dek": "A light revenue miss and a guide cut to the bottom of every range, offset by a cheap multiple and an 87.9% idiosyncratic setup ahead of the September FOMC.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/lowes-companies-inc-2026-08-20.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Lowe's cleared a low bar and cut its guide &mdash; the next month is a valuation-and-macro trade, not a growth story"
+    },
+    {
+      "slug": "home-depot-inc-2026-08-19",
+      "ticker": "HD",
+      "company": "Home Depot Inc",
+      "date": "2026-08-19",
+      "dek": "A best-in-class quarter and reaffirmed guidance met a flat tape, with no company catalyst until November and a premium multiple to defend.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/home-depot-inc-2026-08-19.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Home Depot posted its strongest comp in years, and the tape shrugged"
+    },
+    {
+      "slug": "baidu-inc-2026-08-19",
+      "ticker": "BIDU",
+      "company": "Baidu Inc",
+      "date": "2026-08-19",
+      "dek": "First earnings miss in eight quarters and a close below book value, with AI-cloud growth real but no catalyst before November.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/baidu-inc-2026-08-19.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "Baidu's advertising decline outruns its AI, and the next month has no catalyst to close the gap"
+    },
+    {
+      "slug": "bhp-group-limited-2026-08-19",
+      "ticker": "BHP",
+      "company": "BHP Group Limited",
+      "date": "2026-08-19",
+      "dek": "Record FY2026 EBITDA and the largest dividend in four years, against an FY2027 copper guide cut 11.7% — the next 10–30 days trade as a copper-price instrument.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/bhp-group-limited-2026-08-19.htm",
+      "more_reports": [
+        "micron-technology-2026-10-01",
+        "carnival-corporation-2026-09-30",
+        "cintas-corporation-2026-09-25"
+      ],
+      "headline": "BHP has never earned more from copper, and next year it has less of it to sell"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+# Volatility Farm
+
+> Independent short-term research on stocks in the days after they report earnings - what changed, what the market got right or wrong, and the risks over the next 10-30 days.
+
+Volatility Farm publishes one research report per company shortly after its earnings release, plus site-wide sections tracking an earnings calendar, cross-asset market regimes, and the realised performance of the ideas published here. Reports are informational research, not investment advice.
+
+## Site sections
+
+- [Calendar](https://volatilityfarm.com/#calendar): Upcoming and recent earnings dates for tracked tickers, with expected and realised price-impact statistics around the print.
+- [Market Regimes](https://volatilityfarm.com/#regimes): Persistency (mean-reverting vs trending) and volatility (calm vs volatile) regime scatter plots for SP500, inverse volatility, gold, and short/intermediate/long-term bond proxies, traced over the last 30 days.
+- [Performance](https://volatilityfarm.com/#performance): Realised performance of the portfolio implied by the published reports, benchmarked against SPX and VTI, with summary metrics (beta, alpha, Sharpe, Calmar, max drawdown, average position duration).
+- [Reports archive](https://volatilityfarm.com/#reports): Full chronological list of every published company report.
+- [Method](https://volatilityfarm.com/#method): How reports are built - scope-before-data, sourced tables, no investment advice, in-house analytics.
+- [About](https://volatilityfarm.com/#about): Who publishes this, coverage, community, and contact.
+
+## Reports
+
+One short-term research report per company, published within a few days of its earnings release. Each covers the print itself, the market reaction, and the risks over the following 10-30 days.
+
+{{REPORTS}}
+
+## Optional
+
+- [Sitemap](https://volatilityfarm.com/sitemap.xml): Machine-readable list of every URL on the site.
+- [RSS feed](https://volatilityfarm.com/feed.xml): Subscribe to new reports as they're published.
+- [Robots](https://volatilityfarm.com/robots.txt): Crawler access policy.
