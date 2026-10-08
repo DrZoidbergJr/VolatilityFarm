@@ -121,17 +121,29 @@ def test_archive(page, base_url, manifest):
     if not missing and not extra:
         ok(f"archive lists all {len(reports)} reports exactly once")
 
-    hidden_count = len(page.query_selector_all(".archive-row[hidden]"))
-    visible_count = len(page.query_selector_all(".archive-row:not([hidden])"))
+    # Check the attribute AND the actual rendered visibility -- the bare
+    # `hidden` attribute alone does not guarantee display:none if an
+    # element also carries an inline `style="display:..."` (the inline
+    # style wins over the UA stylesheet's unprefixed `[hidden]` rule).
+    # This exact gap let all 23 rows render even though 19 had `hidden`.
+    hidden_attr_count = len(page.query_selector_all(".archive-row[hidden]"))
+    rendered_visible_count = page.eval_on_selector_all(
+        ".archive-row", "els => els.filter(e => getComputedStyle(e).display !== 'none').length"
+    )
     expected_hidden = max(0, len(reports) - VISIBLE_COUNT)
     expected_visible = min(len(reports), VISIBLE_COUNT)
-    if hidden_count != expected_hidden or visible_count != expected_visible:
+    if hidden_attr_count != expected_hidden:
         passed = fail(
-            f"archive collapse counts wrong: hidden={hidden_count} (expected {expected_hidden}), "
-            f"visible={visible_count} (expected {expected_visible})"
+            f"archive 'hidden' attribute count wrong: {hidden_attr_count} (expected {expected_hidden})"
+        )
+    elif rendered_visible_count != expected_visible:
+        passed = fail(
+            f"archive VISUALLY shows {rendered_visible_count} rows (expected {expected_visible}) -- "
+            f"'hidden' attribute is present on {hidden_attr_count} row(s) but not actually hiding them "
+            f"(check for a competing inline style='display:...')"
         )
     else:
-        ok(f"archive collapse counts correct: {visible_count} visible, {hidden_count} hidden")
+        ok(f"archive collapse counts correct: {rendered_visible_count} visible, {hidden_attr_count} hidden")
 
     btn = page.query_selector("#earlier-reports-btn")
     if btn:
@@ -143,10 +155,18 @@ def test_archive(page, base_url, manifest):
         btn.click()
         page.wait_for_timeout(300)
         hidden_after = len(page.query_selector_all(".archive-row[hidden]"))
+        visible_after = page.eval_on_selector_all(
+            ".archive-row", "els => els.filter(e => getComputedStyle(e).display !== 'none').length"
+        )
         if hidden_after != 0:
-            passed = fail(f"clicking 'Earlier reports' left {hidden_after} rows hidden")
+            passed = fail(f"clicking 'Earlier reports' left {hidden_after} rows with the 'hidden' attribute")
+        elif visible_after != len(reports):
+            passed = fail(
+                f"clicking 'Earlier reports' only visually revealed {visible_after}/{len(reports)} rows "
+                f"(attribute removed but still not rendering -- check the click handler sets style.display too)"
+            )
         else:
-            ok("clicking 'Earlier reports' reveals all rows")
+            ok("clicking 'Earlier reports' reveals all rows (both attribute and visual check)")
     elif expected_hidden > 0:
         passed = fail("'Earlier reports' button missing but some rows are hidden")
 

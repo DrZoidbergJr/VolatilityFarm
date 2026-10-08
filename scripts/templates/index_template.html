@@ -784,7 +784,10 @@ All reports
   if (earlierBtn) {
     earlierBtn.addEventListener('click', function () {
       var hidden = document.querySelectorAll('.archive-row[hidden]');
-      for (var i = 0; i < hidden.length; i++) hidden[i].removeAttribute('hidden');
+      for (var i = 0; i < hidden.length; i++) {
+        hidden[i].removeAttribute('hidden');
+        hidden[i].style.display = 'grid';
+      }
       document.getElementById('earlier-reports-wrap').style.display = 'none';
     });
   }

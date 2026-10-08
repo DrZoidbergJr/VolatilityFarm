@@ -275,11 +275,19 @@ def build_hero_html(manifest):
 
 def archive_row_html(r, hidden):
     date_human = format_date_human(r["date"])
+    # The bare `hidden` attribute alone does NOT visually hide this element:
+    # its default UA-stylesheet rule is `[hidden]{display:none}` with no
+    # `!important`, so the inline `style="display:grid;..."` below wins and
+    # the row stays visible regardless of the attribute. Bake the correct
+    # `display` value into the inline style itself; keep the `hidden`
+    # attribute too for semantics/accessibility (screen readers, "find in
+    # page"), but don't rely on it alone for the visual effect.
     hidden_attr = " hidden" if hidden else ""
+    display = "none" if hidden else "grid"
     href = esc_attr(r["href"])
     return (
         f'<a href="{href}" data-title="{esc_html(r["ticker"])} &middot; {esc_html(r["company"])}" '
-        f'class="archive-row report-link vf-archive-row"{hidden_attr} style="display:grid;grid-template-columns:minmax(96px,110px) '
+        f'class="archive-row report-link vf-archive-row"{hidden_attr} style="display:{display};grid-template-columns:minmax(96px,110px) '
         'minmax(220px,1fr) minmax(90px,120px) 64px;gap:clamp(12px,2vw,32px);align-items:baseline;padding:22px 4px;'
         'border-top:1px solid #EAE2F6;color:#2B1240;cursor:pointer">\n'
         f'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#6D28D9">{date_human}</span>\n'
