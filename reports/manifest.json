@@ -6,9 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "pepsico-inc-2026-10-08"
+    "adobe-inc-2026-10-13"
   ],
   "reports": [
+    {
+      "slug": "adobe-inc-2026-10-13",
+      "ticker": "ADBE",
+      "company": "Adobe Inc.",
+      "date": "2026-10-13",
+      "dek": "Five straight beats and a twice-raised outlook have not stopped a 32% slide, because the market is pricing leadership turnover, slowing bookings and AI disruption rather than the quarter. With no earnings print before mid-December and 99.5% of daily variance company-specific, the stock trades on news over the next 10–30 days: a fresh downgrade and a federal labour-program suspension weigh on it, while Adobe MAX on 10–12 November is the one dated event that could change the story.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/adobe-inc-2026-10-13.htm",
+      "more_reports": [
+        "pepsico-inc-2026-10-08",
+        "neogen-corporation-2026-10-07",
+        "penguin-solutions-2026-10-07"
+      ],
+      "headline": "Adobe keeps clearing the earnings bar, but the next month belongs to its headlines"
+    },
     {
       "slug": "pepsico-inc-2026-10-08",
       "ticker": "PEP",
@@ -19,9 +35,9 @@
       "sections": 16,
       "href": "reports/pepsico-inc-2026-10-08.htm",
       "more_reports": [
+        "adobe-inc-2026-10-13",
         "neogen-corporation-2026-10-07",
-        "penguin-solutions-2026-10-07",
-        "nike-inc-2026-10-02"
+        "penguin-solutions-2026-10-07"
       ],
       "headline": "PepsiCo's profit-guide cut was the reset the market had already priced, but at a 52-week low the month needs North American proof, not cheapness"
     },
@@ -35,9 +51,9 @@
       "sections": 16,
       "href": "reports/neogen-corporation-2026-10-07.htm",
       "more_reports": [
+        "adobe-inc-2026-10-13",
         "penguin-solutions-2026-10-07",
-        "jabil-inc-2026-10-01",
-        "micron-technology-2026-10-01"
+        "jabil-inc-2026-10-01"
       ],
       "headline": "Neogen's beat-and-raise bought a gap, not a trend — the month turns on whether it holds above $12"
     },
@@ -51,9 +67,9 @@
       "sections": 16,
       "href": "reports/penguin-solutions-2026-10-07.htm",
       "more_reports": [
+        "adobe-inc-2026-10-13",
         "neogen-corporation-2026-10-07",
-        "jabil-inc-2026-10-01",
-        "micron-technology-2026-10-01"
+        "jabil-inc-2026-10-01"
       ],
       "headline": "Penguin's raised guide is real, but a 24% run-up, three-times market beta and negative cash flow make the month a test of whether the gap holds"
     },
