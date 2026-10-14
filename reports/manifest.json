@@ -6,9 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "adobe-inc-2026-10-13"
+    "johnson-johnson-2026-10-13"
   ],
   "reports": [
+    {
+      "slug": "johnson-johnson-2026-10-13",
+      "ticker": "JNJ",
+      "company": "Johnson & Johnson",
+      "date": "2026-10-13",
+      "dek": "Q3 2026 adjusted EPS of $2.59 beat the $2.53 consensus and sales of $25.40B beat $25.28B, led by Innovative Medicine (+7.7%: Tremfya +68%, Darzalex +15%). Full-year adjusted EPS guidance rose only $0.06 to $11.10, and MedTech grew just 2.5% with international sales +1.5%. A $5.5B talc charge cut GAAP EPS to $0.09. The shares were ~2.5% lower before the open at ~$257, after a 27% gain this year. Over the next 10–30 days J&J trades on a premium multiple (23.8× this year) with little market correlation; peer prints and orthopaedics separation news decide whether the pullback deepens.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/johnson-johnson-2026-10-13.htm",
+      "more_reports": [
+        "adobe-inc-2026-10-13",
+        "pepsico-inc-2026-10-08",
+        "neogen-corporation-2026-10-07"
+      ],
+      "headline": "J&J's beat-and-raise is a pharma story the market already owns, so a softer MedTech quarter sets up a month of consolidation, not a new leg higher"
+    },
     {
       "slug": "adobe-inc-2026-10-13",
       "ticker": "ADBE",
@@ -19,9 +35,9 @@
       "sections": 16,
       "href": "reports/adobe-inc-2026-10-13.htm",
       "more_reports": [
+        "johnson-johnson-2026-10-13",
         "pepsico-inc-2026-10-08",
-        "neogen-corporation-2026-10-07",
-        "penguin-solutions-2026-10-07"
+        "neogen-corporation-2026-10-07"
       ],
       "headline": "Adobe keeps clearing the earnings bar, but the next month belongs to its headlines"
     },
@@ -35,9 +51,9 @@
       "sections": 16,
       "href": "reports/pepsico-inc-2026-10-08.htm",
       "more_reports": [
+        "johnson-johnson-2026-10-13",
         "adobe-inc-2026-10-13",
-        "neogen-corporation-2026-10-07",
-        "penguin-solutions-2026-10-07"
+        "neogen-corporation-2026-10-07"
       ],
       "headline": "PepsiCo's profit-guide cut was the reset the market had already priced, but at a 52-week low the month needs North American proof, not cheapness"
     },
@@ -51,9 +67,9 @@
       "sections": 16,
       "href": "reports/neogen-corporation-2026-10-07.htm",
       "more_reports": [
+        "johnson-johnson-2026-10-13",
         "adobe-inc-2026-10-13",
-        "penguin-solutions-2026-10-07",
-        "jabil-inc-2026-10-01"
+        "penguin-solutions-2026-10-07"
       ],
       "headline": "Neogen's beat-and-raise bought a gap, not a trend — the month turns on whether it holds above $12"
     },
