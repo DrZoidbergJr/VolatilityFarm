@@ -6,9 +6,42 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "asml-holding-nv-2026-10-14"
+    "progressive-corporation-2026-10-14",
+    "fastenal-company-2026-10-14"
   ],
   "reports": [
+    {
+      "slug": "progressive-corporation-2026-10-14",
+      "ticker": "PGR",
+      "company": "The Progressive Corporation",
+      "date": "2026-10-14",
+      "dek": "Q3 2026 combined ratio was 88.7 (89.5 a year ago) and EPS of $4.37 was about $4.60 before $170M of realised investment losses, above the $4.41 consensus. But net premiums written grew only 4% in the quarter and 2% in September, policies in force growth slowed to 6%, and a $1.3B unrealised bond loss in September cut book value growth. The shares fell ~2.6% pre-market to ~$217, after a 7.5% rally into the print. Over the next 10–30 days PGR trades with the P&C insurers and against the market; the 3 November conference call and Allstate's results decide whether growth fears or underwriting quality win.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/progressive-corporation-2026-10-14.htm",
+      "more_reports": [
+        "fastenal-company-2026-10-14",
+        "asml-holding-nv-2026-10-14",
+        "johnson-johnson-2026-10-13"
+      ],
+      "headline": "Progressive's underwriting is still the best in the industry, but 2% September premium growth confirms the slowdown the stock now has to price"
+    },
+    {
+      "slug": "fastenal-company-2026-10-14",
+      "ticker": "FAST",
+      "company": "Fastenal Company",
+      "date": "2026-10-14",
+      "dek": "Q3 2026 sales rose 15.5% to $2.46B and EPS of $0.35 beat $0.34, with operating margin up to 21.5%. But gross margin slipped 40 bps to 44.8%, 2026 capex was set at $310–330M (from $231M in 2025), and the shares fell about 4.5% pre-market to ~$49, from near a 52-week high. At 41× trailing earnings and above the $49.45 consensus target, FAST is fully valued. Over the next 10–30 days the stock trades in a quiet, range-bound regime that has historically been followed by gains; the October sales report in early November decides whether the dip is bought.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/fastenal-company-2026-10-14.htm",
+      "more_reports": [
+        "progressive-corporation-2026-10-14",
+        "asml-holding-nv-2026-10-14",
+        "johnson-johnson-2026-10-13"
+      ],
+      "headline": "Fastenal's 15.5% growth quarter met a stock already priced above its targets, so the month turns on whether October daily sales keep accelerating"
+    },
     {
       "slug": "asml-holding-nv-2026-10-14",
       "ticker": "ASML",
@@ -19,9 +52,9 @@
       "sections": 16,
       "href": "reports/asml-holding-nv-2026-10-14.htm",
       "more_reports": [
-        "johnson-johnson-2026-10-13",
-        "adobe-inc-2026-10-13",
-        "pepsico-inc-2026-10-08"
+        "progressive-corporation-2026-10-14",
+        "fastenal-company-2026-10-14",
+        "johnson-johnson-2026-10-13"
       ],
       "headline": "ASML's demand now outruns its capacity into 2028, and an 8% pre-print pullback gives the semiconductor tape room to re-rate it inside the month"
     },
@@ -35,9 +68,9 @@
       "sections": 16,
       "href": "reports/johnson-johnson-2026-10-13.htm",
       "more_reports": [
-        "asml-holding-nv-2026-10-14",
-        "adobe-inc-2026-10-13",
-        "pepsico-inc-2026-10-08"
+        "progressive-corporation-2026-10-14",
+        "fastenal-company-2026-10-14",
+        "asml-holding-nv-2026-10-14"
       ],
       "headline": "J&J's beat-and-raise is a pharma story the market already owns, so a softer MedTech quarter sets up a month of consolidation, not a new leg higher"
     },
