@@ -6,9 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "johnson-johnson-2026-10-13"
+    "asml-holding-nv-2026-10-14"
   ],
   "reports": [
+    {
+      "slug": "asml-holding-nv-2026-10-14",
+      "ticker": "ASML",
+      "company": "ASML Holding N.V.",
+      "date": "2026-10-14",
+      "dek": "Q3 2026 sales hit a record €11.7B (+55% YoY) at a record 57.5% gross margin, and Q4 guidance of €14.2–15.2B implies the biggest quarter in the company's history. Management said planned capacity for 2027 and 2028 will not fully meet customer demand, with some customers already asking about 2029–2030 orders. The Amsterdam line opened +2.2% and faded to +0.7%; the ADR was flat pre-market at ~$1,716 after falling 8% in seven sessions. Over the next 10–30 days ASML trades as a semiconductor-sector name (correlation 0.83 with the sector fund, beta 2.2 to the S&P 500), so the late-October chip-equipment and memory prints decide whether the re-rating starts.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/asml-holding-nv-2026-10-14.htm",
+      "more_reports": [
+        "johnson-johnson-2026-10-13",
+        "adobe-inc-2026-10-13",
+        "pepsico-inc-2026-10-08"
+      ],
+      "headline": "ASML's demand now outruns its capacity into 2028, and an 8% pre-print pullback gives the semiconductor tape room to re-rate it inside the month"
+    },
     {
       "slug": "johnson-johnson-2026-10-13",
       "ticker": "JNJ",
@@ -19,9 +35,9 @@
       "sections": 16,
       "href": "reports/johnson-johnson-2026-10-13.htm",
       "more_reports": [
+        "asml-holding-nv-2026-10-14",
         "adobe-inc-2026-10-13",
-        "pepsico-inc-2026-10-08",
-        "neogen-corporation-2026-10-07"
+        "pepsico-inc-2026-10-08"
       ],
       "headline": "J&J's beat-and-raise is a pharma story the market already owns, so a softer MedTech quarter sets up a month of consolidation, not a new leg higher"
     },
@@ -35,9 +51,9 @@
       "sections": 16,
       "href": "reports/adobe-inc-2026-10-13.htm",
       "more_reports": [
+        "asml-holding-nv-2026-10-14",
         "johnson-johnson-2026-10-13",
-        "pepsico-inc-2026-10-08",
-        "neogen-corporation-2026-10-07"
+        "pepsico-inc-2026-10-08"
       ],
       "headline": "Adobe keeps clearing the earnings bar, but the next month belongs to its headlines"
     },
