@@ -6,10 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "progressive-corporation-2026-10-14",
-    "fastenal-company-2026-10-14"
+    "manpowergroup-inc-2026-10-15"
   ],
   "reports": [
+    {
+      "slug": "manpowergroup-inc-2026-10-15",
+      "ticker": "MAN",
+      "company": "ManpowerGroup Inc.",
+      "date": "2026-10-15",
+      "dek": "Q3 2026 revenue rose 4% to $4.84B (+5% in constant currency) and adjusted EPS of $1.01 matched consensus. But gross margin fell 70 bps to 15.9%, Q4 EPS guidance of $1.03–1.13 sits below the $1.10 consensus, free cash flow was negative and the board named a new CEO from 1 January. Shares were ~19% lower pre-market at ~$42, after doubling between February and August. Over the next 10–30 days the company, not the market, decides the price; analyst resets and the Randstad, Adecco and Kelly prints show whether the gap extends toward $39 or starts to fill.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/manpowergroup-inc-2026-10-15.htm",
+      "more_reports": [
+        "progressive-corporation-2026-10-14",
+        "fastenal-company-2026-10-14",
+        "asml-holding-nv-2026-10-14"
+      ],
+      "headline": "ManpowerGroup delivered the quarter it promised, but shrinking gross margin and a soft Q4 guide end a rally that had already doubled the stock"
+    },
     {
       "slug": "progressive-corporation-2026-10-14",
       "ticker": "PGR",
@@ -20,9 +35,9 @@
       "sections": 16,
       "href": "reports/progressive-corporation-2026-10-14.htm",
       "more_reports": [
+        "manpowergroup-inc-2026-10-15",
         "fastenal-company-2026-10-14",
-        "asml-holding-nv-2026-10-14",
-        "johnson-johnson-2026-10-13"
+        "asml-holding-nv-2026-10-14"
       ],
       "headline": "Progressive's underwriting is still the best in the industry, but 2% September premium growth confirms the slowdown the stock now has to price"
     },
@@ -36,9 +51,9 @@
       "sections": 16,
       "href": "reports/fastenal-company-2026-10-14.htm",
       "more_reports": [
+        "manpowergroup-inc-2026-10-15",
         "progressive-corporation-2026-10-14",
-        "asml-holding-nv-2026-10-14",
-        "johnson-johnson-2026-10-13"
+        "asml-holding-nv-2026-10-14"
       ],
       "headline": "Fastenal's 15.5% growth quarter met a stock already priced above its targets, so the month turns on whether October daily sales keep accelerating"
     },
@@ -52,9 +67,9 @@
       "sections": 16,
       "href": "reports/asml-holding-nv-2026-10-14.htm",
       "more_reports": [
+        "manpowergroup-inc-2026-10-15",
         "progressive-corporation-2026-10-14",
-        "fastenal-company-2026-10-14",
-        "johnson-johnson-2026-10-13"
+        "fastenal-company-2026-10-14"
       ],
       "headline": "ASML's demand now outruns its capacity into 2028, and an 8% pre-print pullback gives the semiconductor tape room to re-rate it inside the month"
     },
