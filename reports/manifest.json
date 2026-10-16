@@ -6,9 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "manpowergroup-inc-2026-10-15"
+    "travelers-companies-inc-2026-10-16"
   ],
   "reports": [
+    {
+      "slug": "travelers-companies-inc-2026-10-16",
+      "ticker": "TRV",
+      "company": "The Travelers Companies, Inc.",
+      "date": "2026-10-16",
+      "dek": "Q3 2026 core EPS of $9.18 beat the $7.43 consensus on an 86.8 combined ratio, $234M of favourable reserve development and record investment income, and Travelers bought back $1.5B of stock. But net written premiums were flat (+2% excluding the Canada sale), Business Insurance renewal premium change slowed to 4.1% and personal auto premiums fell 8%. The shares dropped ~5% pre-market and then recovered to ~$386 after the call. Over the next 10–30 days TRV trades with the commercial P&C group and against the market; Chubb, Hartford and Allstate's prints decide whether pricing worries or earnings power win.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/travelers-companies-inc-2026-10-16.htm",
+      "more_reports": [
+        "manpowergroup-inc-2026-10-15",
+        "progressive-corporation-2026-10-14",
+        "fastenal-company-2026-10-14"
+      ],
+      "headline": "Travelers beat by 24% and the market bought the dip, but a flat top line and decelerating commercial pricing leave the stock above its targets"
+    },
     {
       "slug": "manpowergroup-inc-2026-10-15",
       "ticker": "MAN",
@@ -19,9 +35,9 @@
       "sections": 16,
       "href": "reports/manpowergroup-inc-2026-10-15.htm",
       "more_reports": [
+        "travelers-companies-inc-2026-10-16",
         "progressive-corporation-2026-10-14",
-        "fastenal-company-2026-10-14",
-        "asml-holding-nv-2026-10-14"
+        "fastenal-company-2026-10-14"
       ],
       "headline": "ManpowerGroup delivered the quarter it promised, but shrinking gross margin and a soft Q4 guide end a rally that had already doubled the stock"
     },
@@ -35,9 +51,9 @@
       "sections": 16,
       "href": "reports/progressive-corporation-2026-10-14.htm",
       "more_reports": [
+        "travelers-companies-inc-2026-10-16",
         "manpowergroup-inc-2026-10-15",
-        "fastenal-company-2026-10-14",
-        "asml-holding-nv-2026-10-14"
+        "fastenal-company-2026-10-14"
       ],
       "headline": "Progressive's underwriting is still the best in the industry, but 2% September premium growth confirms the slowdown the stock now has to price"
     },
@@ -51,9 +67,9 @@
       "sections": 16,
       "href": "reports/fastenal-company-2026-10-14.htm",
       "more_reports": [
+        "travelers-companies-inc-2026-10-16",
         "manpowergroup-inc-2026-10-15",
-        "progressive-corporation-2026-10-14",
-        "asml-holding-nv-2026-10-14"
+        "progressive-corporation-2026-10-14"
       ],
       "headline": "Fastenal's 15.5% growth quarter met a stock already priced above its targets, so the month turns on whether October daily sales keep accelerating"
     },
