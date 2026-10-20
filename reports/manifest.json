@@ -6,9 +6,42 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "travelers-companies-inc-2026-10-16"
+    "hasbro-inc-2026-10-20",
+    "general-motors-company-2026-10-20"
   ],
   "reports": [
+    {
+      "slug": "hasbro-inc-2026-10-20",
+      "ticker": "HAS",
+      "company": "Hasbro, Inc.",
+      "date": "2026-10-20",
+      "dek": "Q3 2026 revenue rose 15% to $1.60B and adjusted EPS of $2.90 crushed the $1.85 consensus, with Magic: The Gathering up 34% to over $600M and Wizards earning a 49% margin. Hasbro raised 2026 adjusted EBITDA guidance to $1.575–1.625B, above the $1.48B consensus, and doubled its buyback target. But ~$55M of one-off tariff refunds helped, and the full-year revenue guide implies Q4 sales down 4–10%. Shares were ~2% higher pre-market at ~$100.5, after rising 12.5% in a month. Over the next 10–30 days HAS trades on its own news, and the Mattel and holiday-season reads decide whether it reaches its $107 high.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/hasbro-inc-2026-10-20.htm",
+      "more_reports": [
+        "general-motors-company-2026-10-20",
+        "travelers-companies-inc-2026-10-16",
+        "manpowergroup-inc-2026-10-15"
+      ],
+      "headline": "Magic made Hasbro's quarter and lifted the year, but the raised guide still implies a smaller Q4 and the stock ran 12% into the print"
+    },
+    {
+      "slug": "general-motors-company-2026-10-20",
+      "ticker": "GM",
+      "company": "General Motors Company",
+      "date": "2026-10-20",
+      "dek": "Q3 2026 EBIT-adjusted rose 22% to $4.1B (8.2% margin) and North America earned an 8.7% margin, with adjusted EPS of $3.70 just ahead of $3.63. GM also raised free-cash-flow guidance by $1.5B and authorised a new $20B buyback. But the full-year profit midpoint stayed at $15B and the EPS midpoint ($13.25) sits below the $13.48 consensus; International, China and GM Financial all fell, and US share slipped to 16.1%. Shares were ~8% lower pre-market at ~$76. Over the next 10–30 days GM trades with the market and the auto group; the buyback pace, Ford's print and the rate path decide whether the gap fills.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/general-motors-company-2026-10-20.htm",
+      "more_reports": [
+        "hasbro-inc-2026-10-20",
+        "travelers-companies-inc-2026-10-16",
+        "manpowergroup-inc-2026-10-15"
+      ],
+      "headline": "GM's trucks carried the quarter and a $20B buyback dwarfs the risk, but a capped profit guide sent the stock 8% lower"
+    },
     {
       "slug": "travelers-companies-inc-2026-10-16",
       "ticker": "TRV",
@@ -19,9 +52,9 @@
       "sections": 16,
       "href": "reports/travelers-companies-inc-2026-10-16.htm",
       "more_reports": [
-        "manpowergroup-inc-2026-10-15",
-        "progressive-corporation-2026-10-14",
-        "fastenal-company-2026-10-14"
+        "hasbro-inc-2026-10-20",
+        "general-motors-company-2026-10-20",
+        "manpowergroup-inc-2026-10-15"
       ],
       "headline": "Travelers beat by 24% and the market bought the dip, but a flat top line and decelerating commercial pricing leave the stock above its targets"
     },
@@ -35,9 +68,9 @@
       "sections": 16,
       "href": "reports/manpowergroup-inc-2026-10-15.htm",
       "more_reports": [
-        "travelers-companies-inc-2026-10-16",
-        "progressive-corporation-2026-10-14",
-        "fastenal-company-2026-10-14"
+        "hasbro-inc-2026-10-20",
+        "general-motors-company-2026-10-20",
+        "travelers-companies-inc-2026-10-16"
       ],
       "headline": "ManpowerGroup delivered the quarter it promised, but shrinking gross margin and a soft Q4 guide end a rally that had already doubled the stock"
     },
