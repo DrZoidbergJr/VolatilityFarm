@@ -1,8 +1,8 @@
 metric,value
-Beta to SPX,0.7189
-Alpha to SPX,1.2790
-Sharpe,3.6324
-Calmar,40.2726
-Max drawdown,-0.0672
-Average position duration (days),35.3
+Beta to SPX,0.6412
+Alpha to SPX,1.0058
+Sharpe,2.7576
+Calmar,21.1423
+Max drawdown,-0.0857
+Average position duration (days),23.5
 Number of positions,16
