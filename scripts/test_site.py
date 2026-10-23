@@ -173,6 +173,147 @@ def test_archive(page, base_url, manifest):
     return passed
 
 
+# Calendar column groups, in render order, mirroring GROUPS in
+# scripts/templates/index_template.html -- kept as a second copy
+# rather than scraped from the template so this test fails loudly if
+# the two ever drift apart. Checked against whatever tickers/rows the
+# CSV happens to contain right now (its ticker set rotates week to
+# week), never against a specific ticker by name.
+CALENDAR_COLUMNS = [
+    ("date", "date"),
+    ("ticker", "text"),
+    ("street_eps_pct", "pct"), ("street_rev_pct", "pct"),
+    ("eps_growth", "pct"), ("rev_growth", "pct"),
+    ("leads_eps_pct", "pct"), ("leads_rev_pct", "pct"),
+    ("inputs_eps_pct", "pct"), ("inputs_rev_pct", "pct"),
+    ("outputs_eps_pct", "pct"), ("outputs_rev_pct", "pct"),
+    ("impact_pre_lead", "pct"), ("impact_pre_input", "pct"), ("impact_pre_out", "pct"),
+    ("impact_post_lead", "pct"), ("impact_post_input", "pct"), ("impact_post_out", "pct"),
+]
+
+
+def format_cell(value, kind):
+    """Python mirror of formatCell() in index_template.html."""
+    if value is None or value == "":
+        return "—"
+    if kind == "pct":
+        try:
+            n = float(value)
+        except ValueError:
+            return value
+        if n == 0:
+            return "-"
+        return f"{n * 100:.2f}%"
+    if kind == "date":
+        parts = value.split("-")
+        if len(parts) == 3:
+            return parts[0][2:] + "/" + parts[1] + "/" + parts[2]
+        return value
+    return value
+
+
+def test_calendar(page, base_url):
+    """The Calendar table's column-to-CSV-key mapping is correct for
+    every group (Street view, Volatility Farm view, Leads, Upwards,
+    Downwards, both Returns groups) -- checked structurally against
+    whatever rows reports/res_relevant_slice.csv currently contains,
+    not against any specific ticker (the CSV's ticker set rotates)."""
+    passed = True
+
+    import urllib.request
+    csv_url = f"{base_url}/reports/res_relevant_slice.csv"
+    try:
+        with urllib.request.urlopen(csv_url, timeout=10) as resp:
+            csv_text = resp.read().decode("utf-8")
+    except Exception as err:
+        return fail(f"could not fetch {csv_url}: {err}")
+
+    lines = [l for l in csv_text.replace("\r\n", "\n").split("\n") if l]
+    if len(lines) < 2:
+        return fail("res_relevant_slice.csv has no data rows")
+    header = [h.strip() for h in lines[0].split(",")]
+
+    missing_cols = [key for key, _ in CALENDAR_COLUMNS if key not in header]
+    if missing_cols:
+        passed = fail(f"res_relevant_slice.csv is missing column(s) the table expects: {missing_cols}")
+        return passed
+    else:
+        ok(f"res_relevant_slice.csv header has all {len(CALENDAR_COLUMNS)} expected columns")
+
+    csv_rows = []
+    for line in lines[1:]:
+        cells = [c.strip() for c in line.split(",")]
+        row = {header[i]: (cells[i] if i < len(cells) else "") for i in range(len(header))}
+        csv_rows.append(row)
+
+    page.goto(f"{base_url}/index.html#calendar", wait_until="load", timeout=20000)
+    page.wait_for_timeout(1500)
+    tbody_rows = page.query_selector_all("#calendar-tbody tr")
+    if len(tbody_rows) != len(csv_rows):
+        passed = fail(f"table has {len(tbody_rows)} rows, CSV has {len(csv_rows)} data rows")
+        return passed
+
+    # For each column independently, find the first row where that
+    # column actually has a non-empty, non-zero value and check only
+    # that (row, column) pair. Sampling by fixed row index (e.g.
+    # first/middle/last) is blind to a swapped-column bug whenever
+    # those particular rows happen to be empty for the swapped keys --
+    # this file is sparse enough (many tickers only populate a few of
+    # the 16 metric columns) that fixed-row sampling missed exactly
+    # that case. Every check still targets whichever ticker currently
+    # happens to hold a value for that column, never a named ticker.
+    row_cell_cache = {}
+
+    def get_cells(idx):
+        if idx not in row_cell_cache:
+            row_cell_cache[idx] = tbody_rows[idx].query_selector_all("td")
+        return row_cell_cache[idx]
+
+    mismatches = []
+    checked = 0
+    for col_i, (key, kind) in enumerate(CALENDAR_COLUMNS):
+        sample_idx = None
+        for idx, csv_row in enumerate(csv_rows):
+            raw = csv_row.get(key, "")
+            if raw not in ("", None):
+                try:
+                    if float(raw) != 0:
+                        sample_idx = idx
+                        break
+                except ValueError:
+                    sample_idx = idx
+                    break
+        if sample_idx is None:
+            # Every row is empty/zero for this column right now -- can't
+            # distinguish a swap from correct-but-blank, so skip it
+            # rather than false-pass OR false-fail on sparse data.
+            continue
+        csv_row = csv_rows[sample_idx]
+        cells = get_cells(sample_idx)
+        if len(cells) != len(CALENDAR_COLUMNS):
+            mismatches.append(f"row {sample_idx} ({csv_row.get('ticker')}): {len(cells)} <td> cells, expected {len(CALENDAR_COLUMNS)}")
+            continue
+        expected = format_cell(csv_row.get(key, ""), kind)
+        actual = cells[col_i].inner_text()
+        checked += 1
+        if actual != expected:
+            mismatches.append(
+                f"row {sample_idx} ({csv_row.get('ticker')}) column {col_i} ({key}): "
+                f"rendered {actual!r}, expected {expected!r} from CSV value {csv_row.get(key)!r}"
+            )
+
+    if mismatches:
+        for m in mismatches[:10]:
+            passed = fail(m)
+    elif checked == 0:
+        passed = fail("every column is empty/zero in every row -- could not verify any column mapping")
+    else:
+        ok(f"column mapping correct: verified {checked}/{len(CALENDAR_COLUMNS)} columns "
+           f"(each against a row currently holding a non-empty value for it)")
+
+    return passed
+
+
 def test_report_deep_links(page, base_url, manifest):
     """#reports/<slug>.htm opens the right report, including ones
     buried in the collapsed archive bucket."""
@@ -376,6 +517,8 @@ def main():
         overall_ok &= test_hero(page, base_url, manifest)
         print("\n--- Archive ---")
         overall_ok &= test_archive(page, base_url, manifest)
+        print("\n--- Calendar ---")
+        overall_ok &= test_calendar(page, base_url)
         print("\n--- Report deep links (#reports/<slug>.htm) ---")
         overall_ok &= test_report_deep_links(page, base_url, manifest)
         print("\n--- Section hashes (#calendar, #regimes, ...) ---")
