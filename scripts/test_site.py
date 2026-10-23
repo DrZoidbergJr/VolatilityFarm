@@ -205,12 +205,13 @@ def test_report_deep_links(page, base_url, manifest):
 
 
 def test_section_hashes(page, base_url, manifest):
-    """#calendar, #regimes, #performance, #method, #about all scroll to
-    their target (within tolerance; the very last section can be
-    clamped short by the browser's max-scroll limit, which is expected,
-    not a bug -- verified identical on the live production site)."""
+    """#calendar, #regimes, #drivers, #performance, #method, #about all
+    scroll to their target (within tolerance; the very last section can
+    be clamped short by the browser's max-scroll limit, which is
+    expected, not a bug -- verified identical on the live production
+    site)."""
     passed = True
-    sections = ["calendar", "regimes", "performance", "method", "about"]
+    sections = ["calendar", "regimes", "drivers", "performance", "method", "about"]
 
     for i, section_id in enumerate(sections):
         page.goto(f"{base_url}/index.html#{section_id}", wait_until="load", timeout=20000)

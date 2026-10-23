@@ -206,7 +206,7 @@ def check_structure(index_html):
         ok(f"<div> tags balanced ({opens})")
 
     for required_id in ["reading-view", "browsing-view", "calendar", "regimes",
-                         "performance", "reports", "method", "about"]:
+                         "drivers", "performance", "reports", "method", "about"]:
         count = index_html.count(f'id="{required_id}"')
         if count != 1:
             passed = fail(f'id="{required_id}" appears {count} times, expected exactly 1')
