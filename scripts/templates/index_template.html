@@ -824,9 +824,26 @@ All reports
         tension: 0.15
       };
     });
+    var negativeShadePlugin = {
+      id: 'negativeShade',
+      beforeDraw: function (chart) {
+        var yScale = chart.scales.y;
+        var xScale = chart.scales.x;
+        if (!yScale || !xScale) return;
+        var ctx = chart.ctx;
+        var zeroY = yScale.getPixelForValue(0);
+        var bottomY = yScale.getPixelForValue(yScale.min);
+        if (bottomY <= zeroY || yScale.min >= 0) return;
+        ctx.save();
+        ctx.fillStyle = '#DCCEF4';
+        ctx.fillRect(xScale.left, zeroY, xScale.right - xScale.left, bottomY - zeroY);
+        ctx.restore();
+      }
+    };
     new Chart(canvas, {
       type: 'line',
       data: { labels: labels, datasets: datasets },
+      plugins: [negativeShadePlugin],
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -841,7 +858,15 @@ All reports
         },
         scales: {
           x: { ticks: { color: MUTED, font: { family: MONO, size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } },
-          y: { ticks: { color: MUTED, font: { family: MONO, size: 10 } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } }
+          y: {
+            ticks: { color: MUTED, font: { family: MONO, size: 10 } },
+            grid: {
+              color: function (ctx) { return ctx.tick.value === 0 ? '#8B5CF6' : HAIR; },
+              lineWidth: function (ctx) { return ctx.tick.value === 0 ? 1.5 : 1; },
+              drawTicks: false
+            },
+            border: { color: HAIR }
+          }
         }
       }
     });
