@@ -57,8 +57,8 @@ def test_hero(page, base_url, manifest):
     hero_slugs = manifest["hero"]
     by_slug = {r["slug"]: r for r in manifest["reports"]}
 
-    page.goto(f"{base_url}/index.html", wait_until="networkidle")
-    page.wait_for_timeout(1000)
+    page.goto(f"{base_url}/index.html", wait_until="load", timeout=20000)
+    page.wait_for_timeout(1500)
 
     for slug in hero_slugs:
         r = by_slug[slug]
@@ -103,8 +103,8 @@ def test_archive(page, base_url, manifest):
     reports = manifest["reports"]
     VISIBLE_COUNT = 4
 
-    page.goto(f"{base_url}/index.html", wait_until="networkidle")
-    page.wait_for_timeout(1000)
+    page.goto(f"{base_url}/index.html", wait_until="load", timeout=20000)
+    page.wait_for_timeout(1500)
 
     archive_hrefs = page.eval_on_selector_all(
         "a.archive-row", "els => els.map(e => e.getAttribute('href'))"
@@ -314,6 +314,159 @@ def test_calendar(page, base_url):
     return passed
 
 
+# Fixed series schemas the templates themselves define -- these are
+# the site's own column configuration (which proxy ETF or which SVD
+# component each chart line represents), not row data that rotates,
+# so referencing them by name is not the same as hardcoding a ticker
+# that happens to be in a CSV this week.
+REGIME_TICKERS = ["VOO", "VIXY", "AAAU", "BSV", "BIV", "BLV"]
+DRIVER_KEYS = ["MarketSVD1", "MarketSVD2", "MarketSVD3", "MarketSVD4", "MarketSVD5"]
+
+
+def _fetch_csv_rows(base_url, path):
+    """GET <base_url>/<path> and parse it the same naive way parseCSV()
+    in index_template.html does (plain comma split, no quoting)."""
+    import urllib.request
+    url = f"{base_url}/{path}"
+    with urllib.request.urlopen(url, timeout=10) as resp:
+        text = resp.read().decode("utf-8")
+    lines = [l for l in text.replace("\r\n", "\n").split("\n") if l]
+    if len(lines) < 2:
+        return [], []
+    header = [h.strip() for h in lines[0].split(",")]
+    rows = []
+    for line in lines[1:]:
+        cells = [c.strip() for c in line.split(",")]
+        rows.append({header[i]: (cells[i] if i < len(cells) else "") for i in range(len(header))})
+    return header, rows
+
+
+def test_csv_data_coverage(page, base_url):
+    """Pre-deploy check that every CSV the homepage reads is fully
+    reflected on the page -- every row that has usable data ends up as
+    a rendered chart point or table row, with no silent drop. Checked
+    by row-count parity between what the CSV contains (after the same
+    NaN-filtering the page's own JS does) and what actually rendered,
+    never by asserting a specific ticker/row is present -- so this
+    keeps working as the underlying CSVs' contents rotate."""
+    passed = True
+    page.goto(f"{base_url}/index.html", wait_until="load", timeout=20000)
+    page.wait_for_timeout(2500)
+
+    # --- Market Regimes: 6 fixed-proxy scatter charts from res_market_regimes.csv ---
+    try:
+        header, rows = _fetch_csv_rows(base_url, "reports/res_market_regimes.csv")
+        missing = [t for t in REGIME_TICKERS if f"{t}_H" not in header or f"{t}_std" not in header]
+        if missing:
+            passed = fail(f"res_market_regimes.csv missing expected column(s) for: {missing}")
+        else:
+            for t in REGIME_TICKERS:
+                expected_n = sum(
+                    1 for r in rows
+                    if _is_float(r.get(f"{t}_H")) and _is_float(r.get(f"{t}_std"))
+                )
+                canvas_id = f"regime-chart-{t.lower()}"
+                actual_n = page.evaluate(
+                    f"(() => {{ var c = Chart.getChart(document.getElementById('{canvas_id}')); "
+                    "return c ? c.data.datasets[0].data.length : -1; })()"
+                )
+                if actual_n == -1:
+                    passed = fail(f"regimes chart for {t} ({canvas_id}) did not render")
+                elif actual_n != expected_n:
+                    passed = fail(f"regimes chart for {t}: CSV has {expected_n} valid point(s), chart rendered {actual_n}")
+            if not missing:
+                ok(f"Market Regimes: all {len(REGIME_TICKERS)} proxy charts match their CSV row counts")
+    except Exception as err:
+        passed = fail(f"could not verify res_market_regimes.csv coverage: {err}")
+
+    # --- US market breath: single full-width chart from res_breath.csv ---
+    try:
+        header, rows = _fetch_csv_rows(base_url, "reports/res_breath.csv")
+        if "Breath" not in header:
+            passed = fail("res_breath.csv missing expected 'Breath' column")
+        else:
+            expected_n = sum(1 for r in rows if _is_float(r.get("Breath")))
+            actual_n = page.evaluate(
+                "(() => { var c = Chart.getChart(document.getElementById('regime-chart-breath')); "
+                "return c ? c.data.datasets[0].data.length : -1; })()"
+            )
+            if actual_n == -1:
+                passed = fail("breath chart (regime-chart-breath) did not render")
+            elif actual_n != expected_n:
+                passed = fail(f"breath chart: CSV has {expected_n} valid point(s), chart rendered {actual_n}")
+            else:
+                ok(f"US market breath chart matches its CSV row count ({actual_n})")
+    except Exception as err:
+        passed = fail(f"could not verify res_breath.csv coverage: {err}")
+
+    # --- Drivers: 5 series on one chart from res_market_drivers.csv ---
+    try:
+        header, rows = _fetch_csv_rows(base_url, "reports/res_market_drivers.csv")
+        missing = [k for k in DRIVER_KEYS if k not in header]
+        if missing:
+            passed = fail(f"res_market_drivers.csv missing expected column(s): {missing}")
+        else:
+            expected_n = len(rows)
+            info = page.evaluate(
+                "(() => { var c = Chart.getChart(document.getElementById('drivers-chart')); "
+                "return c ? c.data.datasets.map(d => d.data.length) : null; })()"
+            )
+            if info is None:
+                passed = fail("drivers chart (drivers-chart) did not render")
+            elif len(info) != len(DRIVER_KEYS):
+                passed = fail(f"drivers chart has {len(info)} series rendered, expected {len(DRIVER_KEYS)}")
+            elif any(n != expected_n for n in info):
+                passed = fail(f"drivers chart: CSV has {expected_n} row(s), rendered series lengths {info}")
+            else:
+                ok(f"Drivers chart: all {len(DRIVER_KEYS)} series match the CSV row count ({expected_n})")
+    except Exception as err:
+        passed = fail(f"could not verify res_market_drivers.csv coverage: {err}")
+
+    # --- Performance: line chart from res_rel_portfolio.csv, metrics table from res_res_portfolio_performance.csv ---
+    try:
+        header, rows = _fetch_csv_rows(base_url, "reports/res_rel_portfolio.csv")
+        missing = [k for k in ("Portfolio", "SPX", "VTI") if k not in header]
+        if missing:
+            passed = fail(f"res_rel_portfolio.csv missing expected column(s): {missing}")
+        else:
+            expected_n = len(rows)
+            actual_n = page.evaluate(
+                "(() => { var c = Chart.getChart(document.getElementById('performance-chart')); "
+                "return c ? c.data.labels.length : -1; })()"
+            )
+            if actual_n == -1:
+                passed = fail("performance chart (performance-chart) did not render")
+            elif actual_n != expected_n:
+                passed = fail(f"performance chart: CSV has {expected_n} row(s), chart rendered {actual_n}")
+            else:
+                ok(f"Performance chart matches its CSV row count ({actual_n})")
+    except Exception as err:
+        passed = fail(f"could not verify res_rel_portfolio.csv coverage: {err}")
+
+    try:
+        header, rows = _fetch_csv_rows(base_url, "reports/res_res_portfolio_performance.csv")
+        expected_n = len(rows)
+        actual_n = len(page.query_selector_all("#performance-tbody tr"))
+        if actual_n != expected_n:
+            passed = fail(f"performance metrics table: CSV has {expected_n} row(s), table rendered {actual_n}")
+        else:
+            ok(f"Performance metrics table matches its CSV row count ({actual_n})")
+    except Exception as err:
+        passed = fail(f"could not verify res_res_portfolio_performance.csv coverage: {err}")
+
+    return passed
+
+
+def _is_float(value):
+    if value in (None, ""):
+        return False
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
+
 def test_report_deep_links(page, base_url, manifest):
     """#reports/<slug>.htm opens the right report, including ones
     buried in the collapsed archive bucket."""
@@ -333,7 +486,12 @@ def test_report_deep_links(page, base_url, manifest):
         sample.append(("collapsed archive", by_date[-1]))
 
     for label, r in sample:
-        page.goto(f"{base_url}/index.html#{r['href']}", wait_until="networkidle")
+        # "load" rather than "networkidle" -- the homepage keeps fetching
+        # CSVs for its own charts well after load, so "networkidle" can
+        # time out here depending on what ran just before this in the
+        # suite (flaky, not meaningful: the thing being tested is the
+        # hash router opening the right iframe, not network quiescence).
+        page.goto(f"{base_url}/index.html#{r['href']}", wait_until="load", timeout=20000)
         page.wait_for_timeout(3000)
         iframe = page.query_selector("#reading-iframe")
         src = iframe.get_attribute("src") if iframe else None
@@ -471,7 +629,7 @@ def test_report_masthead_iframe(page, base_url, manifest):
     sample = manifest["reports"][0]
     url = f"{base_url}/{sample['href']}"
 
-    page.goto(url, wait_until="networkidle")
+    page.goto(url, wait_until="load", timeout=20000)
     page.wait_for_timeout(500)
     display_toplevel = page.eval_on_selector(
         "#report-masthead", "el => getComputedStyle(el).display"
@@ -519,6 +677,8 @@ def main():
         overall_ok &= test_archive(page, base_url, manifest)
         print("\n--- Calendar ---")
         overall_ok &= test_calendar(page, base_url)
+        print("\n--- CSV data coverage (Regimes, Breath, Drivers, Performance) ---")
+        overall_ok &= test_csv_data_coverage(page, base_url)
         print("\n--- Report deep links (#reports/<slug>.htm) ---")
         overall_ok &= test_report_deep_links(page, base_url, manifest)
         print("\n--- Section hashes (#calendar, #regimes, ...) ---")
