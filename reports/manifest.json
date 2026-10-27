@@ -6,9 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "procter-gamble-company-2026-10-22"
+    "sofi-technologies-inc-2026-10-27"
   ],
   "reports": [
+    {
+      "slug": "sofi-technologies-inc-2026-10-27",
+      "ticker": "SOFI",
+      "company": "SoFi Technologies, Inc.",
+      "date": "2026-10-27",
+      "dek": "Q3 2026 adjusted net revenue rose 44% to a record $1.37B against a ~$1.26B consensus. Adjusted EPS was $0.18 against $0.17, and SoFi raised 2026 guidance and introduced a 2027 outlook of $6.4B revenue and $0.90 EPS. The stock came into the print at $14.46, down 45% year to date and 55% below its November 2025 high, and traded ~15% higher at ~$16.63 midday. But the Q4 guide is flat on Q3 revenue, and the 2027 plan assumes two rate hikes. Over the next 10–30 days the company has made its case; the FOMC on 28 Oct and the fintech peer prints decide whether a short-covering pop becomes a re-rating.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/sofi-technologies-inc-2026-10-27.htm",
+      "more_reports": [
+        "procter-gamble-company-2026-10-22",
+        "hasbro-inc-2026-10-20",
+        "general-motors-company-2026-10-20"
+      ],
+      "headline": "SoFi beat and raised from a 52-week low, but a 2.6-beta stock still needs the Fed and the fintech tape to keep the rally going"
+    },
     {
       "slug": "procter-gamble-company-2026-10-22",
       "ticker": "PG",
@@ -19,9 +35,9 @@
       "sections": 16,
       "href": "reports/procter-gamble-company-2026-10-22.htm",
       "more_reports": [
+        "sofi-technologies-inc-2026-10-27",
         "hasbro-inc-2026-10-20",
-        "general-motors-company-2026-10-20",
-        "travelers-companies-inc-2026-10-16"
+        "general-motors-company-2026-10-20"
       ],
       "headline": "P&G's volumes are growing again and it held guidance through a bigger commodity hit, but the stock already rallied 10% into a quarter that barely grew earnings"
     },
@@ -35,9 +51,9 @@
       "sections": 16,
       "href": "reports/hasbro-inc-2026-10-20.htm",
       "more_reports": [
+        "sofi-technologies-inc-2026-10-27",
         "procter-gamble-company-2026-10-22",
-        "general-motors-company-2026-10-20",
-        "travelers-companies-inc-2026-10-16"
+        "general-motors-company-2026-10-20"
       ],
       "headline": "Magic made Hasbro's quarter and lifted the year, but the raised guide still implies a smaller Q4 and the stock ran 12% into the print"
     },
@@ -51,9 +67,9 @@
       "sections": 16,
       "href": "reports/general-motors-company-2026-10-20.htm",
       "more_reports": [
+        "sofi-technologies-inc-2026-10-27",
         "procter-gamble-company-2026-10-22",
-        "hasbro-inc-2026-10-20",
-        "travelers-companies-inc-2026-10-16"
+        "hasbro-inc-2026-10-20"
       ],
       "headline": "GM's trucks carried the quarter and a $20B buyback dwarfs the risk, but a capped profit guide sent the stock 8% lower"
     },
