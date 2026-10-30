@@ -6,10 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "boston-scientific-corporation-2026-10-28",
-    "boeing-company-2026-10-28"
+    "reddit-inc-2026-10-30"
   ],
   "reports": [
+    {
+      "slug": "reddit-inc-2026-10-30",
+      "ticker": "RDDT",
+      "company": "Reddit, Inc.",
+      "date": "2026-10-30",
+      "dek": "Q3 2026 revenue rose 53% to $895M, ahead of the ~$875–886M consensus. Diluted EPS of $1.40 beat $1.33 and the adjusted EBITDA margin reached 45%. But search referral traffic fell \"meaningfully\", accelerating into October, US daily uniques fell 2% year on year, and Reddit said Q4 daily users could drop by a low-double-digit percentage. The Q4 revenue guide ($1.00–1.03B) sits below the ~$1.04–1.05B consensus. The stock fell from $129.60 to ~$106 after hours. Over the next 10–30 days traffic data and target cuts will decide whether the market looks through a user problem to a pricing story that is still working.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/reddit-inc-2026-10-30.htm",
+      "more_reports": [
+        "boston-scientific-corporation-2026-10-28",
+        "boeing-company-2026-10-28",
+        "sofi-technologies-inc-2026-10-27"
+      ],
+      "headline": "Reddit is monetising better than ever, but it just warned that Google search is taking its users away, and an 18% after-hours fall puts traffic back at the centre of the stock"
+    },
     {
       "slug": "boston-scientific-corporation-2026-10-28",
       "ticker": "BSX",
@@ -20,9 +35,9 @@
       "sections": 16,
       "href": "reports/boston-scientific-corporation-2026-10-28.htm",
       "more_reports": [
+        "reddit-inc-2026-10-30",
         "boeing-company-2026-10-28",
-        "sofi-technologies-inc-2026-10-27",
-        "procter-gamble-company-2026-10-22"
+        "sofi-technologies-inc-2026-10-27"
       ],
       "headline": "Boston Scientific called 2027 the trough and guided Q4 sales lower, but at 14× earnings with the CEO buying, the stock is priced for most of that bad news"
     },
@@ -36,9 +51,9 @@
       "sections": 16,
       "href": "reports/boeing-company-2026-10-28.htm",
       "more_reports": [
+        "reddit-inc-2026-10-30",
         "boston-scientific-corporation-2026-10-28",
-        "sofi-technologies-inc-2026-10-27",
-        "procter-gamble-company-2026-10-22"
+        "sofi-technologies-inc-2026-10-27"
       ],
       "headline": "Boeing pushed its 737 ramp and its cash recovery out by a year, and a record backlog is not enough to stop the re-rating in the weeks after the reset"
     },
@@ -52,9 +67,9 @@
       "sections": 16,
       "href": "reports/sofi-technologies-inc-2026-10-27.htm",
       "more_reports": [
+        "reddit-inc-2026-10-30",
         "boston-scientific-corporation-2026-10-28",
-        "boeing-company-2026-10-28",
-        "procter-gamble-company-2026-10-22"
+        "boeing-company-2026-10-28"
       ],
       "headline": "SoFi beat and raised from a 52-week low, but a 2.6-beta stock still needs the Fed and the fintech tape to keep the rally going"
     },
