@@ -19,6 +19,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://volatilityfarm.com/reports/ambev-sa-2026-10-30.htm</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://volatilityfarm.com/reports/boston-scientific-corporation-2026-10-28.htm</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>

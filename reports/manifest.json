@@ -21,8 +21,8 @@
       "href": "reports/starbucks-corporation-2026-10-30.htm",
       "more_reports": [
         "reddit-inc-2026-10-30",
-        "boston-scientific-corporation-2026-10-28",
-        "boeing-company-2026-10-28"
+        "ambev-sa-2026-10-30",
+        "boston-scientific-corporation-2026-10-28"
       ],
       "headline": "Starbucks' turnaround now shows in its comps, but at 33 times next year's guided earnings the stock has priced much of it, and the holiday season has to prove the rest"
     },
@@ -37,10 +37,26 @@
       "href": "reports/reddit-inc-2026-10-30.htm",
       "more_reports": [
         "starbucks-corporation-2026-10-30",
-        "boston-scientific-corporation-2026-10-28",
-        "boeing-company-2026-10-28"
+        "ambev-sa-2026-10-30",
+        "boston-scientific-corporation-2026-10-28"
       ],
       "headline": "Reddit is monetising better than ever, but it just warned that Google search is taking its users away, and an 18% after-hours fall puts traffic back at the centre of the stock"
+    },
+    {
+      "slug": "ambev-sa-2026-10-30",
+      "ticker": "ABEV",
+      "company": "Ambev S.A.",
+      "date": "2026-10-30",
+      "dek": "Third-quarter 2026 organic revenue rose 7.6% and normalized EBITDA 8.9%, to R$7.27B, about 1.5% below consensus. Normalized profit of R$4.39B (+14.3%) beat on lower financial costs and tax, but Brazil beer volume rose only 0.5% while the industry grew about 4%. Ambev holds R$19.2B of net cash and approved a new buyback of up to 190M shares. The ADR had already fallen 14.2% on 26 Oct after Lula won Brazil's runoff, and closed at $2.67, down 19.1% in four sessions. Over the next 10–30 days the new economic team, the real and the beer excise bill matter more than the quarter.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/ambev-sa-2026-10-30.htm",
+      "more_reports": [
+        "starbucks-corporation-2026-10-30",
+        "reddit-inc-2026-10-30",
+        "boston-scientific-corporation-2026-10-28"
+      ],
+      "headline": "Ambev's quarter was steady but it is not what moves the stock: a 19% post-election fall has made it cheap, and Brazil's fiscal and beer-tax decisions will decide November"
     },
     {
       "slug": "boston-scientific-corporation-2026-10-28",
