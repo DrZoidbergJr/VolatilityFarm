@@ -6,9 +6,26 @@
     "og_image": "/og-image.png"
   },
   "hero": [
+    "starbucks-corporation-2026-10-30",
     "reddit-inc-2026-10-30"
   ],
   "reports": [
+    {
+      "slug": "starbucks-corporation-2026-10-30",
+      "ticker": "SBUX",
+      "company": "Starbucks Corporation",
+      "date": "2026-10-30",
+      "dek": "Fiscal Q4 2026 global comparable sales rose 7.2% against ~6% expected. US comps rose 7.7%, with transactions up 2.4% after a 0.9% fall a year earlier, and non-GAAP EPS of $0.80 beat $0.71. Revenue of $9.14B (−4%, after China moved to a joint venture) missed ~$9.2B, and International comps rose only 0.9%. FY2027 guidance of $3.15–3.25 non-GAAP EPS sits just above the ~$3.14 consensus, with ~$1B of buybacks. The stock had already risen 12% in 30 days to $105.51, 2.8% below its high, and slipped ~2% after hours. Over the next 10–30 days the holiday launch, Red Cup Day (17 Nov) and post-print estimate changes decide whether it breaks out or gives back the run-up.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/starbucks-corporation-2026-10-30.htm",
+      "more_reports": [
+        "reddit-inc-2026-10-30",
+        "boston-scientific-corporation-2026-10-28",
+        "boeing-company-2026-10-28"
+      ],
+      "headline": "Starbucks' turnaround now shows in its comps, but at 33 times next year's guided earnings the stock has priced much of it, and the holiday season has to prove the rest"
+    },
     {
       "slug": "reddit-inc-2026-10-30",
       "ticker": "RDDT",
@@ -19,9 +36,9 @@
       "sections": 16,
       "href": "reports/reddit-inc-2026-10-30.htm",
       "more_reports": [
+        "starbucks-corporation-2026-10-30",
         "boston-scientific-corporation-2026-10-28",
-        "boeing-company-2026-10-28",
-        "sofi-technologies-inc-2026-10-27"
+        "boeing-company-2026-10-28"
       ],
       "headline": "Reddit is monetising better than ever, but it just warned that Google search is taking its users away, and an 18% after-hours fall puts traffic back at the centre of the stock"
     },
