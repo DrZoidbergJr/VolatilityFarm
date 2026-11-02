@@ -6,10 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "starbucks-corporation-2026-10-30",
-    "reddit-inc-2026-10-30"
+    "marriott-international-inc-2026-11-02"
   ],
   "reports": [
+    {
+      "slug": "marriott-international-inc-2026-11-02",
+      "ticker": "MAR",
+      "company": "Marriott International, Inc.",
+      "date": "2026-11-02",
+      "dek": "Third-quarter 2026 worldwide RevPAR rose 6.5% against a 3.5–4.0% guide, with US & Canada up 7.4%. Adjusted EPS of $3.02 beat $2.85, gross fees rose 14% and adjusted EBITDA 12%. Full-year RevPAR guidance went to 4.5–5.0% from 3.0–3.5%, adjusted EPS to $12.07–12.14 from $11.64–11.81, and capital return to at least $4.8B. The stock had already risen 12.5% in 30 days to $399.30, and indicated ~$416 before the open (+4%), above its $404 high. Over the next 10–30 days estimate upgrades and a trending regime support it, while a valuation above most targets limits it.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/marriott-international-inc-2026-11-02.htm",
+      "more_reports": [
+        "starbucks-corporation-2026-10-30",
+        "reddit-inc-2026-10-30",
+        "ambev-sa-2026-10-30"
+      ],
+      "headline": "Marriott beat its own RevPAR guide by nearly three points and raised the year, but at 33 times this year's earnings the stock's trend now has to outrun its valuation"
+    },
     {
       "slug": "starbucks-corporation-2026-10-30",
       "ticker": "SBUX",
@@ -20,9 +35,9 @@
       "sections": 16,
       "href": "reports/starbucks-corporation-2026-10-30.htm",
       "more_reports": [
+        "marriott-international-inc-2026-11-02",
         "reddit-inc-2026-10-30",
-        "ambev-sa-2026-10-30",
-        "boston-scientific-corporation-2026-10-28"
+        "ambev-sa-2026-10-30"
       ],
       "headline": "Starbucks' turnaround now shows in its comps, but at 33 times next year's guided earnings the stock has priced much of it, and the holiday season has to prove the rest"
     },
@@ -36,9 +51,9 @@
       "sections": 16,
       "href": "reports/reddit-inc-2026-10-30.htm",
       "more_reports": [
+        "marriott-international-inc-2026-11-02",
         "starbucks-corporation-2026-10-30",
-        "ambev-sa-2026-10-30",
-        "boston-scientific-corporation-2026-10-28"
+        "ambev-sa-2026-10-30"
       ],
       "headline": "Reddit is monetising better than ever, but it just warned that Google search is taking its users away, and an 18% after-hours fall puts traffic back at the centre of the stock"
     },
@@ -52,9 +67,9 @@
       "sections": 16,
       "href": "reports/ambev-sa-2026-10-30.htm",
       "more_reports": [
+        "marriott-international-inc-2026-11-02",
         "starbucks-corporation-2026-10-30",
-        "reddit-inc-2026-10-30",
-        "boston-scientific-corporation-2026-10-28"
+        "reddit-inc-2026-10-30"
       ],
       "headline": "Ambev's quarter was steady but it is not what moves the stock: a 19% post-election fall has made it cheap, and Brazil's fiscal and beer-tax decisions will decide November"
     },
