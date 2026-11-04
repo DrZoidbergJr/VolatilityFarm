@@ -6,10 +6,42 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "jazz-pharmaceuticals-plc-2026-11-03",
-    "ryman-hospitality-properties-inc-2026-11-03"
+    "fortis-inc-2026-11-04",
+    "keurig-dr-pepper-inc-2026-11-03"
   ],
   "reports": [
+    {
+      "slug": "fortis-inc-2026-11-04",
+      "ticker": "FTS",
+      "company": "Fortis Inc.",
+      "date": "2026-11-04",
+      "dek": "A C$32.2bn five-year plan, 7.5% rate-base growth and a 4% dividend raise confirm the thesis, but the stock reached a 52-week high before the release and sits above every converted analyst consensus measure. Over the next 10–30 days the open question is the Arizona Corporation Commission vote on Tucson Electric Power rates, with the share price already at the top of its one-year volatility range.",
+      "tag": "Companies",
+      "sections": 15,
+      "href": "reports/fortis-inc-2026-11-04.htm",
+      "more_reports": [
+        "keurig-dr-pepper-inc-2026-11-03",
+        "jazz-pharmaceuticals-plc-2026-11-03",
+        "ryman-hospitality-properties-inc-2026-11-03"
+      ],
+      "headline": "Fortis delivered the plan the market already priced; Arizona decides the month"
+    },
+    {
+      "slug": "keurig-dr-pepper-inc-2026-11-03",
+      "ticker": "KDP",
+      "company": "Keurig Dr Pepper Inc.",
+      "date": "2026-11-03",
+      "dek": "Q3 cleared consensus on sales and earnings, yet the stock gave back about 5% on the day because the beat leaned on a $99 million tariff refund and the legacy EPS outlook was trimmed on softer single-serve coffee. With 99% of daily variance company-specific and its Volatility state at a one-year high, the stock trades on its own story over the next 10–30 days — and that story has just turned from refreshment momentum to coffee-demand doubt.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/keurig-dr-pepper-inc-2026-11-03.htm",
+      "more_reports": [
+        "fortis-inc-2026-11-04",
+        "jazz-pharmaceuticals-plc-2026-11-03",
+        "ryman-hospitality-properties-inc-2026-11-03"
+      ],
+      "headline": "Keurig Dr Pepper beat the quarter, but its coffee half now sets the price"
+    },
     {
       "slug": "jazz-pharmaceuticals-plc-2026-11-03",
       "ticker": "JAZZ",
@@ -20,9 +52,9 @@
       "sections": 16,
       "href": "reports/jazz-pharmaceuticals-plc-2026-11-03.htm",
       "more_reports": [
-        "ryman-hospitality-properties-inc-2026-11-03",
-        "marriott-international-inc-2026-11-02",
-        "starbucks-corporation-2026-10-30"
+        "fortis-inc-2026-11-04",
+        "keurig-dr-pepper-inc-2026-11-03",
+        "ryman-hospitality-properties-inc-2026-11-03"
       ],
       "headline": "Jazz raised its revenue guide for a second time and trades at about eight times underlying earnings, but the first orexin pill reaching narcolepsy patients keeps the stock's discount in place"
     },
@@ -36,9 +68,9 @@
       "sections": 16,
       "href": "reports/ryman-hospitality-properties-inc-2026-11-03.htm",
       "more_reports": [
-        "jazz-pharmaceuticals-plc-2026-11-03",
-        "marriott-international-inc-2026-11-02",
-        "starbucks-corporation-2026-10-30"
+        "fortis-inc-2026-11-04",
+        "keurig-dr-pepper-inc-2026-11-03",
+        "jazz-pharmaceuticals-plc-2026-11-03"
       ],
       "headline": "Ryman beat and raised on strong group demand, but the stock already sits at its analysts' average target and a few dollars below its 52-week high"
     },
