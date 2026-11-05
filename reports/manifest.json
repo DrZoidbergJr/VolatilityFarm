@@ -43,6 +43,22 @@
       "headline": "Keurig Dr Pepper beat the quarter, but its coffee half now sets the price"
     },
     {
+      "slug": "booking-holdings-inc-2026-11-04",
+      "ticker": "BKNG",
+      "company": "Booking Holdings Inc.",
+      "date": "2026-11-04",
+      "dek": "Third-quarter 2026 room nights rose 7% and gross bookings 10%; adjusted revenue grew 9% to $9.79B and adjusted EPS 17% to $4.66, both ahead of consensus. Reported revenue fell 1% because of a $900M FTC-related reduction, part of a $1.0B charge excluded from adjusted figures. The fourth-quarter guide was weak: room nights +1–3% and adjusted EBITDA about flat, as the Middle East conflict, high airfares and European unrest hit October. The stock closed at $155.67, 29.5% below its December high, and was trading near $169 (+8.6%) early on 4 Nov as travel stocks rallied. Over the next 10–30 days a low multiple and heavy buybacks support it; a soft Q4, target cuts and AI-disintermediation fears weigh on it.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/booking-holdings-inc-2026-11-04.htm",
+      "more_reports": [
+        "jazz-pharmaceuticals-plc-2026-11-03",
+        "ryman-hospitality-properties-inc-2026-11-03",
+        "marriott-international-inc-2026-11-02"
+      ],
+      "headline": "Booking beat on bookings and margins but guided the fourth quarter to almost no growth, and the stock trades at about fifteen times earnings after a 30% fall from its high"
+    },
+    {
       "slug": "jazz-pharmaceuticals-plc-2026-11-03",
       "ticker": "JAZZ",
       "company": "Jazz Pharmaceuticals plc",
@@ -52,9 +68,9 @@
       "sections": 16,
       "href": "reports/jazz-pharmaceuticals-plc-2026-11-03.htm",
       "more_reports": [
+        "booking-holdings-inc-2026-11-04",
         "fortis-inc-2026-11-04",
-        "keurig-dr-pepper-inc-2026-11-03",
-        "ryman-hospitality-properties-inc-2026-11-03"
+        "keurig-dr-pepper-inc-2026-11-03"
       ],
       "headline": "Jazz raised its revenue guide for a second time and trades at about eight times underlying earnings, but the first orexin pill reaching narcolepsy patients keeps the stock's discount in place"
     },
@@ -68,8 +84,8 @@
       "sections": 16,
       "href": "reports/ryman-hospitality-properties-inc-2026-11-03.htm",
       "more_reports": [
+        "booking-holdings-inc-2026-11-04",
         "fortis-inc-2026-11-04",
-        "keurig-dr-pepper-inc-2026-11-03",
         "jazz-pharmaceuticals-plc-2026-11-03"
       ],
       "headline": "Ryman beat and raised on strong group demand, but the stock already sits at its analysts' average target and a few dollars below its 52-week high"
@@ -84,9 +100,9 @@
       "sections": 16,
       "href": "reports/marriott-international-inc-2026-11-02.htm",
       "more_reports": [
+        "booking-holdings-inc-2026-11-04",
         "jazz-pharmaceuticals-plc-2026-11-03",
-        "ryman-hospitality-properties-inc-2026-11-03",
-        "starbucks-corporation-2026-10-30"
+        "ryman-hospitality-properties-inc-2026-11-03"
       ],
       "headline": "Marriott beat its own RevPAR guide by nearly three points and raised the year, but at 33 times this year's earnings the stock's trend now has to outrun its valuation"
     },
