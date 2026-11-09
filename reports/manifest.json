@@ -6,10 +6,42 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "fortis-inc-2026-11-04",
-    "keurig-dr-pepper-inc-2026-11-03"
+    "nrg-energy-inc-2026-11-09",
+    "tg-therapeutics-inc-2026-11-09"
   ],
   "reports": [
+    {
+      "slug": "nrg-energy-inc-2026-11-09",
+      "ticker": "NRG",
+      "company": "NRG Energy, Inc.",
+      "date": "2026-11-09",
+      "dek": "Third-quarter 2026 adjusted EPS was $4.68 against ~$3.16 expected, and adjusted EBITDA rose 67% to $2.01B on the LS Power plants bought in January and a hot Texas summer. NRG reaffirmed 2026 guidance, set 2027 at $9.05 a share at the midpoint, and agreed to sell six gas plants (4.9 GW) to LS Power for $4B, funding $3B of buybacks across 2026–27 and $2–3B of debt reduction. The stock closed at $88.29 on 6 Nov, 53.5% below its February high, after falling 13.5% on 4 Nov when a Democratic sweep, including the Texas governorship, hit power stocks. It was indicated ~4% higher before the open on 9 Nov. Over the next 10–30 days a single-digit multiple and an accelerated buyback support it; Texas policy risk, ~$22.8B of net debt and a weak regime weigh on it.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/nrg-energy-inc-2026-11-09.htm",
+      "more_reports": [
+        "tg-therapeutics-inc-2026-11-09",
+        "booking-holdings-inc-2026-11-04",
+        "jazz-pharmaceuticals-plc-2026-11-03"
+      ],
+      "headline": "NRG beat by half and is selling $4 billion of plants to buy back stock, but the shares have halved this year and a new Democratic governor in Texas puts its data-center story in question"
+    },
+    {
+      "slug": "tg-therapeutics-inc-2026-11-09",
+      "ticker": "TGTX",
+      "company": "TG Therapeutics, Inc.",
+      "date": "2026-11-09",
+      "dek": "Q3 total revenue of $259.9M beat consensus by 5.9%, but $15.8M of it was a one-off partner milestone and U.S. BRIUMVI grew only 2.2% sequentially, while new guidance of ~$1.0B implies a 12–14% Q4 jump. With the stock 3% off its high, short interest near 28% of float and its Volatility state at the 86th percentile of the past year, over the next 10–30 days the evidence favours a range-bound, two-way tape — company news, not the market, decides the month.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/tg-therapeutics-inc-2026-11-09.htm",
+      "more_reports": [
+        "nrg-energy-inc-2026-11-09",
+        "booking-holdings-inc-2026-11-04",
+        "jazz-pharmaceuticals-plc-2026-11-03"
+      ],
+      "headline": "TG Therapeutics raised the year on a milestone, not on momentum — the next month is a test of whether the market pays for an implied Q4 step-up"
+    },
     {
       "slug": "fortis-inc-2026-11-04",
       "ticker": "FTS",
@@ -52,9 +84,9 @@
       "sections": 16,
       "href": "reports/booking-holdings-inc-2026-11-04.htm",
       "more_reports": [
-        "jazz-pharmaceuticals-plc-2026-11-03",
-        "ryman-hospitality-properties-inc-2026-11-03",
-        "marriott-international-inc-2026-11-02"
+        "nrg-energy-inc-2026-11-09",
+        "tg-therapeutics-inc-2026-11-09",
+        "jazz-pharmaceuticals-plc-2026-11-03"
       ],
       "headline": "Booking beat on bookings and margins but guided the fourth quarter to almost no growth, and the stock trades at about fifteen times earnings after a 30% fall from its high"
     },
@@ -68,9 +100,9 @@
       "sections": 16,
       "href": "reports/jazz-pharmaceuticals-plc-2026-11-03.htm",
       "more_reports": [
-        "booking-holdings-inc-2026-11-04",
-        "fortis-inc-2026-11-04",
-        "keurig-dr-pepper-inc-2026-11-03"
+        "nrg-energy-inc-2026-11-09",
+        "tg-therapeutics-inc-2026-11-09",
+        "booking-holdings-inc-2026-11-04"
       ],
       "headline": "Jazz raised its revenue guide for a second time and trades at about eight times underlying earnings, but the first orexin pill reaching narcolepsy patients keeps the stock's discount in place"
     },
