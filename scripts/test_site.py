@@ -212,6 +212,38 @@ def format_cell(value, kind):
     return value
 
 
+DRAG_COLUMNS = [
+    ("Date", "date"),
+    ("Ticker", "text"),
+] + [
+    (f"{entry}h->{exit_}d {side}", "pct")
+    for entry in ("1", "3", "6")
+    for exit_ in ("1", "14", "28")
+    for side in ("F", "L")
+]
+
+
+def format_drag_cell(value, kind):
+    """Python mirror of formatCell() in the Drag section's own script
+    block -- unlike Calendar's formatCell, values are not multiplied by
+    100 (drag_estimates.csv values are already in the units to display)
+    and 0 is rendered as "0.00%", not "-"."""
+    if value is None or value == "":
+        return "—"
+    if kind == "pct":
+        try:
+            n = float(value)
+        except ValueError:
+            return value
+        return f"{n:.2f}%"
+    if kind == "date":
+        parts = value.split("-")
+        if len(parts) == 3:
+            return parts[0][2:] + "/" + parts[1] + "/" + parts[2]
+        return value
+    return value
+
+
 def test_calendar(page, base_url):
     """The Calendar table's column-to-CSV-key mapping is correct for
     every group (Street view, Volatility Farm view, Leads, Upwards,
@@ -309,6 +341,101 @@ def test_calendar(page, base_url):
         passed = fail("every column is empty/zero in every row -- could not verify any column mapping")
     else:
         ok(f"column mapping correct: verified {checked}/{len(CALENDAR_COLUMNS)} columns "
+           f"(each against a row currently holding a non-empty value for it)")
+
+    return passed
+
+
+def test_drag(page, base_url):
+    """The Drag table's column-to-CSV-key mapping is correct for every
+    entry/exit group (1h/3h/6h entry x 1d/14d/28d exit, F/L each) --
+    checked structurally against whatever rows
+    reports/drag_estimates.csv currently contains, not against any
+    specific ticker (the CSV's ticker set rotates)."""
+    passed = True
+
+    import urllib.request
+    csv_url = f"{base_url}/reports/drag_estimates.csv"
+    try:
+        with urllib.request.urlopen(csv_url, timeout=10) as resp:
+            csv_text = resp.read().decode("utf-8")
+    except Exception as err:
+        return fail(f"could not fetch {csv_url}: {err}")
+
+    lines = [l for l in csv_text.replace("\r\n", "\n").split("\n") if l]
+    if len(lines) < 2:
+        return fail("drag_estimates.csv has no data rows")
+    header = [h.strip() for h in lines[0].split(",")]
+
+    missing_cols = [key for key, _ in DRAG_COLUMNS if key not in header]
+    if missing_cols:
+        passed = fail(f"drag_estimates.csv is missing column(s) the table expects: {missing_cols}")
+        return passed
+    else:
+        ok(f"drag_estimates.csv header has all {len(DRAG_COLUMNS)} expected columns")
+
+    csv_rows = []
+    for line in lines[1:]:
+        cells = [c.strip() for c in line.split(",")]
+        row = {header[i]: (cells[i] if i < len(cells) else "") for i in range(len(header))}
+        csv_rows.append(row)
+
+    page.goto(f"{base_url}/index.html#drag", wait_until="load", timeout=20000)
+    page.wait_for_timeout(1500)
+    tbody_rows = page.query_selector_all("#drag-tbody tr")
+    if len(tbody_rows) != len(csv_rows):
+        passed = fail(f"table has {len(tbody_rows)} rows, CSV has {len(csv_rows)} data rows")
+        return passed
+
+    row_cell_cache = {}
+
+    def get_cells(idx):
+        if idx not in row_cell_cache:
+            row_cell_cache[idx] = tbody_rows[idx].query_selector_all("td")
+        return row_cell_cache[idx]
+
+    mismatches = []
+    checked = 0
+    for col_i, (key, kind) in enumerate(DRAG_COLUMNS):
+        sample_idx = None
+        for idx, csv_row in enumerate(csv_rows):
+            raw = csv_row.get(key, "")
+            if raw not in ("", None):
+                sample_idx = idx
+                break
+        if sample_idx is None:
+            continue
+        csv_row = csv_rows[sample_idx]
+        cells = get_cells(sample_idx)
+        if len(cells) != len(DRAG_COLUMNS):
+            mismatches.append(f"row {sample_idx} ({csv_row.get('Ticker')}): {len(cells)} <td> cells, expected {len(DRAG_COLUMNS)}")
+            continue
+        expected = format_drag_cell(csv_row.get(key, ""), kind)
+        actual = cells[col_i].inner_text()
+        checked += 1
+        if actual != expected:
+            mismatches.append(
+                f"row {sample_idx} ({csv_row.get('Ticker')}) column {col_i} ({key}): "
+                f"rendered {actual!r}, expected {expected!r} from CSV value {csv_row.get(key)!r}"
+            )
+
+    # Verify today's row, if present, is highlighted the same way Calendar does.
+    import datetime
+    today = datetime.date.today().isoformat()
+    for idx, csv_row in enumerate(csv_rows):
+        if csv_row.get("Date") == today:
+            bg = tbody_rows[idx].evaluate("el => getComputedStyle(el).backgroundColor")
+            if bg not in ("rgb(220, 206, 244)",):
+                mismatches.append(f"row {idx} is today ({today}) but not highlighted (background: {bg})")
+            break
+
+    if mismatches:
+        for m in mismatches[:10]:
+            passed = fail(m)
+    elif checked == 0:
+        passed = fail("every column is empty in every row -- could not verify any column mapping")
+    else:
+        ok(f"column mapping correct: verified {checked}/{len(DRAG_COLUMNS)} columns "
            f"(each against a row currently holding a non-empty value for it)")
 
     return passed
@@ -510,7 +637,7 @@ def test_section_hashes(page, base_url, manifest):
     expected, not a bug -- verified identical on the live production
     site)."""
     passed = True
-    sections = ["calendar", "regimes", "drivers", "performance", "method", "about"]
+    sections = ["calendar", "regimes", "drivers", "drag", "performance", "method", "about"]
 
     for i, section_id in enumerate(sections):
         page.goto(f"{base_url}/index.html#{section_id}", wait_until="load", timeout=20000)
@@ -677,6 +804,8 @@ def main():
         overall_ok &= test_archive(page, base_url, manifest)
         print("\n--- Calendar ---")
         overall_ok &= test_calendar(page, base_url)
+        print("\n--- Drag ---")
+        overall_ok &= test_drag(page, base_url)
         print("\n--- CSV data coverage (Regimes, Breath, Drivers, Performance) ---")
         overall_ok &= test_csv_data_coverage(page, base_url)
         print("\n--- Report deep links (#reports/<slug>.htm) ---")
