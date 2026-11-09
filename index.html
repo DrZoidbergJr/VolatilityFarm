@@ -880,6 +880,7 @@ All reports
       var n = parseFloat(value);
       if (isNaN(n)) return value;
       if (n === 0) return '-';
+      if (Math.abs(n) > 10) return '-';
       return (n * 100).toFixed(2) + '%';
     }
     if (kind === 'date') {

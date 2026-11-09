@@ -203,6 +203,8 @@ def format_cell(value, kind):
             return value
         if n == 0:
             return "-"
+        if abs(n) > 10:
+            return "-"
         return f"{n * 100:.2f}%"
     if kind == "date":
         parts = value.split("-")
