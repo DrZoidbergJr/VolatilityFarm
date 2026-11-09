@@ -1121,7 +1121,12 @@ All reports
     var bodyHtml = '';
     for (var r = 0; r < rows.length; r++) {
       var isToday = rows[r]['Date'] === today;
-      var rowStyle = isToday ? ' style="background:#DCCEF4"' : '';
+      var hasExtremeDrift = false;
+      for (var dc = 2; dc < COLUMNS.length; dc++) {
+        var dn = parseFloat(rows[r][COLUMNS[dc].key]);
+        if (!isNaN(dn) && Math.abs(dn) > 5) { hasExtremeDrift = true; break; }
+      }
+      var rowStyle = isToday ? ' style="background:#DCCEF4"' : (hasExtremeDrift ? ' style="background:#8B5CF6"' : '');
       bodyHtml += '<tr' + rowStyle + '>';
       for (var c = 0; c < COLUMNS.length; c++) {
         var col = COLUMNS[c];
