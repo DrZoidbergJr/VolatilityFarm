@@ -421,15 +421,27 @@ def test_drag(page, base_url):
                 f"rendered {actual!r}, expected {expected!r} from CSV value {csv_row.get(key)!r}"
             )
 
-    # Verify today's row, if present, is highlighted the same way Calendar does.
+    # Extreme-drift highlight (|value| > 5) takes precedence over today's highlight.
     import datetime
     today = datetime.date.today().isoformat()
     for idx, csv_row in enumerate(csv_rows):
-        if csv_row.get("Date") == today:
-            bg = tbody_rows[idx].evaluate("el => getComputedStyle(el).backgroundColor")
-            if bg not in ("rgb(220, 206, 244)",):
-                mismatches.append(f"row {idx} is today ({today}) but not highlighted (background: {bg})")
-            break
+        extreme = False
+        for key, kind in DRAG_COLUMNS[2:]:
+            try:
+                if abs(float(csv_row.get(key, ""))) > 5:
+                    extreme = True
+                    break
+            except ValueError:
+                pass
+        if extreme:
+            expected_bg = "rgb(139, 92, 246)"
+        elif csv_row.get("Date") == today:
+            expected_bg = "rgb(220, 206, 244)"
+        else:
+            continue
+        bg = tbody_rows[idx].evaluate("el => getComputedStyle(el).backgroundColor")
+        if bg != expected_bg:
+            mismatches.append(f"row {idx} ({csv_row.get('Ticker')}) background {bg}, expected {expected_bg}")
 
     if mismatches:
         for m in mismatches[:10]:

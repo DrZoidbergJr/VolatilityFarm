@@ -1144,7 +1144,7 @@ All reports
         var dn = parseFloat(rows[r][COLUMNS[dc].key]);
         if (!isNaN(dn) && Math.abs(dn) > 5) { hasExtremeDrift = true; break; }
       }
-      var rowStyle = isToday ? ' style="background:#DCCEF4"' : (hasExtremeDrift ? ' style="background:#8B5CF6"' : '');
+      var rowStyle = hasExtremeDrift ? ' style="background:#8B5CF6"' : (isToday ? ' style="background:#DCCEF4"' : '');
       bodyHtml += '<tr' + rowStyle + '>';
       for (var c = 0; c < COLUMNS.length; c++) {
         var col = COLUMNS[c];
