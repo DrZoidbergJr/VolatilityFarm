@@ -6,10 +6,42 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "nrg-energy-inc-2026-11-09",
-    "tg-therapeutics-inc-2026-11-09"
+    "praxis-precision-medicines-inc-2026-11-10",
+    "aaon-inc-2026-11-10"
   ],
   "reports": [
+    {
+      "slug": "praxis-precision-medicines-inc-2026-11-10",
+      "ticker": "PRAX",
+      "company": "Praxis Precision Medicines, Inc.",
+      "date": "2026-11-10",
+      "dek": "Praxis has no product revenue yet. Its third-quarter 2026 loss was $3.23 a share, narrower than the ~$3.54–3.63 expected, as general and administrative spending more than tripled to $42.7M to build two sales forces. Two drugs are under FDA review: relutrigine for SCN2A/SCN8A epilepsies (decision due 27 Dec 2026) and ulixacaltamide for essential tremor (29 Jan 2027). Topline results from EMERALD, a broader epilepsy study of relutrigine, are due this quarter, and an Investor Day follows on 12 Nov. Cash and investments of $1.29B fund operations into 2028. The stock rose 19.9% to $332.97 on 9 Nov, 15% below its August high. Over the next 10–30 days pre-decision positioning and a 14% short interest support it; an all-or-nothing EMERALD readout and a valuation that already assumes approvals are the risks.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/praxis-precision-medicines-inc-2026-11-10.htm",
+      "more_reports": [
+        "aaon-inc-2026-11-10",
+        "nrg-energy-inc-2026-11-09",
+        "tg-therapeutics-inc-2026-11-09"
+      ],
+      "headline": "Praxis is weeks from its first FDA decision and has $1.3 billion to launch with, but at about $8 billion of enterprise value before any sales, the month will be decided by an epilepsy readout and the run-up to a 27 December approval date"
+    },
+    {
+      "slug": "aaon-inc-2026-11-10",
+      "ticker": "AAON",
+      "company": "AAON, Inc.",
+      "date": "2026-11-10",
+      "dek": "Third-quarter 2026 sales rose 84% to a record $707.4M, about 17% above consensus, and diluted EPS more than doubled to $0.83 against ~$0.58 expected. BASX-branded sales, mostly data-center cooling, rose 218% to $397.2M. Full-year sales growth guidance went to 72–75% from 55–60%. AAON also restated the first and second quarters for revenue-recognition and software-subscription errors, a net increase of $10.7M in first-half sales, and disclosed a material weakness in internal controls. The stock closed at $62.87 on 9 Nov, 58% below its June high, after falling 21% on 4–5 Nov with data-center names; it was indicated near $74 (+18%) before the open on 10 Nov. Over the next 10–30 days estimate upgrades and a trending regime support it; the control weakness, a backlog that fell 6% sequentially and extreme volatility weigh on it.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/aaon-inc-2026-11-10.htm",
+      "more_reports": [
+        "praxis-precision-medicines-inc-2026-11-10",
+        "nrg-energy-inc-2026-11-09",
+        "tg-therapeutics-inc-2026-11-09"
+      ],
+      "headline": "AAON beat by more than 40%, raised its sales outlook again and restated two quarters upward, but a material weakness and a 58% fall from June keep the stock a high-volatility bet on data-center cooling"
+    },
     {
       "slug": "nrg-energy-inc-2026-11-09",
       "ticker": "NRG",
@@ -20,9 +52,9 @@
       "sections": 16,
       "href": "reports/nrg-energy-inc-2026-11-09.htm",
       "more_reports": [
-        "tg-therapeutics-inc-2026-11-09",
-        "booking-holdings-inc-2026-11-04",
-        "jazz-pharmaceuticals-plc-2026-11-03"
+        "praxis-precision-medicines-inc-2026-11-10",
+        "aaon-inc-2026-11-10",
+        "tg-therapeutics-inc-2026-11-09"
       ],
       "headline": "NRG beat by half and is selling $4 billion of plants to buy back stock, but the shares have halved this year and a new Democratic governor in Texas puts its data-center story in question"
     },
@@ -36,9 +68,9 @@
       "sections": 16,
       "href": "reports/tg-therapeutics-inc-2026-11-09.htm",
       "more_reports": [
-        "nrg-energy-inc-2026-11-09",
-        "booking-holdings-inc-2026-11-04",
-        "jazz-pharmaceuticals-plc-2026-11-03"
+        "praxis-precision-medicines-inc-2026-11-10",
+        "aaon-inc-2026-11-10",
+        "nrg-energy-inc-2026-11-09"
       ],
       "headline": "TG Therapeutics raised the year on a milestone, not on momentum — the next month is a test of whether the market pays for an implied Q4 step-up"
     },
