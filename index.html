@@ -1141,6 +1141,7 @@ All reports
       var isToday = rows[r]['Date'] === today;
       var hasExtremeDrift = false;
       for (var dc = 2; dc < COLUMNS.length; dc++) {
+        if (COLUMNS[dc].key.indexOf('->28d') !== -1) continue;
         var dn = parseFloat(rows[r][COLUMNS[dc].key]);
         if (!isNaN(dn) && Math.abs(dn) > 5) { hasExtremeDrift = true; break; }
       }

@@ -427,6 +427,8 @@ def test_drift(page, base_url):
     for idx, csv_row in enumerate(csv_rows):
         extreme = False
         for key, kind in DRIFT_COLUMNS[2:]:
+            if "->28d" in key:
+                continue
             try:
                 if abs(float(csv_row.get(key, ""))) > 5:
                     extreme = True
