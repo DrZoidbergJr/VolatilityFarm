@@ -421,22 +421,24 @@ def test_drift(page, base_url):
                 f"rendered {actual!r}, expected {expected!r} from CSV value {csv_row.get(key)!r}"
             )
 
-    # Extreme-drift highlight (|value| > 5) takes precedence over today's highlight.
+    # Largest-magnitude non-28d value >= +5 is green, <= -5 is red; either beats today's highlight.
     import datetime
     today = datetime.date.today().isoformat()
     for idx, csv_row in enumerate(csv_rows):
-        extreme = False
+        max_drift = 0.0
         for key, kind in DRIFT_COLUMNS[2:]:
             if "->28d" in key:
                 continue
             try:
-                if abs(float(csv_row.get(key, ""))) > 5:
-                    extreme = True
-                    break
+                v = float(csv_row.get(key, ""))
             except ValueError:
-                pass
-        if extreme:
-            expected_bg = "rgb(139, 92, 246)"
+                continue
+            if abs(v) > abs(max_drift):
+                max_drift = v
+        if max_drift >= 5:
+            expected_bg = "rgb(5, 150, 105)"
+        elif max_drift <= -5:
+            expected_bg = "rgb(220, 38, 38)"
         elif csv_row.get("Date") == today:
             expected_bg = "rgb(220, 206, 244)"
         else:
