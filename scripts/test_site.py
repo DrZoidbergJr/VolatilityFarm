@@ -214,7 +214,7 @@ def format_cell(value, kind):
     return value
 
 
-DRAG_COLUMNS = [
+DRIFT_COLUMNS = [
     ("Date", "date"),
     ("Ticker", "text"),
 ] + [
@@ -225,8 +225,8 @@ DRAG_COLUMNS = [
 ]
 
 
-def format_drag_cell(value, kind):
-    """Python mirror of formatCell() in the Drag section's own script
+def format_drift_cell(value, kind):
+    """Python mirror of formatCell() in the Drift section's own script
     block -- unlike Calendar's formatCell, values are not multiplied by
     100 (drag_estimates.csv values are already in the units to display)
     and 0 is rendered as "0.00%", not "-"."""
@@ -348,8 +348,8 @@ def test_calendar(page, base_url):
     return passed
 
 
-def test_drag(page, base_url):
-    """The Drag table's column-to-CSV-key mapping is correct for every
+def test_drift(page, base_url):
+    """The Drift table's column-to-CSV-key mapping is correct for every
     entry/exit group (1h/3h/6h entry x 1d/14d/28d exit, F/L each) --
     checked structurally against whatever rows
     reports/drag_estimates.csv currently contains, not against any
@@ -369,12 +369,12 @@ def test_drag(page, base_url):
         return fail("drag_estimates.csv has no data rows")
     header = [h.strip() for h in lines[0].split(",")]
 
-    missing_cols = [key for key, _ in DRAG_COLUMNS if key not in header]
+    missing_cols = [key for key, _ in DRIFT_COLUMNS if key not in header]
     if missing_cols:
         passed = fail(f"drag_estimates.csv is missing column(s) the table expects: {missing_cols}")
         return passed
     else:
-        ok(f"drag_estimates.csv header has all {len(DRAG_COLUMNS)} expected columns")
+        ok(f"drag_estimates.csv header has all {len(DRIFT_COLUMNS)} expected columns")
 
     csv_rows = []
     for line in lines[1:]:
@@ -382,9 +382,9 @@ def test_drag(page, base_url):
         row = {header[i]: (cells[i] if i < len(cells) else "") for i in range(len(header))}
         csv_rows.append(row)
 
-    page.goto(f"{base_url}/index.html#drag", wait_until="load", timeout=20000)
+    page.goto(f"{base_url}/index.html#drift", wait_until="load", timeout=20000)
     page.wait_for_timeout(1500)
-    tbody_rows = page.query_selector_all("#drag-tbody tr")
+    tbody_rows = page.query_selector_all("#drift-tbody tr")
     if len(tbody_rows) != len(csv_rows):
         passed = fail(f"table has {len(tbody_rows)} rows, CSV has {len(csv_rows)} data rows")
         return passed
@@ -398,7 +398,7 @@ def test_drag(page, base_url):
 
     mismatches = []
     checked = 0
-    for col_i, (key, kind) in enumerate(DRAG_COLUMNS):
+    for col_i, (key, kind) in enumerate(DRIFT_COLUMNS):
         sample_idx = None
         for idx, csv_row in enumerate(csv_rows):
             raw = csv_row.get(key, "")
@@ -409,10 +409,10 @@ def test_drag(page, base_url):
             continue
         csv_row = csv_rows[sample_idx]
         cells = get_cells(sample_idx)
-        if len(cells) != len(DRAG_COLUMNS):
-            mismatches.append(f"row {sample_idx} ({csv_row.get('Ticker')}): {len(cells)} <td> cells, expected {len(DRAG_COLUMNS)}")
+        if len(cells) != len(DRIFT_COLUMNS):
+            mismatches.append(f"row {sample_idx} ({csv_row.get('Ticker')}): {len(cells)} <td> cells, expected {len(DRIFT_COLUMNS)}")
             continue
-        expected = format_drag_cell(csv_row.get(key, ""), kind)
+        expected = format_drift_cell(csv_row.get(key, ""), kind)
         actual = cells[col_i].inner_text()
         checked += 1
         if actual != expected:
@@ -426,7 +426,7 @@ def test_drag(page, base_url):
     today = datetime.date.today().isoformat()
     for idx, csv_row in enumerate(csv_rows):
         extreme = False
-        for key, kind in DRAG_COLUMNS[2:]:
+        for key, kind in DRIFT_COLUMNS[2:]:
             try:
                 if abs(float(csv_row.get(key, ""))) > 5:
                     extreme = True
@@ -449,7 +449,7 @@ def test_drag(page, base_url):
     elif checked == 0:
         passed = fail("every column is empty in every row -- could not verify any column mapping")
     else:
-        ok(f"column mapping correct: verified {checked}/{len(DRAG_COLUMNS)} columns "
+        ok(f"column mapping correct: verified {checked}/{len(DRIFT_COLUMNS)} columns "
            f"(each against a row currently holding a non-empty value for it)")
 
     return passed
@@ -651,7 +651,7 @@ def test_section_hashes(page, base_url, manifest):
     expected, not a bug -- verified identical on the live production
     site)."""
     passed = True
-    sections = ["calendar", "regimes", "drivers", "drag", "performance", "method", "about"]
+    sections = ["calendar", "regimes", "drivers", "drift", "performance", "method", "about"]
 
     for i, section_id in enumerate(sections):
         page.goto(f"{base_url}/index.html#{section_id}", wait_until="load", timeout=20000)
@@ -818,8 +818,8 @@ def main():
         overall_ok &= test_archive(page, base_url, manifest)
         print("\n--- Calendar ---")
         overall_ok &= test_calendar(page, base_url)
-        print("\n--- Drag ---")
-        overall_ok &= test_drag(page, base_url)
+        print("\n--- Drift ---")
+        overall_ok &= test_drift(page, base_url)
         print("\n--- CSV data coverage (Regimes, Breath, Drivers, Performance) ---")
         overall_ok &= test_csv_data_coverage(page, base_url)
         print("\n--- Report deep links (#reports/<slug>.htm) ---")
