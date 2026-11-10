@@ -710,6 +710,12 @@ All reports
           showDriftStatus('No drift data available.');
           return;
         }
+        rows = rows.map(function (row, i) { return { row: row, i: i }; })
+          .sort(function (a, b) {
+            var da = a.row['Date'] || '', db = b.row['Date'] || '';
+            return da < db ? 1 : (da > db ? -1 : a.i - b.i);
+          })
+          .map(function (x) { return x.row; });
         renderDriftTable(rows);
         showDriftTable();
       })

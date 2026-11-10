@@ -237,7 +237,7 @@ def format_drift_cell(value, kind):
             n = float(value)
         except ValueError:
             return value
-        return f"{n:.2f}%"
+        return f"{n + 0.0:.2f}%"  # + 0.0 turns -0.0 into 0.0, matching JS toFixed
     if kind == "date":
         parts = value.split("-")
         if len(parts) == 3:
@@ -381,6 +381,8 @@ def test_drift(page, base_url):
         cells = [c.strip() for c in line.split(",")]
         row = {header[i]: (cells[i] if i < len(cells) else "") for i in range(len(header))}
         csv_rows.append(row)
+    # Table shows newest dates first; ties keep CSV order.
+    csv_rows.sort(key=lambda r: r.get("Date", ""), reverse=True)
 
     page.goto(f"{base_url}/index.html#drift", wait_until="load", timeout=20000)
     page.wait_for_timeout(1500)
