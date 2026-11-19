@@ -6,10 +6,57 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "praxis-precision-medicines-inc-2026-11-10",
-    "aaon-inc-2026-11-10"
+    "target-corporation-2026-11-19"
   ],
   "reports": [
+    {
+      "slug": "target-corporation-2026-11-19",
+      "ticker": "TGT",
+      "company": "Target Corporation",
+      "date": "2026-11-19",
+      "dek": "Third-quarter 2026 sales rose 7.1% to $27.07B, about 2% above the $26.52B expected, and comparable sales grew 5.6% on 5.0% more transactions. EPS of $2.65 beat the ~$2.07 consensus by 28%, but $0.50 of it came from a $301M refund of tariffs; without it, EPS was ~$2.15, about 4% above expectations. Target raised full-year sales growth to ~6% and set EPS at $10.65–11.40 including ~$2.14 of refunds, and said November sales were accelerating from October. Apparel and home are still weak; hardlines rose 27%, helped by trading cards. The stock rose 4.0% to $165.93 on 18 Nov after touching a 52-week high of $171.91, and is up 87.5% in a year. Over the next 10–30 days holiday traffic and steady analyst upgrades support it; a valuation that already sits above the average target and earnings flattered by one-off refunds limit the upside.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/target-corporation-2026-11-19.htm",
+      "more_reports": [
+        "opendoor-technologies-inc-2026-11-15",
+        "magnum-ice-cream-company-nv-2026-11-15",
+        "praxis-precision-medicines-inc-2026-11-10"
+      ],
+      "headline": "Target's turnaround is showing up in traffic, and the year's outlook went up, but a fifth of the quarter's profit was a tariff refund and the stock has nearly doubled in a year, so the holiday weeks have to confirm it"
+    },
+    {
+      "slug": "opendoor-technologies-inc-2026-11-15",
+      "ticker": "OPEN",
+      "company": "Opendoor Technologies Inc.",
+      "date": "2026-11-15",
+      "dek": "Third-quarter 2026 revenue rose 12% to $1.02B, about 4.5% below the $1.07B expected, and the net loss widened to $218M (−$0.23 a share against about −$0.17). Opendoor bought 4,865 homes, more than four times the 1,169 of a year ago, and inventory reached $2.57B, funded mainly by asset-backed debt. Gross margin fell to 3.7% from 7.2%. Management guided fourth-quarter revenue to at least 40% growth (about $1.03B, below the ~$1.11B consensus), an adjusted EBITDA loss of $70–85M, and said its goal of positive adjusted net income by the end of 2026 is \"currently behind\". The stock fell 21.8% the next day and closed at $1.19 on 13 Nov, its lowest close of the year. Over the next 10–30 days a 24% short interest and an oversold tape can produce sharp rallies; cash burn, a stretched balance sheet and the $1 listing threshold keep the balance of risk to the downside.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/opendoor-technologies-inc-2026-11-15.htm",
+      "more_reports": [
+        "target-corporation-2026-11-19",
+        "magnum-ice-cream-company-nv-2026-11-15",
+        "praxis-precision-medicines-inc-2026-11-10"
+      ],
+      "headline": "Opendoor is buying homes four times faster than a year ago, but gross margin fell to 3.7%, the loss widened and the guide disappointed; at $1.19 the stock is 87% off its high and close to Nasdaq's $1 line"
+    },
+    {
+      "slug": "magnum-ice-cream-company-nv-2026-11-15",
+      "ticker": "MICC",
+      "company": "The Magnum Ice Cream Company N.V.",
+      "date": "2026-11-15",
+      "dek": "A 9.6% organic quarter and a raised outlook carried MICC to within 4% of its high and\n    above the average analyst target. Management has guided the fourth quarter flat, no results are due\n    before February, and 99% of the stock's daily variance has been company-specific. Over the next 10–30 days\n    the path is set by broker revisions, positioning and the undated Unilever stake overhang, not by new fundamentals.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/magnum-ice-cream-company-nv-2026-11-15.htm",
+      "more_reports": [
+        "target-corporation-2026-11-19",
+        "opendoor-technologies-inc-2026-11-15",
+        "praxis-precision-medicines-inc-2026-11-10"
+      ],
+      "headline": "Magnum's summer is already in the price, and the next month holds no print to prove more"
+    },
     {
       "slug": "praxis-precision-medicines-inc-2026-11-10",
       "ticker": "PRAX",
@@ -20,9 +67,9 @@
       "sections": 16,
       "href": "reports/praxis-precision-medicines-inc-2026-11-10.htm",
       "more_reports": [
-        "aaon-inc-2026-11-10",
-        "nrg-energy-inc-2026-11-09",
-        "tg-therapeutics-inc-2026-11-09"
+        "target-corporation-2026-11-19",
+        "opendoor-technologies-inc-2026-11-15",
+        "magnum-ice-cream-company-nv-2026-11-15"
       ],
       "headline": "Praxis is weeks from its first FDA decision and has $1.3 billion to launch with, but at about $8 billion of enterprise value before any sales, the month will be decided by an epilepsy readout and the run-up to a 27 December approval date"
     },
