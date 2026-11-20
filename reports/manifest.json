@@ -6,9 +6,25 @@
     "og_image": "/og-image.png"
   },
   "hero": [
-    "target-corporation-2026-11-19"
+    "take-two-interactive-software-inc-2026-11-20"
   ],
   "reports": [
+    {
+      "slug": "take-two-interactive-software-inc-2026-11-20",
+      "ticker": "TTWO",
+      "company": "Take-Two Interactive Software, Inc.",
+      "date": "2026-11-20",
+      "dek": "GTA VI went on sale on 19 Nov for PlayStation 5 and Xbox Series X|S with a Metacritic score of 99, tying the site's record. Sensor Tower estimates about 24.5 million units and $2.36B of consumer spending on day one, including pre-orders, against Bank of America's ~$1.9B three-day bar. Take-Two has not yet published a figure. On 9 Nov it reported fiscal Q2 2027 net bookings of $1.60B (−18%), slightly below expectations, non-GAAP EPS of $1.00 against $0.90, and kept full-year bookings guidance at $8.0–8.2B; its December-quarter guide of $3.35–3.5B is roughly double a year ago. The stock rose 6.2% on review day, then fell 3.7% to $208.65 on launch day as the market dropped ~2%. It is −18.5% YTD and 19% below July's high. Over the next 10–30 days an official record and Street upgrades can lift it; a sell-the-news tape, no date yet for the online mode or PC version, and a weak market are the risks.",
+      "tag": "Companies",
+      "sections": 16,
+      "href": "reports/take-two-interactive-software-inc-2026-11-20.htm",
+      "more_reports": [
+        "target-corporation-2026-11-19",
+        "opendoor-technologies-inc-2026-11-15",
+        "magnum-ice-cream-company-nv-2026-11-15"
+      ],
+      "headline": "Grand Theft Auto VI has opened as the biggest entertainment launch on record and the best-reviewed game ever, yet Take-Two fell on launch day; the month now hinges on the first official sales figure and on when GTA Online arrives"
+    },
     {
       "slug": "target-corporation-2026-11-19",
       "ticker": "TGT",
@@ -19,9 +35,9 @@
       "sections": 16,
       "href": "reports/target-corporation-2026-11-19.htm",
       "more_reports": [
+        "take-two-interactive-software-inc-2026-11-20",
         "opendoor-technologies-inc-2026-11-15",
-        "magnum-ice-cream-company-nv-2026-11-15",
-        "praxis-precision-medicines-inc-2026-11-10"
+        "magnum-ice-cream-company-nv-2026-11-15"
       ],
       "headline": "Target's turnaround is showing up in traffic, and the year's outlook went up, but a fifth of the quarter's profit was a tariff refund and the stock has nearly doubled in a year, so the holiday weeks have to confirm it"
     },
