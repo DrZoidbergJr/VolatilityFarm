@@ -663,9 +663,11 @@ def test_section_hashes(page, base_url, manifest):
         page.goto(f"{base_url}/index.html#{section_id}", wait_until="load", timeout=20000)
         page.wait_for_timeout(3000)
         scroll_y = page.evaluate("window.scrollY")
+        # Target is the section's top minus the sticky header's height, so the header doesn't cover it.
         target_top = page.evaluate(
             f"(() => {{ var el = document.getElementById('{section_id}'); "
-            "return el ? el.getBoundingClientRect().top + window.scrollY : null; })()"
+            "var h = document.getElementById('site-header'); "
+            "return el ? el.getBoundingClientRect().top + window.scrollY - (h ? h.offsetHeight : 0) : null; })()"
         )
         body_height = page.evaluate("document.body.scrollHeight")
         viewport_height = page.evaluate("window.innerHeight")

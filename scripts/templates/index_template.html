@@ -64,7 +64,7 @@
 <body>
 <div style="width:100%;max-width:1440px;margin:0 auto;background:#ffffff;font-family:'Libre Franklin',sans-serif;color:#2B1240">
 
-<div style="position:sticky;top:0;z-index:20;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid #EAE2F6">
+<div id="site-header" style="position:sticky;top:0;z-index:20;background:rgba(255,255,255,0.94);backdrop-filter:blur(8px);border-bottom:1px solid #EAE2F6">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:18px clamp(24px,6vw,96px)">
 <a href="#top" style="display:flex;align-items:center;gap:12px;color:#2B1240"><svg viewBox="0 0 32 32" width="18" height="18" fill="none" stroke="#6D28D9" stroke-width="2"><path d="M16 3 L29 14 M16 3 L3 14 M16 3 v26"></path></svg><span style="font-weight:600;font-size:15px;letter-spacing:-0.01em;white-space:nowrap"><span style="font-weight:700">V</span>olatility <span style="font-weight:700">F</span>arm</span></a>
 <div style="display:flex;align-items:center;gap:clamp(16px,2.5vw,32px);flex-wrap:wrap">
@@ -78,7 +78,20 @@
 <a href="#about" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6D28D9">About</a>
 </div>
 </div>
+<div style="padding:10px clamp(24px,6vw,96px);background:#F5F0FD;border-top:1px solid #EAE2F6;font-size:13px;line-height:1.5;color:#4C1D95;text-align:center">New <a href="https://www.reddit.com/r/VolatilityFarm2" target="_blank" rel="noopener" style="color:#6D28D9;text-decoration:underline;font-weight:600">subreddit</a>, last one got closed but we are so back! I test on prod (the good way), so if page fails - come back in an hour or <a href="mailto:desk@volatilityfarm.com" style="color:#6D28D9;text-decoration:underline;font-weight:600">email</a></div>
 </div>
+<script>
+  // The sticky header's height varies with screen width; keep anchor jumps clear of it.
+  (function () {
+    function syncScrollPadding() {
+      var h = document.getElementById('site-header');
+      if (h) document.documentElement.style.scrollPaddingTop = h.offsetHeight + 'px';
+    }
+    syncScrollPadding();
+    window.addEventListener('resize', syncScrollPadding);
+    window.addEventListener('load', syncScrollPadding);
+  })();
+</script>
 <div id="reading-view" style="display:none;flex-direction:column">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:18px clamp(24px,6vw,96px);border-bottom:1px solid #EAE2F6;background:#FAF8FE">
 <button id="close-reading-btn" style="display:flex;align-items:center;gap:10px;font-family:'Libre Franklin',sans-serif;font-weight:500;font-size:14px;color:#4C1D95;background:#ffffff;border:1px solid #DCCEF4;border-radius:3px;padding:12px 20px;min-height:44px;cursor:pointer" class="vf-earlier-btn">
@@ -91,10 +104,9 @@ All reports
 </div>
 <a id="reading-open-full" href="#" target="_blank" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#6D28D9">Open full page ↗</a>
 </div>
-<iframe id="reading-iframe" src="" title="" style="width:100%;height:calc(100vh - 152px);min-height:560px;border:none;display:block;background:#ffffff"></iframe>
+<iframe id="reading-iframe" src="" title="" style="width:100%;height:calc(100vh - 192px);min-height:560px;border:none;display:block;background:#ffffff"></iframe>
 </div>
 <div id="browsing-view" style="display:flex;flex-direction:column">
-<div style="padding:10px clamp(24px,6vw,96px);background:#F5F0FD;border-bottom:1px solid #EAE2F6;font-size:13px;line-height:1.5;color:#4C1D95;text-align:center">New <a href="https://www.reddit.com/r/VolatilityFarm2" target="_blank" rel="noopener" style="color:#6D28D9;text-decoration:underline;font-weight:600">subreddit</a>, last one got closed but we are so back! I test on prod (the good way), so if page fails - come back in an hour</div>
 <div id="top" style="padding:clamp(56px,7vw,88px) clamp(24px,6vw,96px) clamp(48px,6vw,80px);border-bottom:1px solid #EAE2F6">
 <div style="display:flex;align-items:center;gap:18px;margin-bottom:36px">
 <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6D28D9">01</span>
@@ -1329,7 +1341,8 @@ All reports
     }
     var prevBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = 'auto';
-    window.scrollTo(0, top);
+    var header = document.getElementById('site-header');
+    window.scrollTo(0, top - (header ? header.offsetHeight : 0));
     document.documentElement.style.scrollBehavior = prevBehavior;
   }
 
