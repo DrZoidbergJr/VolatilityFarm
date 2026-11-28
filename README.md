@@ -33,17 +33,18 @@ python3 scripts/test_site.py --base-url http://127.0.0.1:8765   # Playwright che
    `og:image` / `twitter:image` at it (`--force` re-renders existing cards).
 3. Build, validate, test as above, then commit.
 
-## Delta share links
+## Share links (Delta, Regimes, Drivers)
 
-The Delta section's **Share** button renders the current plots to a 1200x630 PNG in the browser and uploads it to
-the `vf-share` Worker (`https://vf-share.volatilityfarm.workers.dev`), which stores it in Workers KV and returns a
-short link `/s/<id>`. That page carries Open Graph / Twitter tags pointing at `/s/<id>.png`, so X, iMessage, Slack,
-LinkedIn, Discord etc. preview the snapshot; people who open it are redirected to the live chart
-(`https://volatilityfarm.com/#delta/<TICKER>/<file-stem>`).
+Each of these sections has a **Share** button. It renders the section's charts to a 1200x630 PNG in the browser
+(`assets/js/share.js` holds the shared drawing/upload/link UI; `delta.js` and `section-share.js` build the images)
+and uploads it to the `vf-share` Worker (`https://vf-share.volatilityfarm.workers.dev`), which stores it in Workers
+KV and returns a short link `/s/<id>`. That page carries Open Graph / Twitter tags pointing at `/s/<id>.png`, so X,
+iMessage, Slack, LinkedIn, Discord etc. preview the snapshot; people who open it are redirected to the live section
+(`#regimes`, `#drivers`, or `#delta/<TICKER>/<file-stem>`).
 
-The Worker only accepts uploads from the site's origin, only 1200x630 PNGs under 800KB, only relations present in
-`reports/cointegration/manifest.csv`, and at most 10 per minute per IP. Preview text comes from the manifest, never
-from the uploader.
+The Worker only accepts uploads from the site's origin, only 1200x630 PNGs under 800KB, only known sections, only
+Delta relations present in `reports/cointegration/manifest.csv`, and at most 10 per minute per IP. Preview text is
+fixed per section or comes from the manifest, never from the uploader.
 
 ```sh
 cd share-worker
