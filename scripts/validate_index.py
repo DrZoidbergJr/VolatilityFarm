@@ -191,6 +191,23 @@ def check_mojibake():
     return passed
 
 
+def check_double_escapes():
+    """Fail if any report page contains double-escaped entities such as
+    '&amp;mdash;' (renders literally as '&mdash;' in titles/previews).
+    """
+    passed = True
+    pat = re.compile(r"&amp;(?:mdash|ndash|amp);")
+    for path in sorted(glob.glob(os.path.join(REPORTS_DIR, "*.htm"))):
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+        hits = pat.findall(content)
+        if hits:
+            passed = fail(f"{len(hits)} double-escaped entity occurrence(s) ({hits[0]}) in {os.path.relpath(path, ROOT)}")
+    if passed:
+        ok("no double-escaped entities (&amp;mdash; / &amp;ndash; / &amp;amp;) in reports")
+    return passed
+
+
 def check_structure(index_html):
     """Basic structural sanity: div balance, required ids present
     exactly once, no leftover template-component syntax from the old
@@ -258,6 +275,10 @@ def main():
 
     print("\n--- Mojibake ---")
     if not check_mojibake():
+        ok_overall = False
+
+    print("\n--- Double-escaped entities ---")
+    if not check_double_escapes():
         ok_overall = False
 
     return ok_overall

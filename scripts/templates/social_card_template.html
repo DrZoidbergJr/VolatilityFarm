@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2B1240;--deep:#4C1D95;--accent:#6D28D9;--accent-l:#8B5CF6;--hair:#EAE2F6;--panel:#FAF8FE;--muted:#7A6191}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1200px;height:630px;background:#fff;overflow:hidden}
+.card{position:relative;width:1200px;height:630px;padding:56px 72px 52px 84px;background:#fff;color:var(--ink);display:flex;flex-direction:column}
+.bar{position:absolute;left:0;top:0;bottom:0;width:20px;background:linear-gradient(180deg,var(--accent-l),var(--deep))}
+.glow{position:absolute;right:-160px;top:-200px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.16),rgba(139,92,246,0) 70%)}
+.top{position:relative;display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:2px solid var(--hair)}
+.brand{font:700 30px/1 'Libre Baskerville',serif;color:var(--ink)}
+.brand i{font-style:normal;color:var(--accent)}
+.date{font:500 24px/1 'IBM Plex Mono',monospace;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.mid{position:relative;margin-top:38px;display:flex;align-items:center;gap:26px}
+.ticker{font:600 40px/1 'IBM Plex Mono',monospace;color:#fff;background:var(--accent);padding:12px 22px;border-radius:8px;letter-spacing:.02em;align-self:center}
+.company{font:700 52px/1.1 'Libre Baskerville',serif;color:var(--ink);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+.headline{position:relative;margin-top:34px;font:500 38px/1.3 'Libre Franklin',sans-serif;color:var(--muted-ink,#453059);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.foot{position:relative;margin-top:auto;font:500 21px/1 'IBM Plex Mono',monospace;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between}
+</style></head>
+<body><div class="card"><div class="bar"></div><div class="glow"></div>
+<div class="top"><div class="brand">Volatility <i>Farm</i></div><div class="date">{{DATE}}</div></div>
+<div class="mid"><div class="ticker">{{TICKER}}</div><div class="company">{{COMPANY}}</div></div>
+<div class="headline">{{HEADLINE}}</div>
+<div class="foot"><span>Short-term view after earnings</span><span>volatilityfarm.com</span></div>
+</div></body></html>
