@@ -26,6 +26,7 @@ to confirm the page still behaves correctly in a real browser.
 """
 import datetime
 import glob
+import hashlib
 import json
 import os
 import re
@@ -268,7 +269,7 @@ def build_hero_html(manifest):
     max_width = "max-width:620px;" if len(cards) == 1 else ""
     inner = "\n".join(cards)
     return (
-        f'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));'
+        f'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));'
         f'gap:clamp(32px,4vw,56px);align-items:start;{max_width}">\n{inner}\n</div>'
     )
 
@@ -398,6 +399,22 @@ def update_report_pagers(manifest):
 # index.html assembly
 # ---------------------------------------------------------------------
 
+ASSET_JS_RE = re.compile(r'(src="/assets/js/([A-Za-z0-9_.-]+\.js))(\?v=[0-9a-f]*)?"')
+
+
+def add_asset_versions(html):
+    """Cache-bust local scripts: src="/assets/js/x.js" -> x.js?v=<first 8
+    hex chars of sha256 of the file's bytes>. Deterministic and idempotent
+    (any existing ?v= is replaced), so validate_index's rebuild comparison
+    stays stable until a script's content actually changes."""
+    def repl(m):
+        path = os.path.join(ROOT, "assets", "js", m.group(2))
+        with open(path, "rb") as f:
+            digest = hashlib.sha256(f.read()).hexdigest()[:8]
+        return f'{m.group(1)}?v={digest}"'
+    return ASSET_JS_RE.sub(repl, html)
+
+
 def build_index(manifest):
     with open(INDEX_TEMPLATE_PATH, "r", encoding="utf-8") as f:
         template = f.read()
@@ -410,6 +427,7 @@ def build_index(manifest):
     out = out.replace("<!-- HERO -->", hero_html)
     out = out.replace("<!-- ARCHIVE -->", archive_html)
     out = out.replace("<!-- JSONLD -->", jsonld_html)
+    out = add_asset_versions(out)
     return out
 
 

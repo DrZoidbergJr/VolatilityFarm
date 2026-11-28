@@ -802,6 +802,114 @@ def test_report_masthead_iframe(page, base_url, manifest):
     return passed
 
 
+def test_delta_deep_links(page, base_url):
+    """#delta/<TICKER>/<FILE-STEM> selects that ticker + relation and
+    scrolls to the Delta section; unknown targets fall back to defaults
+    silently; changing the dropdowns rewrites the hash without adding
+    history entries; a pasted hash (hashchange) re-selects."""
+    import csv
+    passed = True
+    path = os.path.join(ROOT, "reports", "cointegration", "manifest.csv")
+    with open(path, "r", encoding="utf-8", newline="") as f:
+        rows = [r for r in csv.DictReader(f) if r.get("Ticker") and r.get("file")]
+    if len(rows) < 2:
+        return fail("cointegration/manifest.csv has fewer than 2 usable rows")
+    stem = lambda r: r["file"][:-4] if r["file"].lower().endswith(".csv") else r["file"]
+    counts = {}
+    for r in rows:
+        counts[r["Ticker"]] = counts.get(r["Ticker"], 0) + 1
+    # Prefer a ticker with several relations so the relation-change check can run.
+    target = next((r for r in reversed(rows) if counts[r["Ticker"]] > 1), rows[-1])
+    other = next((r for r in rows if r["Ticker"] != target["Ticker"]), rows[0])
+
+    def state():
+        return page.evaluate("""() => {
+            var h = document.getElementById('site-header');
+            var el = document.getElementById('delta');
+            return { ticker: document.getElementById('delta-ticker').value,
+                     file: document.getElementById('delta-relation').value,
+                     hash: location.hash, hist: history.length,
+                     off: el.getBoundingClientRect().top - (h ? h.offsetHeight : 0) };
+        }""")
+
+    hash_ = f"#delta/{target['Ticker']}/{stem(target)}"
+    page.goto(f"{base_url}/index.html?dl=1{hash_}", wait_until="load", timeout=20000)
+    page.wait_for_timeout(3000)
+    st = state()
+    if st["ticker"] == target["Ticker"] and st["file"] == target["file"]:
+        ok(f"{hash_} selects ticker {st['ticker']} and relation {st['file']}")
+    else:
+        passed = fail(f"{hash_} selected {st['ticker']} / {st['file']}")
+    if abs(st["off"]) < 50:
+        ok(f"{hash_} scrolls the Delta section into view (offset {st['off']:.0f}px)")
+    else:
+        passed = fail(f"{hash_} left the Delta section {st['off']:.0f}px from the header")
+
+    # Changing the relation rewrites the hash via replaceState (no new history entry, no scroll jump).
+    options = page.eval_on_selector_all("#delta-relation option", "els => els.map(e => e.value)")
+    alt = next((o for o in options if o != target["file"]), None)
+    if alt:
+        before = state()
+        page.select_option("#delta-relation", alt)
+        page.wait_for_timeout(500)
+        after = state()
+        exp = f"#delta/{target['Ticker']}/{alt[:-4]}"
+        if after["hash"] == exp and after["hist"] == before["hist"] and abs(after["off"] - before["off"]) < 2:
+            ok("changing the relation updates the hash without history entries or scrolling")
+        else:
+            passed = fail(f"relation change: hash={after['hash']} (expected {exp}), history {before['hist']}->{after['hist']}, offset {before['off']:.0f}->{after['off']:.0f}")
+
+    # Pasting another link (hashchange) re-selects.
+    new_hash = f"#delta/{other['Ticker']}/{stem(other)}"
+    page.evaluate("h => { location.hash = h; }", new_hash)
+    page.wait_for_timeout(1500)
+    st = state()
+    if st["ticker"] == other["Ticker"] and st["file"] == other["file"] and abs(st["off"]) < 50:
+        ok(f"hashchange to {new_hash} re-selects and scrolls to Delta")
+    else:
+        passed = fail(f"hashchange to {new_hash} gave {st['ticker']} / {st['file']}, offset {st['off']:.0f}")
+
+    # Unknown ticker/file: silent fallback to defaults, still scrolls to the section.
+    page.goto(f"{base_url}/index.html?dl=2#delta/NOPE/not_a_file", wait_until="load", timeout=20000)
+    page.wait_for_timeout(3000)
+    st = state()
+    status = page.inner_text("#delta-status") if page.query_selector("#delta-status") else ""
+    if st["ticker"] and st["file"] and not status.strip() and abs(st["off"]) < 50:
+        ok("unknown #delta/<ticker>/<file> falls back to defaults silently and scrolls to Delta")
+    else:
+        passed = fail(f"unknown delta hash: selected {st['ticker']} / {st['file']}, status={status!r}, offset {st['off']:.0f}")
+    return passed
+
+
+def test_error_states(browser, base_url):
+    """Aborting / emptying a CSV shows a short status message instead of a blank box."""
+    passed = True
+    cases = [
+        ("abort", "res_market_drivers.csv", "#drivers", "Couldn't load market drivers. Please try again later."),
+        ("empty", "res_market_drivers.csv", "#drivers", "No market drivers available right now."),
+        ("abort", "res_rel_portfolio.csv", "#performance", "Couldn't load performance data. Please try again later."),
+        ("abort", "res_breath.csv", "#regimes", "Couldn't load market breadth. Please try again later."),
+        ("abort", "drag_estimates.csv", "#drift", "Couldn't load drift data. Please try again later."),
+        ("abort", "res_relevant_slice.csv", "#calendar", "Couldn't load calendar data. Please try again later."),
+    ]
+    for mode, csv_name, section, expected in cases:
+        page = browser.new_page(viewport={"width": 1440, "height": 1000})
+        pat = f"**/reports/{csv_name}"
+        if mode == "abort":
+            page.route(pat, lambda route: route.abort())
+        else:
+            page.route(pat, lambda route: route.fulfill(status=200, content_type="text/csv", body="index,MarketSVD1\n"))
+        page.goto(f"{base_url}/index.html", wait_until="load", timeout=20000)
+        page.wait_for_timeout(2500)
+        text = page.inner_text(section)
+        if expected in text:
+            ok(f"{csv_name} {mode}: {section} shows \"{expected}\"")
+        else:
+            passed = fail(f"{csv_name} {mode}: {section} does not show \"{expected}\"")
+        page.close()
+    return passed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -834,6 +942,10 @@ def main():
         overall_ok &= test_report_deep_links(page, base_url, manifest)
         print("\n--- Section hashes (#calendar, #regimes, ...) ---")
         overall_ok &= test_section_hashes(page, base_url, manifest)
+        print("\n--- Delta deep links (#delta/<ticker>/<file>) ---")
+        overall_ok &= test_delta_deep_links(page, base_url)
+        print("\n--- Loading / empty / error states ---")
+        overall_ok &= test_error_states(browser, base_url)
         print("\n--- Report masthead + iframe ---")
         overall_ok &= test_report_masthead_iframe(page, base_url, manifest)
 
