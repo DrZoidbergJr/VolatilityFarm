@@ -1236,7 +1236,7 @@ All reports
     return { actual: actual, forecast: forecast, lastActual: lastActual };
   }
 
-  function formatValue(v) { return Math.abs(v) >= 10 ? v.toFixed(2) : v.toFixed(4); }
+  function formatValue(v) { return v.toFixed(2); }
 
   // Labels the current value (last non-forecast point) and the final forecast point.
   var pointLabels = {
@@ -1266,7 +1266,7 @@ All reports
     }
   };
 
-  function makeChart(canvas, labels, rows, key, color, showLegend) {
+  function makeChart(canvas, labels, rows, key, color, showLegend, yTitle) {
     var parts = splitForecast(rows, key);
     var datasets = [
       { label: key, data: parts.actual, borderColor: color, backgroundColor: 'transparent', borderWidth: 1.75, pointRadius: 0, pointHoverRadius: 4, tension: .15, spanGaps: false }
@@ -1296,12 +1296,12 @@ All reports
             backgroundColor: '#fff', borderColor: HAIR, borderWidth: 1, titleColor: INK, bodyColor: INK,
             titleFont: { family: MONO, size: 10 }, bodyFont: { family: MONO, size: 11 }, padding: 10,
             filter: function (item) { return item.parsed.y !== null; },
-            callbacks: { label: function (c) { return ' ' + c.dataset.label + ': ' + c.parsed.y.toFixed(4); } }
+            callbacks: { label: function (c) { return ' ' + c.dataset.label + ': ' + c.parsed.y.toFixed(3); } }
           }
         },
         scales: {
           x: { ticks: { color: MUTED, font: { family: MONO, size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 5, callback: function (v) { return this.getLabelForValue(v).slice(5, 10); } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } },
-          y: { ticks: { color: MUTED, font: { family: MONO, size: 10 } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } }
+          y: { title: { display: true, text: yTitle, color: MUTED, font: { family: MONO, size: 10 } }, ticks: { color: MUTED, font: { family: MONO, size: 10 }, precision: 2, callback: function (v) { return formatValue(v); } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } }
         }
       }
     });
@@ -1336,7 +1336,7 @@ All reports
     var ticker = document.getElementById('delta-ticker').value;
 
     document.getElementById('delta-main-title').textContent = 'Delta · ' + ticker;
-    charts.push(makeChart(document.getElementById('delta-chart'), labels, rows, 'Delta', DELTA_COLOR, true));
+    charts.push(makeChart(document.getElementById('delta-chart'), labels, rows, 'Delta', DELTA_COLOR, true, 'Spread'));
 
     var seriesKeys = parsed.header.filter(function (h) { return !NON_SERIES[h]; });
     var wrap = document.getElementById('delta-series');
@@ -1346,7 +1346,7 @@ All reports
         '<div style="position:relative;height:220px"><canvas id="delta-series-' + i + '"></canvas></div></div>';
     }).join('');
     seriesKeys.forEach(function (k, i) {
-      charts.push(makeChart(document.getElementById('delta-series-' + i), labels, rows, k, SERIES_COLORS[i % SERIES_COLORS.length], false));
+      charts.push(makeChart(document.getElementById('delta-series-' + i), labels, rows, k, SERIES_COLORS[i % SERIES_COLORS.length], false, 'Exposures'));
     });
     setStatus(rows.length ? '' : 'No data in ' + file + '.');
   }
