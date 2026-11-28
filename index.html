@@ -1712,17 +1712,16 @@ All reports
   }
 
   function relationLabel(e) {
-    var meta = [e.Relation];
+    var meta = [];
+    if (e.Strength) meta.push('Strength ' + formatDetail(e.Strength) + ' of 4');
     if (e.file.indexOf('trackedpost_') === 0) meta.push('post');
-    if (e.Date) meta.push(e.Date);
-    return e.Basic_ticker.split('|').join(' | ') + '  ·  ' + meta.join(' · ');
+    return e.Basic_ticker.split('|').join(' | ') + (meta.length ? '  ·  ' + meta.join(' · ') : '');
   }
 
   function populateTickers() {
     var sel = document.getElementById('delta-ticker');
     var seen = {}; var tickers = [];
     entries.forEach(function (e) { if (!seen[e.Ticker]) { seen[e.Ticker] = 1; tickers.push(e.Ticker); } });
-    tickers.sort();
     sel.innerHTML = tickers.map(function (t) { return '<option value="' + escapeHTML(t) + '">' + escapeHTML(t) + '</option>'; }).join('');
   }
 
@@ -1842,7 +1841,8 @@ All reports
     tbody.innerHTML = [
       ['Relation', RELATION_NAMES[e.Relation] || e.Relation],
       ['Strength', e.Strength === '' || e.Strength === undefined ? e.Strength : formatDetail(e.Strength) + ' of 4'],
-      ['Including fundamentals', YES_NO[e.fundamentals] || e.fundamentals]
+      ['Including fundamentals', YES_NO[e.fundamentals] || e.fundamentals],
+      ['Updated at', e.Date]
     ].map(function (d) {
       return '<tr><td style="padding:10px 8px 10px 0;border-top:1px solid ' + HAIR + ';color:#5A4272">' + d[0] + '</td><td style="padding:10px 0;border-top:1px solid ' + HAIR + ';text-align:right;font-family:' + MONO + ';color:' + INK + ';font-variant-numeric:tabular-nums">' + escapeHTML(formatDetail(d[1])) + '</td></tr>';
     }).join('');
