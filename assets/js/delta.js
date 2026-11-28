@@ -9,6 +9,7 @@
   var entries = [];
   var fileCache = {};
   var charts = [];
+  var lastRender = null;
 
   // Quote-aware split so a quoted field holding commas stays intact.
   function splitLine(line) {
@@ -113,32 +114,35 @@
         if (!el || v === null || v === undefined) return;
         var text = formatValue(v);
         ctx.save();
-        ctx.font = '10px ' + MONO;
-        var w = ctx.measureText(text).width + 8; var h = 16;
+        var k = opts.scale || 1;
+        ctx.font = (10 * k) + 'px ' + MONO;
+        var w = ctx.measureText(text).width + 8 * k; var h = 16 * k;
         var x = p.align === 'right' ? el.x - w : el.x - w / 2;
         x = Math.max(area.left, Math.min(x, area.right - w));
-        var y = el.y - h - 6;
-        if (y < area.top) y = el.y + 6;
+        var y = el.y - h - 6 * k;
+        if (y < area.top) y = el.y + 6 * k;
         ctx.fillStyle = opts.color;
-        ctx.beginPath(); ctx.arc(el.x, el.y, 3, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#fff'; ctx.strokeStyle = opts.color; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(el.x, el.y, 3 * k, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.strokeStyle = opts.color; ctx.lineWidth = k;
         ctx.fillRect(x, y, w, h); ctx.strokeRect(x + .5, y + .5, w - 1, h - 1);
         ctx.fillStyle = INK; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
-        ctx.fillText(text, x + 4, y + h / 2 + .5);
+        ctx.fillText(text, x + 4 * k, y + h / 2 + .5);
         ctx.restore();
       });
     }
   };
 
-  function makeChart(canvas, labels, rows, key, color, showLegend, yTitle) {
+  // scale > 1 renders a fixed-size, non-interactive copy with proportionally larger text (used for share images).
+  function makeChart(canvas, labels, rows, key, color, showLegend, yTitle, scale) {
+    var k = scale || 1;
     var parts = splitForecast(rows, key);
     var datasets = [
-      { label: key, data: parts.actual, borderColor: color, backgroundColor: 'transparent', borderWidth: 1.75, pointRadius: 0, pointHoverRadius: 4, tension: .15, spanGaps: false }
+      { label: key, data: parts.actual, borderColor: color, backgroundColor: 'transparent', borderWidth: 1.75 * k, pointRadius: 0, pointHoverRadius: 4, tension: .15, spanGaps: false }
     ];
     var points = [];
     if (parts.lastActual >= 0) points.push({ dataset: 0, index: parts.lastActual, align: 'center' });
     if (parts.forecast.some(function (v) { return v !== null; })) {
-      datasets.push({ label: key + ' forecast', data: parts.forecast, borderColor: color, backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, pointHoverRadius: 4, tension: .15, spanGaps: false });
+      datasets.push({ label: key + ' forecast', data: parts.forecast, borderColor: color, backgroundColor: 'transparent', borderWidth: 1.5 * k, borderDash: [5 * k, 4 * k], pointRadius: 0, pointHoverRadius: 4, tension: .15, spanGaps: false });
       for (var i = parts.forecast.length - 1; i > parts.lastActual; i--) {
         if (parts.forecast[i] !== null) { points.push({ dataset: 1, index: i, align: 'right' }); break; }
       }
@@ -148,14 +152,16 @@
       data: { labels: labels, datasets: datasets },
       plugins: [pointLabels],
       options: {
-        responsive: true,
+        responsive: !scale,
         maintainAspectRatio: false,
+        devicePixelRatio: scale ? 1 : undefined,
+        events: scale ? [] : undefined,
         animation: false,
         interaction: { mode: 'index', intersect: false },
-        layout: { padding: { top: 8 } },
+        layout: { padding: { top: 8 * k } },
         plugins: {
-          deltaPointLabels: { points: points, color: color },
-          legend: { display: showLegend, position: 'top', align: 'end', labels: { color: INK, font: { family: MONO, size: 11 }, boxWidth: 12, usePointStyle: true } },
+          deltaPointLabels: { points: points, color: color, scale: k },
+          legend: { display: showLegend, position: 'top', align: 'end', labels: { color: INK, font: { family: MONO, size: 11 * k }, boxWidth: 12 * k, usePointStyle: true } },
           tooltip: {
             backgroundColor: '#fff', borderColor: HAIR, borderWidth: 1, titleColor: INK, bodyColor: INK,
             titleFont: { family: MONO, size: 10 }, bodyFont: { family: MONO, size: 11 }, padding: 10,
@@ -164,8 +170,8 @@
           }
         },
         scales: {
-          x: { ticks: { color: MUTED, font: { family: MONO, size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 5, callback: function (v) { return this.getLabelForValue(v).slice(5, 10); } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } },
-          y: { title: { display: true, text: yTitle, color: MUTED, font: { family: MONO, size: 10 } }, ticks: { color: MUTED, font: { family: MONO, size: 10 }, precision: 2, callback: function (v) { return formatValue(v); } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } }
+          x: { ticks: { color: MUTED, font: { family: MONO, size: 10 * k }, maxRotation: 0, autoSkip: true, maxTicksLimit: 5, callback: function (v) { return this.getLabelForValue(v).slice(5, 10); } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } },
+          y: { title: { display: true, text: yTitle, color: MUTED, font: { family: MONO, size: 10 * k } }, ticks: { color: MUTED, font: { family: MONO, size: 10 * k }, precision: 2, callback: function (v) { return formatValue(v); } }, grid: { color: HAIR, drawTicks: false }, border: { color: HAIR } }
         }
       }
     });
@@ -197,6 +203,7 @@
   function clearCharts() {
     charts.forEach(function (c) { c.destroy(); });
     charts = [];
+    lastRender = null;
     var wrap = document.getElementById('delta-series');
     if (wrap) wrap.innerHTML = '';
   }
@@ -213,12 +220,13 @@
     }
     vfUI.chart(mainCanvas(), 'ok');
     var labels = rows.map(function (r) { return (r[parsed.header[0]] || '').slice(0, 16); });
+    var seriesKeys = parsed.header.filter(function (h) { return !NON_SERIES[h]; });
+    lastRender = { labels: labels, rows: rows, seriesKeys: seriesKeys };
     var ticker = document.getElementById('delta-ticker').value;
 
     document.getElementById('delta-main-title').textContent = 'Delta · ' + ticker;
     charts.push(makeChart(document.getElementById('delta-chart'), labels, rows, 'Delta', DELTA_COLOR, true, 'Spread'));
 
-    var seriesKeys = parsed.header.filter(function (h) { return !NON_SERIES[h]; });
     var wrap = document.getElementById('delta-series');
     wrap.innerHTML = seriesKeys.map(function (k, i) {
       return '<div class="delta-series-card" style="background:#FAF8FE;border:1px solid #EAE2F6;border-radius:3px;padding:20px;display:flex;flex-direction:column">' +
@@ -229,6 +237,7 @@
       charts.push(makeChart(document.getElementById('delta-series-' + i), labels, rows, k, SERIES_COLORS[i % SERIES_COLORS.length], false, 'Exposures'));
     });
     setStatus('');
+    setShareEnabled(true);
   }
 
   // Deep links: #delta/<TICKER>/<FILE-STEM>, FILE-STEM = manifest file name without ".csv".
@@ -263,7 +272,7 @@
   }
 
   function scrollToSection() {
-    var el = document.getElementById('delta');
+    var el = document.getElementById('delta-controls');
     if (!el) return;
     var header = document.getElementById('site-header');
     var prev = document.documentElement.style.scrollBehavior;
@@ -272,7 +281,115 @@
     document.documentElement.style.scrollBehavior = prev;
   }
 
+  // Sharing: composes the visible plots into one PNG and hands it to the share sheet, or downloads it and opens an X post.
+  var SITE = 'https://volatilityfarm.com/';
+  var SHARE_W = 1600; var SHARE_H = 900; var PAD = 56;
+
+  function currentEntry() {
+    var file = document.getElementById('delta-relation').value;
+    return entries.filter(function (e) { return e.file === file; })[0] || null;
+  }
+
+  function shareLink(e) {
+    return SITE + '#delta/' + encodeURIComponent(e.Ticker) + '/' + encodeURIComponent(stemOf(e.file));
+  }
+
+  function shareText(e) {
+    var bits = [RELATION_NAMES[e.Relation] || e.Relation, 'strength ' + formatDetail(e.Strength) + ' of 4'];
+    if (e.fundamentals === '1') bits.push('w fundm');
+    return e.Ticker + ' vs ' + e.Basic_ticker.split('|').join(' | ') + ' (' + bits.join(', ') + ') — Delta on Volatility Farm';
+  }
+
+  function drawPanel(ctx, spec, x, y, w, h, title) {
+    ctx.fillStyle = '#FAF8FE'; ctx.fillRect(x, y, w, h);
+    ctx.strokeStyle = HAIR; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
+    ctx.fillStyle = '#6D28D9'; ctx.font = '600 18px ' + MONO; ctx.textBaseline = 'top'; ctx.textAlign = 'left';
+    ctx.fillText(title.toUpperCase(), x + 20, y + 16);
+    var holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;left:-10000px;top:0;width:' + (w - 32) + 'px;height:' + (h - 60) + 'px';
+    var cv = document.createElement('canvas'); cv.width = w - 32; cv.height = h - 60;
+    holder.appendChild(cv); document.body.appendChild(holder);
+    var ch = makeChart(cv, lastRender.labels, lastRender.rows, spec.key, spec.color, spec.legend, spec.yTitle, 1.7);
+    ctx.drawImage(cv, x + 16, y + 48);
+    ch.destroy(); holder.remove();
+  }
+
+  function buildShareCanvas(e) {
+    var c = document.createElement('canvas'); c.width = SHARE_W; c.height = SHARE_H;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, SHARE_W, SHARE_H);
+    ctx.fillStyle = '#6D28D9'; ctx.fillRect(0, 0, 10, SHARE_H);
+    ctx.textBaseline = 'top'; ctx.textAlign = 'left';
+    ctx.fillStyle = INK; ctx.font = "700 26px 'Libre Baskerville',serif"; ctx.fillText('Volatility Farm', PAD, 36);
+    ctx.textAlign = 'right'; ctx.fillStyle = MUTED; ctx.font = '20px ' + MONO;
+    ctx.fillText('UPDATED ' + (e.Date || ''), SHARE_W - PAD, 42);
+    ctx.textAlign = 'left'; ctx.fillStyle = INK; ctx.font = "700 40px 'Libre Baskerville',serif";
+    ctx.fillText(e.Ticker + '  vs  ' + e.Basic_ticker.split('|').join(' | '), PAD, 86);
+    var meta = ['Relation: ' + (RELATION_NAMES[e.Relation] || e.Relation), 'Strength: ' + formatDetail(e.Strength) + ' of 4',
+      'Fundamentals: ' + (YES_NO[e.fundamentals] || e.fundamentals), 'Recent earnings: ' + (e.Release_date || 'not applicable')];
+    ctx.fillStyle = '#5A4272'; ctx.font = '20px ' + MONO; ctx.fillText(meta.join('   ·   '), PAD, 144);
+
+    var top = 190; var bottom = SHARE_H - 64; var gap = 20; var inner = SHARE_W - PAD * 2;
+    var series = lastRender.seriesKeys;
+    var mainH = series.length ? Math.round((bottom - top - gap) * 0.58) : bottom - top;
+    drawPanel(ctx, { key: 'Delta', color: DELTA_COLOR, legend: false, yTitle: 'Spread' }, PAD, top, inner, mainH, 'Delta · spread (dashed = forecast)');
+    if (series.length) {
+      var sy = top + mainH + gap; var sh = bottom - sy;
+      var sw = Math.floor((inner - gap * (series.length - 1)) / series.length);
+      series.forEach(function (key, i) {
+        drawPanel(ctx, { key: key, color: SERIES_COLORS[i % SERIES_COLORS.length], legend: false, yTitle: 'Exposures' }, PAD + i * (sw + gap), sy, sw, sh, key + ' · exposure');
+      });
+    }
+    ctx.fillStyle = '#6D28D9'; ctx.font = '18px ' + MONO; ctx.textAlign = 'left';
+    ctx.fillText(shareLink(e).replace('https://', ''), PAD, SHARE_H - 44);
+    return c;
+  }
+
+  function dataURLToBlob(url) {
+    var parts = url.split(','); var bin = atob(parts[1]); var arr = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return new Blob([arr], { type: 'image/png' });
+  }
+
+  function setShareNote(msg) {
+    var el = document.getElementById('delta-share-note');
+    if (!el) return;
+    el.textContent = msg || '';
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  function setShareEnabled(on) {
+    var btn = document.getElementById('delta-share');
+    if (!btn) return;
+    btn.disabled = !on;
+    btn.style.opacity = on ? '1' : '.5';
+    btn.style.cursor = on ? 'pointer' : 'default';
+  }
+
+  // Everything up to navigator.share / window.open runs synchronously so browsers keep the click's user activation.
+  function shareCurrent() {
+    var e = currentEntry();
+    if (!e || !charts.length || !lastRender) return;
+    var dataURL = buildShareCanvas(e).toDataURL('image/png');
+    var name = 'volatility-farm-delta-' + stemOf(e.file).replace(/^tracked(post)?_/, '').toLowerCase() + '.png';
+    var text = shareText(e); var link = shareLink(e);
+    var file = null;
+    try { file = new File([dataURLToBlob(dataURL)], name, { type: 'image/png' }); } catch (err) { file = null; }
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], text: text + '\n' + link })
+        .then(function () { setShareNote(''); })
+        .catch(function (err) { if (err && err.name !== 'AbortError') setShareNote("Couldn't open the share sheet. Please try again."); });
+      return;
+    }
+    var a = document.createElement('a'); a.href = dataURL; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    window.open('https://x.com/intent/post?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(link), '_blank', 'noopener');
+    setShareNote('Chart image downloaded as ' + name + ' — attach it to your X post.');
+  }
+
   function loadFile() {
+    setShareEnabled(false);
+    setShareNote('');
     var file = document.getElementById('delta-relation').value;
     if (!file) return;
     renderDetails(file);
@@ -312,6 +429,7 @@
         if (!applyHash()) populateRelations();
         document.getElementById('delta-ticker').addEventListener('change', function () { populateRelations(); updateHash(); loadFile(); });
         document.getElementById('delta-relation').addEventListener('change', function () { updateHash(); loadFile(); });
+        document.getElementById('delta-share').addEventListener('click', shareCurrent);
         window.addEventListener('hashchange', function () {
           if (applyHash()) { loadFile(); scrollToSection(); }
         });

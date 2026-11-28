@@ -49,8 +49,8 @@
     if (!h || h.length < 2) return;
     var id = h.slice(1);
     if (id.indexOf('reports/') === 0) return;
-    // Deep links into a section's state (e.g. #delta/<TICKER>/<FILE>) scroll to the section itself.
-    if (id.indexOf('delta/') === 0) id = 'delta';
+    // Delta deep links (#delta/<TICKER>/<FILE>) skip the intro copy and land on the dropdowns and charts.
+    if (id.indexOf('delta/') === 0) id = 'delta-controls';
     var el = document.getElementById(id);
     if (!el) {
       if (attemptsLeft > 0) {

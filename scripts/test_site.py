@@ -825,7 +825,7 @@ def test_delta_deep_links(page, base_url):
     def state():
         return page.evaluate("""() => {
             var h = document.getElementById('site-header');
-            var el = document.getElementById('delta');
+            var el = document.getElementById('delta-controls');
             return { ticker: document.getElementById('delta-ticker').value,
                      file: document.getElementById('delta-relation').value,
                      hash: location.hash, hist: history.length,
