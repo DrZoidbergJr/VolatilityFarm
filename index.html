@@ -1714,7 +1714,7 @@ All reports
   function relationLabel(e) {
     var meta = [];
     if (e.Strength) meta.push('Strength ' + formatDetail(e.Strength) + ' of 4');
-    if (e.file.indexOf('trackedpost_') === 0) meta.push('post');
+    if (e.fundamentals === '1') meta.push('w fundm');
     return e.Basic_ticker.split('|').join(' | ') + (meta.length ? '  ·  ' + meta.join(' · ') : '');
   }
 
