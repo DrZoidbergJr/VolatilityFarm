@@ -237,7 +237,14 @@ All reports
 <svg viewBox="0 0 132 52" width="30" height="12" fill="none" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M18 30 c-7 0 -9 -9 -1 -11 c4 -1 5 -5 10 -5 c6 0 9 5 9 10 c0 2 2 3 5 3 h44 c5 0 8 -2 10 -5 l7 -9"></path><path d="M36 33 h50 M40 33 v9 M50 33 v9 M76 33 v9 M86 33 v9"></path></svg>
 <span style="width:56px;height:1px;background:#EAE2F6"></span>
 </div>
-<div style="font-size:14px;line-height:1.7;color:#5A4272;max-width:760px;margin-bottom:28px">Tracks how a primary ticker relates to a basket of related tickers. Pick a ticker, then a relation, to plot its Delta over time and each basket member individually. Dashed segments are forecast.</div>
+<div style="font-size:14px;line-height:1.7;color:#5A4272;max-width:760px;margin-bottom:28px">
+<p style="margin:0 0 12px">The Delta tracker below shows possible relationships between each ticker and its related instruments.</p>
+<p style="margin:0 0 12px">Each relationship is measured in four ways. A relative relation compares percentage moves (% to %), while an absolute relation compares dollar moves (dollar for dollar). Each of these is calculated twice: once adjusted for fundamental differences between the instruments and once without that adjustment.</p>
+<p style="margin:0 0 12px">Strength counts how many of those four versions show a strong co-dependency, so it ranges up to 4. A strength of 4 means all four versions agree.</p>
+<p style="margin:0 0 12px">Tickers are sorted by strength first, highest at the top. Tickers with the same strength are then sorted by the largest delta, meaning the largest spread available to earn.</p>
+<p style="margin:0 0 12px">Delta is the current spread. The dashed lines show how that spread is expected to move over the next 30 days. These estimates are updated daily and may shift within their error bounds, because they're uncertain.</p>
+<p style="margin:0">The second row shows the position weights needed to trade that delta. For example, in a relative relation, holding 1% exposure in the main ticker requires the exposures shown below in each of the other tickers.</p>
+</div>
 <div style="display:flex;flex-wrap:wrap;gap:20px;margin-bottom:24px">
 <label style="display:flex;flex-direction:column;gap:6px;flex:0 1 200px;min-width:0"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#6D28D9">Ticker</span><select id="delta-ticker" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2B1240;background:#fff;border:1px solid #DCCEF4;border-radius:3px;padding:8px 10px;width:100%;min-width:0;text-overflow:ellipsis"></select></label>
 <label style="display:flex;flex-direction:column;gap:6px;flex:1 1 280px;min-width:0"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#6D28D9">Relation</span><select id="delta-relation" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2B1240;background:#fff;border:1px solid #DCCEF4;border-radius:3px;padding:8px 10px;width:100%;min-width:0;text-overflow:ellipsis"></select></label>
