@@ -657,7 +657,7 @@ def test_section_hashes(page, base_url, manifest):
     expected, not a bug -- verified identical on the live production
     site)."""
     passed = True
-    sections = ["calendar", "regimes", "drivers", "drift", "performance", "method", "about"]
+    sections = ["calendar", "regimes", "drivers", "drift", "delta", "performance", "method", "about"]
 
     for i, section_id in enumerate(sections):
         page.goto(f"{base_url}/index.html#{section_id}", wait_until="load", timeout=20000)
