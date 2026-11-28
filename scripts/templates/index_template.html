@@ -1200,8 +1200,16 @@ All reports
 
   function populateTickers() {
     var sel = document.getElementById('delta-ticker');
-    var seen = {}; var tickers = [];
-    entries.forEach(function (e) { if (!seen[e.Ticker]) { seen[e.Ticker] = 1; tickers.push(e.Ticker); } });
+    var seen = {}; var tickers = []; var best = {};
+    entries.forEach(function (e) {
+      if (!seen[e.Ticker]) { seen[e.Ticker] = 1; tickers.push(e.Ticker); }
+      best[e.Ticker] = Math.max(best[e.Ticker] || 0, parseFloat(e.Strength) || 0);
+    });
+    // Tickers with a strength 4 relation first, then strength 3, then the rest; manifest order within each group.
+    function rank(t) { return best[t] >= 4 ? 0 : best[t] >= 3 ? 1 : 2; }
+    tickers = tickers.map(function (t, i) { return [t, i]; })
+      .sort(function (a, b) { return rank(a[0]) - rank(b[0]) || a[1] - b[1]; })
+      .map(function (x) { return x[0]; });
     sel.innerHTML = tickers.map(function (t) { return '<option value="' + escapeHTML(t) + '">' + escapeHTML(t) + '</option>'; }).join('');
   }
 
