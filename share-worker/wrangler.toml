@@ -1,0 +1,22 @@
+name = "vf-share"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+SITE = "https://volatilityfarm.com"
+ALLOWED_ORIGINS = "https://volatilityfarm.com,https://www.volatilityfarm.com,http://127.0.0.1:8765,http://localhost:8765"
+
+# Snapshot PNGs plus their metadata, keyed img:<id>.
+[[kv_namespaces]]
+binding = "SHARES"
+id = "ea44a9e9c33a4af787ed0a9eecfd00e4"
+
+# Upload throttle per client IP.
+[[ratelimits]]
+name = "SHARE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60

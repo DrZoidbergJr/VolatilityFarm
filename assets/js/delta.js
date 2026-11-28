@@ -281,9 +281,11 @@
     document.documentElement.style.scrollBehavior = prev;
   }
 
-  // Sharing: composes the visible plots into one PNG and hands it to the share sheet, or downloads it and opens an X post.
+  // Sharing: renders the current plots to a 1200x630 snapshot, uploads it to the share service and hands back a
+  // short link whose preview (X, iMessage, Slack, ...) shows that snapshot. Opening the link lands on the live chart.
   var SITE = 'https://volatilityfarm.com/';
-  var SHARE_W = 1600; var SHARE_H = 900; var PAD = 56;
+  var SHARE_API = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname) ? 'http://127.0.0.1:8787' : 'https://vf-share.volatilityfarm.workers.dev';
+  var SHARE_W = 1200; var SHARE_H = 630; var PAD = 40;
 
   function currentEntry() {
     var file = document.getElementById('delta-relation').value;
@@ -294,23 +296,17 @@
     return SITE + '#delta/' + encodeURIComponent(e.Ticker) + '/' + encodeURIComponent(stemOf(e.file));
   }
 
-  function shareText(e) {
-    var bits = [RELATION_NAMES[e.Relation] || e.Relation, 'strength ' + formatDetail(e.Strength) + ' of 4'];
-    if (e.fundamentals === '1') bits.push('w fundm');
-    return e.Ticker + ' vs ' + e.Basic_ticker.split('|').join(' | ') + ' (' + bits.join(', ') + ') — Delta on Volatility Farm';
-  }
-
   function drawPanel(ctx, spec, x, y, w, h, title) {
     ctx.fillStyle = '#FAF8FE'; ctx.fillRect(x, y, w, h);
     ctx.strokeStyle = HAIR; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
-    ctx.fillStyle = '#6D28D9'; ctx.font = '600 18px ' + MONO; ctx.textBaseline = 'top'; ctx.textAlign = 'left';
-    ctx.fillText(title.toUpperCase(), x + 20, y + 16);
+    ctx.fillStyle = '#6D28D9'; ctx.font = '600 14px ' + MONO; ctx.textBaseline = 'top'; ctx.textAlign = 'left';
+    ctx.fillText(title.toUpperCase(), x + 14, y + 12);
     var holder = document.createElement('div');
-    holder.style.cssText = 'position:fixed;left:-10000px;top:0;width:' + (w - 32) + 'px;height:' + (h - 60) + 'px';
-    var cv = document.createElement('canvas'); cv.width = w - 32; cv.height = h - 60;
+    holder.style.cssText = 'position:fixed;left:-10000px;top:0;width:' + (w - 20) + 'px;height:' + (h - 40) + 'px';
+    var cv = document.createElement('canvas'); cv.width = w - 20; cv.height = h - 40;
     holder.appendChild(cv); document.body.appendChild(holder);
-    var ch = makeChart(cv, lastRender.labels, lastRender.rows, spec.key, spec.color, spec.legend, spec.yTitle, 1.7);
-    ctx.drawImage(cv, x + 16, y + 48);
+    var ch = makeChart(cv, lastRender.labels, lastRender.rows, spec.key, spec.color, spec.legend, spec.yTitle, 1.25);
+    ctx.drawImage(cv, x + 10, y + 34);
     ch.destroy(); holder.remove();
   }
 
@@ -318,20 +314,20 @@
     var c = document.createElement('canvas'); c.width = SHARE_W; c.height = SHARE_H;
     var ctx = c.getContext('2d');
     ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, SHARE_W, SHARE_H);
-    ctx.fillStyle = '#6D28D9'; ctx.fillRect(0, 0, 10, SHARE_H);
+    ctx.fillStyle = '#6D28D9'; ctx.fillRect(0, 0, 8, SHARE_H);
     ctx.textBaseline = 'top'; ctx.textAlign = 'left';
-    ctx.fillStyle = INK; ctx.font = "700 26px 'Libre Baskerville',serif"; ctx.fillText('Volatility Farm', PAD, 36);
-    ctx.textAlign = 'right'; ctx.fillStyle = MUTED; ctx.font = '20px ' + MONO;
-    ctx.fillText('UPDATED ' + (e.Date || ''), SHARE_W - PAD, 42);
-    ctx.textAlign = 'left'; ctx.fillStyle = INK; ctx.font = "700 40px 'Libre Baskerville',serif";
-    ctx.fillText(e.Ticker + '  vs  ' + e.Basic_ticker.split('|').join(' | '), PAD, 86);
+    ctx.fillStyle = INK; ctx.font = "700 20px 'Libre Baskerville',serif"; ctx.fillText('Volatility Farm', PAD, 24);
+    ctx.textAlign = 'right'; ctx.fillStyle = MUTED; ctx.font = '15px ' + MONO;
+    ctx.fillText('UPDATED ' + (e.Date || ''), SHARE_W - PAD, 28);
+    ctx.textAlign = 'left'; ctx.fillStyle = INK; ctx.font = "700 30px 'Libre Baskerville',serif";
+    ctx.fillText(e.Ticker + '  vs  ' + e.Basic_ticker.split('|').join(' | '), PAD, 58);
     var meta = ['Relation: ' + (RELATION_NAMES[e.Relation] || e.Relation), 'Strength: ' + formatDetail(e.Strength) + ' of 4',
       'Fundamentals: ' + (YES_NO[e.fundamentals] || e.fundamentals), 'Recent earnings: ' + (e.Release_date || 'not applicable')];
-    ctx.fillStyle = '#5A4272'; ctx.font = '20px ' + MONO; ctx.fillText(meta.join('   ·   '), PAD, 144);
+    ctx.fillStyle = '#5A4272'; ctx.font = '15px ' + MONO; ctx.fillText(meta.join('  ·  '), PAD, 102);
 
-    var top = 190; var bottom = SHARE_H - 64; var gap = 20; var inner = SHARE_W - PAD * 2;
+    var top = 132; var bottom = SHARE_H - 40; var gap = 14; var inner = SHARE_W - PAD * 2;
     var series = lastRender.seriesKeys;
-    var mainH = series.length ? Math.round((bottom - top - gap) * 0.58) : bottom - top;
+    var mainH = series.length ? Math.round((bottom - top - gap) * 0.56) : bottom - top;
     drawPanel(ctx, { key: 'Delta', color: DELTA_COLOR, legend: false, yTitle: 'Spread' }, PAD, top, inner, mainH, 'Delta · spread (dashed = forecast)');
     if (series.length) {
       var sy = top + mainH + gap; var sh = bottom - sy;
@@ -340,22 +336,9 @@
         drawPanel(ctx, { key: key, color: SERIES_COLORS[i % SERIES_COLORS.length], legend: false, yTitle: 'Exposures' }, PAD + i * (sw + gap), sy, sw, sh, key + ' · exposure');
       });
     }
-    ctx.fillStyle = '#6D28D9'; ctx.font = '18px ' + MONO; ctx.textAlign = 'left';
-    ctx.fillText(shareLink(e).replace('https://', ''), PAD, SHARE_H - 44);
+    ctx.fillStyle = '#6D28D9'; ctx.font = '13px ' + MONO; ctx.textAlign = 'left';
+    ctx.fillText('volatilityfarm.com · Delta', PAD, SHARE_H - 28);
     return c;
-  }
-
-  function dataURLToBlob(url) {
-    var parts = url.split(','); var bin = atob(parts[1]); var arr = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-    return new Blob([arr], { type: 'image/png' });
-  }
-
-  function setShareNote(msg) {
-    var el = document.getElementById('delta-share-note');
-    if (!el) return;
-    el.textContent = msg || '';
-    el.style.display = msg ? 'block' : 'none';
   }
 
   function setShareEnabled(on) {
@@ -366,30 +349,78 @@
     btn.style.cursor = on ? 'pointer' : 'default';
   }
 
-  // Everything up to navigator.share / window.open runs synchronously so browsers keep the click's user activation.
+  function resetShareNote() {
+    var el = document.getElementById('delta-share-note');
+    if (!el) return;
+    el.innerHTML = '';
+    el.style.display = 'none';
+  }
+
+  function shareNoteText(msg) {
+    var el = document.getElementById('delta-share-note');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  var NOTE_BTN = "font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6D28D9;background:#fff;border:1px solid #DCCEF4;border-radius:3px;padding:7px 12px;cursor:pointer;text-decoration:none";
+
+  // Shows the new link with Copy / Share / image buttons; these are fresh clicks, so clipboard and share sheet are allowed.
+  function showShareLink(link, title, imgName, imgURL) {
+    var el = document.getElementById('delta-share-note');
+    if (!el) return;
+    el.innerHTML =
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
+      '<input id="delta-share-url" readonly value="' + escapeHTML(link) + '" style="font-family:' + MONO + ';font-size:12px;color:' + INK + ';border:1px solid #DCCEF4;border-radius:3px;padding:7px 10px;flex:1 1 260px;min-width:0;background:#fff">' +
+      '<button type="button" id="delta-share-copy" style="' + NOTE_BTN + '">Copy link</button>' +
+      (navigator.share ? '<button type="button" id="delta-share-native" style="' + NOTE_BTN + '">Share…</button>' : '') +
+      '<a id="delta-share-img" href="' + escapeHTML(imgURL) + '" download="' + escapeHTML(imgName) + '" style="' + NOTE_BTN + '">Image</a>' +
+      '</div><div id="delta-share-msg" style="margin-top:6px">Link created — anyone you share it with sees this plot in the preview.</div>';
+    el.style.display = 'block';
+    var input = document.getElementById('delta-share-url');
+    input.addEventListener('focus', function () { input.select(); });
+    document.getElementById('delta-share-copy').addEventListener('click', function () {
+      var done = function () { document.getElementById('delta-share-msg').textContent = 'Link copied.'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(done, function () { input.focus(); input.select(); document.execCommand('copy'); done(); });
+      } else { input.focus(); input.select(); document.execCommand('copy'); done(); }
+    });
+    var nativeBtn = document.getElementById('delta-share-native');
+    if (nativeBtn) nativeBtn.addEventListener('click', function () {
+      navigator.share({ title: title, url: link }).catch(function () {});
+    });
+  }
+
   function shareCurrent() {
     var e = currentEntry();
     if (!e || !charts.length || !lastRender) return;
-    var dataURL = buildShareCanvas(e).toDataURL('image/png');
-    var name = 'volatility-farm-delta-' + stemOf(e.file).replace(/^tracked(post)?_/, '').toLowerCase() + '.png';
-    var text = shareText(e); var link = shareLink(e);
-    var file = null;
-    try { file = new File([dataURLToBlob(dataURL)], name, { type: 'image/png' }); } catch (err) { file = null; }
-    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-      navigator.share({ files: [file], text: text + '\n' + link })
-        .then(function () { setShareNote(''); })
-        .catch(function (err) { if (err && err.name !== 'AbortError') setShareNote("Couldn't open the share sheet. Please try again."); });
-      return;
-    }
-    var a = document.createElement('a'); a.href = dataURL; a.download = name;
-    document.body.appendChild(a); a.click(); a.remove();
-    window.open('https://x.com/intent/post?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(link), '_blank', 'noopener');
-    setShareNote('Chart image downloaded as ' + name + ' — attach it to your X post.');
+    var canvas = buildShareCanvas(e);
+    var imgURL = canvas.toDataURL('image/png');
+    var imgName = 'volatility-farm-delta-' + stemOf(e.file).replace(/^tracked(post)?_/, '').toLowerCase() + '.png';
+    var title = e.Ticker + ' vs ' + e.Basic_ticker.split('|').join(' | ') + ' — Delta · Volatility Farm';
+    var file = e.file;
+    setShareEnabled(false);
+    shareNoteText('Creating share link…');
+    canvas.toBlob(function (blob) {
+      var api = SHARE_API + '/api/share?ticker=' + encodeURIComponent(e.Ticker) + '&stem=' + encodeURIComponent(stemOf(e.file));
+      fetch(api, { method: 'POST', headers: { 'Content-Type': 'image/png' }, body: blob })
+        .then(function (res) { return res.json().then(function (body) { if (!res.ok) throw new Error(body && body.error || ('HTTP ' + res.status)); return body; }); })
+        .then(function (body) {
+          if (document.getElementById('delta-relation').value !== file) return;
+          showShareLink(body.url, title, imgName, imgURL);
+        })
+        .catch(function (err) {
+          console.warn('[delta] share failed:', err);
+          if (document.getElementById('delta-relation').value !== file) return;
+          shareNoteText("Couldn't create a share link (" + err.message + '). The live link still works: ' + shareLink(e));
+        })
+        .then(function () { setShareEnabled(true); });
+    }, 'image/png');
   }
 
   function loadFile() {
     setShareEnabled(false);
-    setShareNote('');
+    resetShareNote();
     var file = document.getElementById('delta-relation').value;
     if (!file) return;
     renderDetails(file);
