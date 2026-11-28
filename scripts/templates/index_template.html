@@ -1322,6 +1322,7 @@ All reports
       ['Relation', RELATION_NAMES[e.Relation] || e.Relation],
       ['Strength', e.Strength === '' || e.Strength === undefined ? e.Strength : formatDetail(e.Strength) + ' of 4'],
       ['Including fundamentals', YES_NO[e.fundamentals] || e.fundamentals],
+      ['Recent earnings', e.Release_date || 'not applicable'],
       ['Updated at', e.Date]
     ].map(function (d) {
       return '<tr><td style="padding:10px 8px 10px 0;border-top:1px solid ' + HAIR + ';color:#5A4272">' + d[0] + '</td><td style="padding:10px 0;border-top:1px solid ' + HAIR + ';text-align:right;font-family:' + MONO + ';color:' + INK + ';font-variant-numeric:tabular-nums">' + escapeHTML(formatDetail(d[1])) + '</td></tr>';
