@@ -281,10 +281,9 @@
     document.documentElement.style.scrollBehavior = prev;
   }
 
-  // Sharing: renders the current plots to a 1200x630 snapshot, uploads it to the share service and hands back a
-  // short link whose preview (X, iMessage, Slack, ...) shows that snapshot. Opening the link lands on the live chart.
+  // Sharing: renders the current plots to a 1200x630 snapshot and hands it to vfShare (assets/js/share.js), which
+  // uploads it and shows the short link whose preview (X, iMessage, Slack, ...) shows that snapshot.
   var SITE = 'https://volatilityfarm.com/';
-  var SHARE_API = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname) ? 'http://127.0.0.1:8787' : 'https://vf-share.volatilityfarm.workers.dev';
   var SHARE_W = 1200; var SHARE_H = 630; var PAD = 40;
 
   function currentEntry() {
@@ -341,81 +340,25 @@
     return c;
   }
 
-  function setShareEnabled(on) {
-    var btn = document.getElementById('delta-share');
-    if (!btn) return;
-    btn.disabled = !on;
-    btn.style.opacity = on ? '1' : '.5';
-    btn.style.cursor = on ? 'pointer' : 'default';
-  }
+  function setShareEnabled(on) { vfShare.enable(document.getElementById('delta-share'), on); }
 
-  function resetShareNote() {
-    var el = document.getElementById('delta-share-note');
-    if (!el) return;
-    el.innerHTML = '';
-    el.style.display = 'none';
-  }
-
-  function shareNoteText(msg) {
-    var el = document.getElementById('delta-share-note');
-    if (!el) return;
-    el.textContent = msg;
-    el.style.display = 'block';
-  }
-
-  var NOTE_BTN = "font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6D28D9;background:#fff;border:1px solid #DCCEF4;border-radius:3px;padding:7px 12px;cursor:pointer;text-decoration:none";
-
-  // Shows the new link with Copy / Share / image buttons; these are fresh clicks, so clipboard and share sheet are allowed.
-  function showShareLink(link, title, imgName, imgURL) {
-    var el = document.getElementById('delta-share-note');
-    if (!el) return;
-    el.innerHTML =
-      '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
-      '<input id="delta-share-url" readonly value="' + escapeHTML(link) + '" style="font-family:' + MONO + ';font-size:12px;color:' + INK + ';border:1px solid #DCCEF4;border-radius:3px;padding:7px 10px;flex:1 1 260px;min-width:0;background:#fff">' +
-      '<button type="button" id="delta-share-copy" style="' + NOTE_BTN + '">Copy link</button>' +
-      (navigator.share ? '<button type="button" id="delta-share-native" style="' + NOTE_BTN + '">Share…</button>' : '') +
-      '<a id="delta-share-img" href="' + escapeHTML(imgURL) + '" download="' + escapeHTML(imgName) + '" style="' + NOTE_BTN + '">Image</a>' +
-      '</div><div id="delta-share-msg" style="margin-top:6px">Link created — anyone you share it with sees this plot in the preview.</div>';
-    el.style.display = 'block';
-    var input = document.getElementById('delta-share-url');
-    input.addEventListener('focus', function () { input.select(); });
-    document.getElementById('delta-share-copy').addEventListener('click', function () {
-      var done = function () { document.getElementById('delta-share-msg').textContent = 'Link copied.'; };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(link).then(done, function () { input.focus(); input.select(); document.execCommand('copy'); done(); });
-      } else { input.focus(); input.select(); document.execCommand('copy'); done(); }
-    });
-    var nativeBtn = document.getElementById('delta-share-native');
-    if (nativeBtn) nativeBtn.addEventListener('click', function () {
-      navigator.share({ title: title, url: link }).catch(function () {});
-    });
-  }
+  function resetShareNote() { vfShare.resetNote(document.getElementById('delta-share-note')); }
 
   function shareCurrent() {
     var e = currentEntry();
     if (!e || !charts.length || !lastRender) return;
-    var canvas = buildShareCanvas(e);
-    var imgURL = canvas.toDataURL('image/png');
-    var imgName = 'volatility-farm-delta-' + stemOf(e.file).replace(/^tracked(post)?_/, '').toLowerCase() + '.png';
-    var title = e.Ticker + ' vs ' + e.Basic_ticker.split('|').join(' | ') + ' — Delta · Volatility Farm';
     var file = e.file;
-    setShareEnabled(false);
-    shareNoteText('Creating share link…');
-    canvas.toBlob(function (blob) {
-      var api = SHARE_API + '/api/share?ticker=' + encodeURIComponent(e.Ticker) + '&stem=' + encodeURIComponent(stemOf(e.file));
-      fetch(api, { method: 'POST', headers: { 'Content-Type': 'image/png' }, body: blob })
-        .then(function (res) { return res.json().then(function (body) { if (!res.ok) throw new Error(body && body.error || ('HTTP ' + res.status)); return body; }); })
-        .then(function (body) {
-          if (document.getElementById('delta-relation').value !== file) return;
-          showShareLink(body.url, title, imgName, imgURL);
-        })
-        .catch(function (err) {
-          console.warn('[delta] share failed:', err);
-          if (document.getElementById('delta-relation').value !== file) return;
-          shareNoteText("Couldn't create a share link (" + err.message + '). The live link still works: ' + shareLink(e));
-        })
-        .then(function () { setShareEnabled(true); });
-    }, 'image/png');
+    vfShare.start({
+      button: document.getElementById('delta-share'),
+      note: document.getElementById('delta-share-note'),
+      kind: 'delta',
+      params: { ticker: e.Ticker, stem: stemOf(e.file) },
+      canvas: buildShareCanvas(e),
+      title: e.Ticker + ' vs ' + e.Basic_ticker.split('|').join(' | ') + ' — Delta · Volatility Farm',
+      imgName: 'volatility-farm-delta-' + stemOf(e.file).replace(/^tracked(post)?_/, '').toLowerCase() + '.png',
+      fallback: shareLink(e),
+      stillValid: function () { return document.getElementById('delta-relation').value === file; }
+    });
   }
 
   function loadFile() {

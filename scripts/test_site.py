@@ -685,8 +685,8 @@ def test_delta_share(page, base_url):
         page.goto(f"{base_url}/index.html?share=1#delta/{row['Ticker']}/{stem}", wait_until="load", timeout=20000)
         page.wait_for_timeout(3000)
         page.click("#delta-share")
-        page.wait_for_selector("#delta-share-url", timeout=10000)
-        link = page.input_value("#delta-share-url")
+        page.wait_for_selector("#delta-share-note-url", timeout=10000)
+        link = page.input_value("#delta-share-note-url")
     except Exception as err:
         page.unroute("**/api/share**")
         return fail(f"Share flow did not complete: {err}")
@@ -706,6 +706,28 @@ def test_delta_share(page, base_url):
         ok(f"Share request names {row['Ticker']} / {stem}")
     else:
         passed = fail(f"Share request URL was {seen.get('url')!r}")
+
+    # Whole-section snapshots: Regimes and Drivers.
+    for kind in ("regimes", "drivers"):
+        seen.clear()
+        page.route("**/api/share**", handle)
+        try:
+            page.goto(f"{base_url}/index.html?share={kind}#{kind}", wait_until="load", timeout=20000)
+            page.wait_for_function(f"!document.getElementById('{kind}-share').disabled", timeout=15000)
+            page.click(f"#{kind}-share")
+            page.wait_for_selector(f"#{kind}-share-note-url", timeout=10000)
+            link = page.input_value(f"#{kind}-share-note-url")
+        except Exception as err:
+            page.unroute("**/api/share**")
+            passed = fail(f"{kind} Share flow did not complete: {err}")
+            continue
+        page.unroute("**/api/share**")
+        body = seen.get("body", b"")
+        dims = struct.unpack(">II", body[16:24]) if len(body) >= 24 and body[1:4] == b"PNG" else None
+        if link == "https://vf-share.example/s/TESTID0001" and dims == (1200, 630) and f"kind={kind}" in seen.get("url", ""):
+            ok(f"{kind} Share uploads a 1200x630 PNG ({len(body) // 1024} KB) and shows the link")
+        else:
+            passed = fail(f"{kind} Share: link={link!r}, dims={dims}, url={seen.get('url')!r}")
     return passed
 
 
@@ -1003,7 +1025,7 @@ def main():
         overall_ok &= test_section_hashes(page, base_url, manifest)
         print("\n--- Delta deep links (#delta/<ticker>/<file>) ---")
         overall_ok &= test_delta_deep_links(page, base_url)
-        print("\n--- Delta share link ---")
+        print("\n--- Share links (Delta, Regimes, Drivers) ---")
         overall_ok &= test_delta_share(page, base_url)
         print("\n--- Loading / empty / error states ---")
         overall_ok &= test_error_states(browser, base_url)

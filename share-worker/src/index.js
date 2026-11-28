@@ -1,6 +1,7 @@
 // Volatility Farm share links for Delta plots.
 //
-// POST /api/share?ticker=<T>&stem=<FILE-STEM>   body: 1200x630 PNG rendered by the site
+// POST /api/share?kind=delta&ticker=<T>&stem=<FILE-STEM>   body: 1200x630 PNG rendered by the site
+// POST /api/share?kind=regimes|drivers[&asof=<YYYY-MM-DD HH:MM>]
 //   -> { url } pointing at a new /s/<id> snapshot page.
 // GET  /s/<id>       HTML with Open Graph / Twitter tags for link previews; people are sent on to the live chart.
 // GET  /s/<id>.png   the stored snapshot image.
@@ -11,7 +12,22 @@ const MAX_BYTES = 800 * 1024;
 const ID_RE = /^[A-Za-z0-9]{10}$/;
 const TICKER_RE = /^[A-Za-z0-9.\-]{1,12}$/;
 const STEM_RE = /^[A-Za-z0-9._\-]{1,120}$/;
+const ASOF_RE = /^[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$/;
 const RELATION_NAMES = { ln: 'relative', level: 'absolute' };
+
+// Fixed copy for whole-section snapshots; nothing here comes from the uploader.
+const SECTIONS = {
+  regimes: {
+    title: 'Market regimes — Volatility Farm',
+    desc: 'US market breadth and regime maps for SP500, volatility, gold and bonds.',
+    anchor: 'regimes'
+  },
+  drivers: {
+    title: 'Market drivers — Volatility Farm',
+    desc: 'Underlying US market decomposition into broad drivers.',
+    anchor: 'drivers'
+  }
+};
 
 export default {
   async fetch(request, env, ctx) {
@@ -65,9 +81,13 @@ async function handleShare(request, env, url) {
     if (!success) return json({ error: 'Too many share links, please wait a minute.' }, 429, cors);
   }
 
+  const kind = url.searchParams.get('kind') || 'delta';
+  if (kind !== 'delta' && !SECTIONS[kind]) return json({ error: 'Unknown section.' }, 400, cors);
   const ticker = url.searchParams.get('ticker') || '';
   const stem = url.searchParams.get('stem') || '';
-  if (!TICKER_RE.test(ticker) || !STEM_RE.test(stem)) return json({ error: 'Unknown relation.' }, 400, cors);
+  if (kind === 'delta' && (!TICKER_RE.test(ticker) || !STEM_RE.test(stem))) return json({ error: 'Unknown relation.' }, 400, cors);
+  const asof = url.searchParams.get('asof') || '';
+  if (asof && !ASOF_RE.test(asof)) return json({ error: 'Bad date.' }, 400, cors);
 
   const len = Number(request.headers.get('Content-Length') || 0);
   if (len > MAX_BYTES) return json({ error: 'Image too large.' }, 413, cors);
@@ -75,11 +95,18 @@ async function handleShare(request, env, url) {
   if (bytes.length > MAX_BYTES) return json({ error: 'Image too large.' }, 413, cors);
   if (!isExpectedPng(bytes)) return json({ error: 'Invalid image.' }, 400, cors);
 
+  const id = newId();
+  if (kind !== 'delta') {
+    const meta = { kind, asof, created: new Date().toISOString().slice(0, 10) };
+    await env.SHARES.put('img:' + id, bytes, { metadata: meta });
+    return json({ url: url.origin + '/s/' + id, id }, 201, cors);
+  }
+
   const entry = await findRelation(env, ticker, stem);
   if (!entry) return json({ error: 'Unknown relation.' }, 400, cors);
 
-  const id = newId();
   const meta = {
+    kind: 'delta',
     ticker: entry.Ticker,
     stem,
     basket: entry.Basic_ticker.split('|').join(' | '),
@@ -155,11 +182,20 @@ async function handlePage(env, url, id) {
   if (!found || !found.value || !found.metadata) return text('Not found', 404);
   if (found.value.cancel) found.value.cancel();
   const m = found.metadata;
-  const target = env.SITE + '/#delta/' + encodeURIComponent(m.ticker) + '/' + encodeURIComponent(m.stem);
-  const title = m.ticker + ' vs ' + m.basket + ' — Delta · Volatility Farm';
-  const bits = [m.relation + ' relation', 'strength ' + m.strength + ' of 4'];
-  if (m.fundamentals) bits.push('with fundamentals');
-  const desc = bits.join(', ') + '. Snapshot from ' + m.created + '; open for the live spread, forecast and exposures.';
+  let target, title, desc;
+  const section = SECTIONS[m.kind];
+  if (section) {
+    target = env.SITE + '/#' + section.anchor;
+    title = section.title;
+    desc = section.desc + ' Snapshot ' + (m.asof ? 'as of ' + m.asof : 'from ' + m.created) + '; open for the live charts.';
+  } else {
+    // Delta (entries stored before 'kind' existed are Delta too).
+    target = env.SITE + '/#delta/' + encodeURIComponent(m.ticker) + '/' + encodeURIComponent(m.stem);
+    title = m.ticker + ' vs ' + m.basket + ' — Delta · Volatility Farm';
+    const bits = [m.relation + ' relation', 'strength ' + m.strength + ' of 4'];
+    if (m.fundamentals) bits.push('with fundamentals');
+    desc = bits.join(', ') + '. Snapshot from ' + m.created + '; open for the live spread, forecast and exposures.';
+  }
   const page = url.origin + '/s/' + id;
   const img = page + '.png';
   const html = `<!doctype html>
