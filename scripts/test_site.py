@@ -650,6 +650,65 @@ def test_report_deep_links(page, base_url, manifest):
     return passed
 
 
+def test_delta_share(page, base_url):
+    """The Delta Share button uploads a 1200x630 PNG snapshot for the selected
+    relation and shows the returned link. The share service is mocked with
+    page.route, so test runs never create real snapshots."""
+    import csv
+    import io
+    import struct
+    import urllib.request
+
+    passed = True
+    with urllib.request.urlopen(f"{base_url}/reports/cointegration/manifest.csv", timeout=10) as resp:
+        rows = [r for r in csv.DictReader(io.StringIO(resp.read().decode("utf-8"))) if r.get("Ticker") and r.get("file")]
+    if not rows:
+        return fail("cointegration manifest has no rows")
+    row = rows[0]
+    stem = row["file"][:-4]
+    seen = {}
+
+    def handle(route, request):
+        if request.method == "OPTIONS":
+            route.fulfill(status=204, headers={"Access-Control-Allow-Origin": "*",
+                                               "Access-Control-Allow-Methods": "POST, OPTIONS",
+                                               "Access-Control-Allow-Headers": "Content-Type"})
+            return
+        seen["url"] = request.url
+        seen["body"] = request.post_data_buffer or b""
+        route.fulfill(status=201, content_type="application/json",
+                      headers={"Access-Control-Allow-Origin": "*"},
+                      body='{"url": "https://vf-share.example/s/TESTID0001", "id": "TESTID0001"}')
+
+    page.route("**/api/share**", handle)
+    try:
+        page.goto(f"{base_url}/index.html?share=1#delta/{row['Ticker']}/{stem}", wait_until="load", timeout=20000)
+        page.wait_for_timeout(3000)
+        page.click("#delta-share")
+        page.wait_for_selector("#delta-share-url", timeout=10000)
+        link = page.input_value("#delta-share-url")
+    except Exception as err:
+        page.unroute("**/api/share**")
+        return fail(f"Share flow did not complete: {err}")
+    page.unroute("**/api/share**")
+
+    if link == "https://vf-share.example/s/TESTID0001":
+        ok("Share shows the link returned by the share service")
+    else:
+        passed = fail(f"Share showed {link!r}")
+    body = seen.get("body", b"")
+    dims = struct.unpack(">II", body[16:24]) if len(body) >= 24 and body[1:4] == b"PNG" else None
+    if dims == (1200, 630):
+        ok(f"Share uploads a 1200x630 PNG ({len(body) // 1024} KB)")
+    else:
+        passed = fail(f"Share upload was not a 1200x630 PNG (dims={dims}, {len(body)} bytes)")
+    if f"ticker={row['Ticker']}" in seen.get("url", "") and f"stem={stem}" in seen.get("url", ""):
+        ok(f"Share request names {row['Ticker']} / {stem}")
+    else:
+        passed = fail(f"Share request URL was {seen.get('url')!r}")
+    return passed
+
+
 def test_section_hashes(page, base_url, manifest):
     """#calendar, #regimes, #drivers, #performance, #method, #about all
     scroll to their target (within tolerance; the very last section can
@@ -944,6 +1003,8 @@ def main():
         overall_ok &= test_section_hashes(page, base_url, manifest)
         print("\n--- Delta deep links (#delta/<ticker>/<file>) ---")
         overall_ok &= test_delta_deep_links(page, base_url)
+        print("\n--- Delta share link ---")
+        overall_ok &= test_delta_share(page, base_url)
         print("\n--- Loading / empty / error states ---")
         overall_ok &= test_error_states(browser, base_url)
         print("\n--- Report masthead + iframe ---")

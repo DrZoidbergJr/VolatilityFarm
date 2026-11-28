@@ -1,50 +1,60 @@
 # Volatility Farm
 
-Source for [volatilityfarm.com](https://volatilityfarm.com), deployed via GitHub Pages.
+Source for [volatilityfarm.com](https://volatilityfarm.com), served by GitHub Pages straight from `main`.
 
 ## Structure
 
-- `index.html` -- the landing page. Its real content lives inside a JSON string
-  in a `<script type="__bundler/template">` tag; a bundler script unpacks it
-  into the live DOM on load. Edit with care -- see below.
-- `reports/` -- individual company report pages, plain self-contained HTML.
-- `robots.txt`, `sitemap.xml` -- crawler discovery files.
-- `favicon.svg`, `404.html` -- static site chrome.
-- `scripts/validate_index.py` -- consistency checks, see below.
+- `index.html` -- the landing page. **Generated**: edit `scripts/templates/index_template.html` and rebuild, never
+  `index.html` itself.
+- `assets/js/` -- one script per page section (calendar, regimes, drivers, drift, delta, performance, report reader,
+  hash router) plus `common.js` for shared loading/empty/error states. The build stamps each `<script src>` with a
+  `?v=<hash>` of the file, so browsers pick up changes immediately.
+- `assets/og/` -- per-report 1200x630 link-preview cards (see below).
+- `reports/` -- report pages (`<company-slug>-<YYYY-MM-DD>.htm`), `reports/manifest.json` (the list of reports, hero
+  and archive), and the CSVs the sections chart. `reports/cointegration/` feeds the Delta section.
+- `sitemap.xml`, `llms.txt`, `feed.xml` -- generated from the manifest.
+- `share-worker/` -- the Cloudflare Worker behind Delta share links (see below).
+- `scripts/` -- `build_site.py`, `validate_index.py`, `test_site.py`, `make_social_cards.py`, and `templates/`.
 
-## Adding a new report
+## Everyday workflow
 
-1. Drop the report `.htm` file into `reports/`, named `<company-slug>-<YYYY-MM-DD>.htm`.
-2. Wire it into `index.html`'s `reports()` array (or promote it to Latest if
-   it's the newest), and add its URL to `sitemap.xml`.
-3. Run `python3 scripts/validate_index.py` before committing -- it checks
-   that every file in `reports/` is linked from `index.html` and listed in
-   `sitemap.xml`, and flags it if either is forgotten.
-
-## Editing index.html safely
-
-Because the page content is embedded as a JSON string, a single invalid
-escape sequence or an unescaped apostrophe inside the DC Component's JS
-silently breaks the whole page -- `JSON.parse` throws, or the script never
-executes, and nothing renders. There's no error visible until someone opens
-the site.
-
-Before committing a change to `index.html`, `sitemap.xml`, or anything in
-`reports/`, run:
-
-```
-python3 scripts/validate_index.py
+```sh
+python3 scripts/build_site.py        # regenerate index.html, sitemap.xml, llms.txt, feed.xml, report pagers
+python3 scripts/validate_index.py    # structure, report sync, build idempotency, mojibake, double-escapes
+python3 -m http.server 8765          # then, in another shell:
+python3 scripts/test_site.py --base-url http://127.0.0.1:8765   # Playwright checks in a real browser
 ```
 
-This checks that the packed template is valid JSON, that the DC Component's
-brackets/quotes are balanced, flags any straight apostrophe sitting inside a
-JS string literal (the exact pattern that has broken this file before --
-e.g. `'Lowe's Companies'` instead of using a curly apostrophe), and
-cross-checks `reports/`, `index.html`, and `sitemap.xml` for drift.
+## Adding a report
 
-### Installing the pre-commit hook
+1. Put the `.htm` file in `reports/` and add its entry to `reports/manifest.json` (first `hero` entry is the
+   highlighted Latest card).
+2. `python3 scripts/make_social_cards.py --slug <slug>` -- renders `assets/og/<slug>.png` and points the report's
+   `og:image` / `twitter:image` at it (`--force` re-renders existing cards).
+3. Build, validate, test as above, then commit.
 
-Git hooks aren't versioned, so each clone needs this installed once:
+## Delta share links
+
+The Delta section's **Share** button renders the current plots to a 1200x630 PNG in the browser and uploads it to
+the `vf-share` Worker (`https://vf-share.volatilityfarm.workers.dev`), which stores it in Workers KV and returns a
+short link `/s/<id>`. That page carries Open Graph / Twitter tags pointing at `/s/<id>.png`, so X, iMessage, Slack,
+LinkedIn, Discord etc. preview the snapshot; people who open it are redirected to the live chart
+(`https://volatilityfarm.com/#delta/<TICKER>/<file-stem>`).
+
+The Worker only accepts uploads from the site's origin, only 1200x630 PNGs under 800KB, only relations present in
+`reports/cointegration/manifest.csv`, and at most 10 per minute per IP. Preview text comes from the manifest, never
+from the uploader.
+
+```sh
+cd share-worker
+npx wrangler login     # once per machine
+npx wrangler dev --port 8787 --ip 127.0.0.1   # local; the site uses it when served from localhost/127.0.0.1
+npx wrangler deploy    # publish changes
+```
+
+## Pre-commit hook
+
+Git hooks aren't versioned, so each clone needs this once:
 
 ```sh
 cat > .git/hooks/pre-commit <<'EOF'
@@ -58,6 +68,3 @@ fi
 EOF
 chmod +x .git/hooks/pre-commit
 ```
-
-Or just run the validator manually before committing -- the important part
-is running it, not how.
